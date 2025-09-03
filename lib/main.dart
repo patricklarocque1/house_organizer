@@ -9,15 +9,24 @@ import 'package:house_organizer/features/auth/screens/login_screen.dart';
 import 'package:house_organizer/features/dashboard/screens/home_screen.dart';
 import 'package:house_organizer/features/notifications/widgets/notification_banner.dart';
 import 'package:house_organizer/data/models/user.dart';
+import 'package:house_organizer/features/settings/providers/dev_settings_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  // Create a container so we can read dev settings before runApp
+  final container = ProviderContainer();
+
   // Initialize services
   await HiveService.instance.init();
-  await FirebaseService.instance.initialize();
+  final dev = container.read(devSettingsProvider);
+  await FirebaseService.instance.initialize(
+    emulator: dev.toEmulatorConfig(),
+  );
   await NotificationService().initialize();
 
+  // We used a temporary container to read settings; dispose it.
+  container.dispose();
   runApp(const ProviderScope(child: HouseOrganizerApp()));
 }
 

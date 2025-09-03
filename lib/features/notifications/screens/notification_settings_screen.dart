@@ -3,6 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_organizer/features/notifications/providers/notification_providers.dart';
 import 'package:house_organizer/data/models/task.dart';
 import 'package:house_organizer/data/models/list_model.dart';
+import 'package:house_organizer/features/settings/providers/dc_settings_provider.dart';
+import 'package:house_organizer/features/settings/screens/developer_settings_screen.dart';
 
 class NotificationSettingsScreen extends ConsumerStatefulWidget {
   const NotificationSettingsScreen({super.key});
@@ -86,6 +88,35 @@ class _NotificationSettingsScreenState
           // Test Notifications Section
           _buildSectionHeader('Test Notifications'),
           _buildTestNotificationsCard(),
+
+          const SizedBox(height: 24),
+
+          // Data Connect Section
+          _buildSectionHeader('Data Connect'),
+          Consumer(builder: (context, ref, _) {
+            final dc = ref.watch(dcSettingsProvider);
+            final dcNotifier = ref.read(dcSettingsProvider.notifier);
+            return Column(
+              children: [
+                _buildSwitchTile(
+                  title: 'Mirror Tasks to Data Connect',
+                  subtitle: 'Keep Cloud SQL in sync with created tasks',
+                  value: dc.mirrorEnabled,
+                  onChanged: dcNotifier.setMirrorEnabled,
+                ),
+                _buildSwitchTile(
+                  title: 'Mirror Only When Assigned',
+                  subtitle: 'Skip mirroring when no assignee is selected',
+                  value: dc.mirrorOnlyWhenAssigned,
+                  onChanged: dcNotifier.setMirrorOnlyWhenAssigned,
+                ),
+              ],
+            );
+          }),
+
+          const SizedBox(height: 24),
+          _buildSectionHeader('Developer'),
+          _buildDeveloperSettingsEntry(),
         ],
       ),
     );
@@ -388,4 +419,55 @@ class _NotificationSettingsScreenState
       );
     }
   }
+
+  Widget _buildDeveloperSettingsEntry() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  Icons.developer_mode,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+                const SizedBox(width: 8),
+                Text(
+                  'Developer',
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            Text(
+              'Configure emulator hosts and ports',
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+            ),
+            const SizedBox(height: 12),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: ElevatedButton.icon(
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => const DeveloperSettingsScreen(),
+                    ),
+                  );
+                },
+                icon: const Icon(Icons.tune),
+                label: const Text('Open Developer Settings'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 }
+

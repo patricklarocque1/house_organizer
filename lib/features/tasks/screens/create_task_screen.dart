@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_organizer/features/tasks/providers/task_providers.dart';
+import 'package:house_organizer/core/services/dataconnect_service.dart';
+import 'package:house_organizer/core/constants/app_constants.dart';
+import 'package:house_organizer/core/services/hive_service.dart';
+import 'package:house_organizer/core/services/firebase_service.dart';
+import 'package:house_organizer/features/settings/providers/dc_settings_provider.dart';
 import 'package:house_organizer/features/auth/providers/auth_providers.dart';
 import 'package:house_organizer/data/models/task.dart';
 
@@ -24,6 +29,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
   int _selectedPriority = 1;
   DateTime? _selectedDueDate;
   String? _selectedAssignee;
+  bool _assignToMe = false;
 
   bool _isLoading = false;
 
@@ -63,6 +69,74 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                 ? _notesController.text.trim()
                 : null,
           );
+
+      // Mirror create into Firebase Data Connect (optional, non-blocking)
+      try {
+        final auth = ref.read(authNotifierProvider).value;
+        if (auth != null) {
+          final dcSettings = ref.read(dcSettingsProvider);
+          if (!dcSettings.mirrorEnabled) {
+            // Skip DC mirror entirely
+          } else if (dcSettings.mirrorOnlyWhenAssigned &&
+              _selectedAssignee == null &&
+              !_assignToMe) {
+            // Skip DC mirror when no assignee selected and setting requires it
+          } else {
+            final dc = ref.read(dataConnectServiceProvider);
+            final now = DateTime.now();
+            final due = _selectedDueDate ?? now;
+            final assigned = _selectedAssignee ?? auth.id; // if Assign to me on, set earlier
+
+            // Fetch real GroupHome details
+            String ghName = 'House';
+            String ghAddress = '';
+            try {
+              final hive = HiveService.instance;
+              final cached = hive.housesBox.get(auth.houseId);
+              if (cached != null) {
+                ghName = cached.name;
+                ghAddress = cached.address;
+              } else {
+                final doc = await FirebaseService.instance.getDocument(
+                  AppConstants.housesCollection,
+                  auth.houseId,
+                );
+                if (doc.exists) {
+                  final data = doc.data() as Map<String, dynamic>;
+                  ghName = (data['name'] as String?) ?? ghName;
+                  ghAddress = (data['address'] as String?) ?? ghAddress;
+                }
+              }
+            } catch (_) {}
+
+            // Ensure relational rows exist to avoid FK errors
+            await dc.ensureUserAndGroupHome(
+              userId: auth.id,
+              displayName: auth.displayName,
+              email: auth.email,
+              role: auth.role.name,
+              photoUrl: auth.profileImageUrl,
+              groupHomeId: auth.houseId,
+              groupHomeName: ghName,
+              groupHomeAddress: ghAddress,
+            );
+
+            await dc.createTask(
+              groupHomeId: auth.houseId,
+              assignedToUserId: assigned,
+              title: _titleController.text.trim(),
+              description: _descriptionController.text.trim(),
+              dueDate: DataConnectService.tsFromDateTime(due),
+              type: _selectedCategory.name,
+              createdAt: DataConnectService.tsFromDateTime(now),
+            );
+          }
+        }
+      } catch (e) {
+        // Best-effort: do not block Firestore flow if Data Connect is unavailable
+        // ignore: avoid_print
+        print('Data Connect mirror failed: $e');
+      }
 
       if (mounted) {
         Navigator.of(context).pop();
@@ -161,7 +235,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
 
                   // Category dropdown
                   DropdownButtonFormField<TaskCategory>(
-                    value: _selectedCategory,
+                    initialValue: _selectedCategory,
                     decoration: const InputDecoration(
                       labelText: 'Category',
                       border: OutlineInputBorder(),
@@ -184,7 +258,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
 
                   // Priority dropdown
                   DropdownButtonFormField<int>(
-                    value: _selectedPriority,
+                    initialValue: _selectedPriority,
                     decoration: const InputDecoration(
                       labelText: 'Priority',
                       border: OutlineInputBorder(),
@@ -225,7 +299,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
 
                   // Repeat interval dropdown
                   DropdownButtonFormField<RepeatInterval>(
-                    value: _selectedRepeat,
+                    initialValue: _selectedRepeat,
                     decoration: const InputDecoration(
                       labelText: 'Repeat',
                       border: OutlineInputBorder(),
@@ -245,6 +319,25 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
                     },
                   ),
                   const SizedBox(height: 16),
+
+                  // Assign to me switch
+                  Card(
+                    child: SwitchListTile(
+                      title: const Text('Assign to me'),
+                      subtitle: const Text('Set yourself as assignee'),
+                      value: _assignToMe,
+                      onChanged: (val) {
+                        setState(() {
+                          _assignToMe = val;
+                          if (val) {
+                            _selectedAssignee = user.id;
+                          } else if (_selectedAssignee == user.id) {
+                            _selectedAssignee = null;
+                          }
+                        });
+                      },
+                    ),
+                  ),
 
                   // Tags field
                   TextFormField(

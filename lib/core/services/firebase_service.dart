@@ -5,6 +5,8 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
 import 'package:house_organizer/core/constants/app_constants.dart';
+import 'package:house_organizer/firebase_options.dart';
+import 'package:house_organizer/core/config/emulator_config.dart';
 
 class FirebaseService {
   static FirebaseService? _instance;
@@ -32,21 +34,32 @@ class FirebaseService {
   CollectionReference get auditLogsCollection =>
       firestore.collection(AppConstants.auditLogsCollection);
 
-  Future<void> initialize() async {
+  Future<void> initialize({EmulatorConfig? emulator}) async {
     if (_isInitialized) return;
 
-    await Firebase.initializeApp();
+    // Use generated options to ensure correct config across platforms (incl. web)
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
-    // Use emulators in debug mode only
-    if (kDebugMode) {
+    // Use emulators when enabled (default in debug)
+    final enableEmulators = emulator?.useFirebaseEmulators ?? kDebugMode;
+    if (enableEmulators) {
+      // Choose host based on platform
+      String host = emulator?.hostDesktop ?? 'localhost';
+      if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+        host = emulator?.hostAndroidEmulator ?? '10.0.2.2';
+      } else if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
+        host = emulator?.hostIOSSimulator ?? 'localhost';
+      }
       try {
-        firestore.useFirestoreEmulator('localhost', 8080);
+        firestore.useFirestoreEmulator(host, emulator?.firestorePort ?? 8080);
       } catch (_) {}
       try {
-        auth.useAuthEmulator('localhost', 9099);
+        auth.useAuthEmulator(host, emulator?.authPort ?? 9099);
       } catch (_) {}
       try {
-        storage.useStorageEmulator('localhost', 9199);
+        storage.useStorageEmulator(host, emulator?.storagePort ?? 9199);
       } catch (_) {}
     }
 

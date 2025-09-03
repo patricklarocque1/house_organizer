@@ -85,6 +85,31 @@ lib/
    flutter run
    ```
 
+### Firebase Data Connect
+
+- Ensure you have Firebase CLI v14.15.0+ and have configured the project in `house_organizer/firebase.json`.
+- SDK is generated to `lib/dataconnect_generated/`.
+- Regenerate SDK after schema/query changes:
+  ```bash
+  firebase dataconnect:sdk:generate
+  ```
+- Quick usage from code:
+  ```dart
+  import 'package:firebase_data_connect/firebase_data_connect.dart';
+  import 'package:house_organizer/core/services/dataconnect_service.dart';
+
+  // Example: create a task
+  final dc = DataConnectService();
+  final id = await dc.createTask(
+    title: 'Clean kitchen',
+    description: 'Wash dishes and counters',
+    dueDate: Timestamp.now(),
+    type: 'chore',
+    createdAt: Timestamp.now(),
+  );
+  ```
+ - Emulator: In debug builds, the app connects to the Data Connect emulator by default (localhost:9399). Adjust host/port in `lib/core/services/dataconnect_service.dart` if needed.
+
 ## Development
 
 ### Code Generation

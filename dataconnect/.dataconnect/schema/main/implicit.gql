@@ -1,0 +1,74 @@
+extend type GroceryItem {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "GroceryItem", purpose: IMPLICIT_KEY_FIELD)
+  """
+  ✨ Implicit foreign key field based on `GroceryItem`.`addedByUser`. It must match the value of `User`.`id`. See `@ref` for how to customize it.
+  """
+  addedByUserId: UUID! @fdc_generated(from: "GroceryItem.addedByUser", purpose: IMPLICIT_REF_FIELD)
+  """
+  ✨ Implicit foreign key field based on `GroceryItem`.`groupHome`. It must match the value of `GroupHome`.`id`. See `@ref` for how to customize it.
+  """
+  groupHomeId: UUID! @fdc_generated(from: "GroceryItem.groupHome", purpose: IMPLICIT_REF_FIELD)
+  """
+  ✨ Implicit foreign key field based on `GroceryItem`.`purchasedByUser`. It must match the value of `User`.`id`. See `@ref` for how to customize it.
+  """
+  purchasedByUserId: UUID @fdc_generated(from: "GroceryItem.purchasedByUser", purpose: IMPLICIT_REF_FIELD)
+}
+extend type GroupHome {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "GroupHome", purpose: IMPLICIT_KEY_FIELD)
+  """
+  ✨ Implicit foreign key field based on `GroupHome`.`adminUser`. It must match the value of `User`.`id`. See `@ref` for how to customize it.
+  """
+  adminUserId: UUID! @fdc_generated(from: "GroupHome.adminUser", purpose: IMPLICIT_REF_FIELD)
+}
+extend type Notification {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Notification", purpose: IMPLICIT_KEY_FIELD)
+  """
+  ✨ Implicit foreign key field based on `Notification`.`relatedGroceryItem`. It must match the value of `GroceryItem`.`id`. See `@ref` for how to customize it.
+  """
+  relatedGroceryItemId: UUID @fdc_generated(from: "Notification.relatedGroceryItem", purpose: IMPLICIT_REF_FIELD)
+  """
+  ✨ Implicit foreign key field based on `Notification`.`relatedTask`. It must match the value of `Task`.`id`. See `@ref` for how to customize it.
+  """
+  relatedTaskId: UUID @fdc_generated(from: "Notification.relatedTask", purpose: IMPLICIT_REF_FIELD)
+  """
+  ✨ Implicit foreign key field based on `Notification`.`user`. It must match the value of `User`.`id`. See `@ref` for how to customize it.
+  """
+  userId: UUID! @fdc_generated(from: "Notification.user", purpose: IMPLICIT_REF_FIELD)
+}
+extend type Task {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "Task", purpose: IMPLICIT_KEY_FIELD)
+  """
+  ✨ Implicit foreign key field based on `Task`.`assignedToUser`. It must match the value of `User`.`id`. See `@ref` for how to customize it.
+  """
+  assignedToUserId: UUID! @fdc_generated(from: "Task.assignedToUser", purpose: IMPLICIT_REF_FIELD)
+  """
+  ✨ Implicit foreign key field based on `Task`.`completedByUser`. It must match the value of `User`.`id`. See `@ref` for how to customize it.
+  """
+  completedByUserId: UUID @fdc_generated(from: "Task.completedByUser", purpose: IMPLICIT_REF_FIELD)
+  """
+  ✨ Implicit foreign key field based on `Task`.`groupHome`. It must match the value of `GroupHome`.`id`. See `@ref` for how to customize it.
+  """
+  groupHomeId: UUID! @fdc_generated(from: "Task.groupHome", purpose: IMPLICIT_REF_FIELD)
+}
+extend type User {
+  """
+  ✨ Implicit primary key field. It's a UUID column default to a generated new value. See `@table` for how to customize it.
+  """
+  id: UUID! @default(expr: "uuidV4()") @fdc_generated(from: "User", purpose: IMPLICIT_KEY_FIELD)
+  """
+  ✨ Implicit foreign key field based on `User`.`groupHome`. It must match the value of `GroupHome`.`id`. See `@ref` for how to customize it.
+  """
+  groupHomeId: UUID @fdc_generated(from: "User.groupHome", purpose: IMPLICIT_REF_FIELD)
+}

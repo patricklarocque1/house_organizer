@@ -55,4 +55,8 @@ class AppConstants {
   // Accessibility
   static const double minContrastRatio = 4.5;
   static const double minLargeTextContrastRatio = 3.0;
+
+  // Feature flags
+  // If false, skip Data Connect mirroring when no assignee is selected.
+  static const bool mirrorTaskToDCIfUnassigned = false;
 }

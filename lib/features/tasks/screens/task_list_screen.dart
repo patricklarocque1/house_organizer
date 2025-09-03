@@ -7,6 +7,7 @@ import 'package:house_organizer/features/tasks/widgets/task_filter_bottom_sheet.
 import 'package:house_organizer/data/models/task.dart';
 import 'package:house_organizer/features/auth/providers/auth_providers.dart';
 import 'package:house_organizer/features/tasks/screens/task_detail_screen.dart';
+import 'package:house_organizer/features/tasks/widgets/dc_tasks_list.dart';
 
 class TaskListScreen extends ConsumerStatefulWidget {
   const TaskListScreen({super.key});
@@ -24,7 +25,7 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 4, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
   }
 
   @override
@@ -58,6 +59,7 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen>
             Tab(text: 'Pending', icon: Icon(Icons.pending)),
             Tab(text: 'In Progress', icon: Icon(Icons.play_arrow)),
             Tab(text: 'Completed', icon: Icon(Icons.check)),
+            Tab(text: 'DC', icon: Icon(Icons.cloud_outlined)),
           ],
         ),
       ),
@@ -74,6 +76,7 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen>
               _buildTaskList(user.houseId, TaskStatus.pending),
               _buildTaskList(user.houseId, TaskStatus.inProgress),
               _buildTaskList(user.houseId, TaskStatus.completed),
+              const DcTasksList(),
             ],
           );
         },
