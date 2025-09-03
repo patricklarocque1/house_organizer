@@ -23,7 +23,6 @@ void main() async {
   await FirebaseService.instance.initialize(
     emulator: dev.toEmulatorConfig(),
   );
-  await NotificationService().initialize();
 
   // We used a temporary container to read settings; dispose it.
   container.dispose();
@@ -118,6 +117,11 @@ class _SplashScreenContentState extends State<_SplashScreenContent> {
   @override
   void initState() {
     super.initState();
+    // Defer heavy notification setup until after first frame
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      // Fire and forget; internal guard prevents duplicate init
+      NotificationService().initialize();
+    });
     _initializeApp();
   }
 
