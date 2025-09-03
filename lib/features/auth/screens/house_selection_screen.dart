@@ -85,154 +85,154 @@ class _HouseSelectionScreenState extends ConsumerState<HouseSelectionScreen> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Title
-              Text(
-                'Welcome, ${widget.displayName}!',
-                style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 8),
-              Text(
-                'Are you joining an existing group home or creating a new one?',
-                style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(
-                        context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.7),
-                    ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 48),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Title
+                Text(
+                  'Welcome, ${widget.displayName}!',
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Are you joining an existing group home or creating a new one?',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.7),
+                      ),
+                  textAlign: TextAlign.center,
+                ),
+                const SizedBox(height: 48),
 
-              // Join existing house option
-              Card(
-                child: InkWell(
-                  onTap: _isLoading
-                      ? null
-                      : () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => JoinHouseScreen(
-                                email: widget.email,
-                                password: widget.password,
-                                displayName: widget.displayName,
-                                onAccountCreated: _createAccount,
+                // Join existing house option
+                Card(
+                  child: InkWell(
+                    onTap: _isLoading
+                        ? null
+                        : () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => JoinHouseScreen(
+                                  email: widget.email,
+                                  password: widget.password,
+                                  displayName: widget.displayName,
+                                  onAccountCreated: _createAccount,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                  borderRadius: BorderRadius.circular(12),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.home_outlined,
-                          size: 48,
-                          color: Theme.of(context).colorScheme.primary,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'Join Existing House',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'I have a join code from a supervisor',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurface.withValues(alpha: 0.7),
-                              ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                            );
+                          },
+                    borderRadius: BorderRadius.circular(12),
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.home_outlined,
+                            size: 48,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Join Existing House',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'I have a join code from a supervisor',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface.withValues(alpha: 0.7),
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 16),
+                const SizedBox(height: 16),
 
-              // Create new house option
-              Card(
-                child: InkWell(
-                  onTap: _isLoading
-                      ? null
-                      : () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) => CreateHouseScreen(
-                                email: widget.email,
-                                password: widget.password,
-                                displayName: widget.displayName,
-                                onAccountCreated: _createAccount,
+                // Create new house option
+                Card(
+                  child: InkWell(
+                    onTap: _isLoading
+                        ? null
+                        : () {
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (context) => CreateHouseScreen(
+                                  email: widget.email,
+                                  password: widget.password,
+                                  displayName: widget.displayName,
+                                  onAccountCreated: _createAccount,
+                                ),
                               ),
-                            ),
-                          );
-                        },
-                  borderRadius: BorderRadius.circular(12),
-                  child: Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      children: [
-                        Icon(
-                          Icons.add_home_outlined,
-                          size: 48,
-                          color: Theme.of(context).colorScheme.secondary,
-                        ),
-                        const SizedBox(height: 16),
-                        Text(
-                          'Create New House',
-                          style: Theme.of(context)
-                              .textTheme
-                              .titleLarge
-                              ?.copyWith(fontWeight: FontWeight.bold),
-                        ),
-                        const SizedBox(height: 8),
-                        Text(
-                          'I am a supervisor creating a new group home',
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodyMedium
-                              ?.copyWith(
-                                color: Theme.of(
-                                  context,
-                                ).colorScheme.onSurface.withValues(alpha: 0.7),
-                              ),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                            );
+                          },
+                    borderRadius: BorderRadius.circular(12),
+                    child: Padding(
+                      padding: const EdgeInsets.all(24.0),
+                      child: Column(
+                        children: [
+                          Icon(
+                            Icons.add_home_outlined,
+                            size: 48,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                          const SizedBox(height: 16),
+                          Text(
+                            'Create New House',
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(fontWeight: FontWeight.bold),
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            'I am a supervisor creating a new group home',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface.withValues(alpha: 0.7),
+                                ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(height: 32),
+                const SizedBox(height: 32),
 
-              // Loading indicator
-              if (_isLoading) const Center(child: CircularProgressIndicator()),
+                // Loading indicator
+                if (_isLoading) const Center(child: CircularProgressIndicator()),
 
-              const Spacer(),
-
-              // Back button
-              TextButton(
-                onPressed: _isLoading
-                    ? null
-                    : () {
-                        Navigator.of(context).pop();
-                      },
-                child: const Text('Back'),
-              ),
-            ],
+                // Back button
+                TextButton(
+                  onPressed: _isLoading
+                      ? null
+                      : () {
+                          Navigator.of(context).pop();
+                        },
+                  child: const Text('Back'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

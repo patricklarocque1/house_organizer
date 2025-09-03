@@ -84,7 +84,7 @@ class _CreateListScreenState extends ConsumerState<CreateListScreen> {
 
           // List type
           DropdownButtonFormField<ListType>(
-            initialValue: _selectedType,
+            value: _selectedType,
             decoration: const InputDecoration(
               labelText: 'List Type',
               border: OutlineInputBorder(),
