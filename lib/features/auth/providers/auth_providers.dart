@@ -4,7 +4,6 @@ import 'package:house_organizer/features/auth/repositories/auth_repository.dart'
 import 'package:house_organizer/data/models/user.dart';
 import 'package:house_organizer/data/models/house.dart';
 
-
 // Auth repository provider
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepository();
@@ -101,7 +100,7 @@ class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
   }
 
   Future<void> joinHouse(String joinCode) async {
-          final currentUser = state.value;
+    final currentUser = state.value;
     if (currentUser == null) return;
 
     try {
@@ -121,7 +120,7 @@ class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
     String? phoneNumber,
     String? email,
   }) async {
-          final currentUser = state.value;
+    final currentUser = state.value;
     if (currentUser == null) return;
 
     try {
@@ -143,13 +142,17 @@ class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
 }
 
 // Auth notifier provider
-final authNotifierProvider = StateNotifierProvider<AuthNotifier, AsyncValue<User?>>((ref) {
-  final authRepository = ref.watch(authRepositoryProvider);
-  return AuthNotifier(authRepository);
-});
+final authNotifierProvider =
+    StateNotifierProvider<AuthNotifier, AsyncValue<User?>>((ref) {
+      final authRepository = ref.watch(authRepositoryProvider);
+      return AuthNotifier(authRepository);
+    });
 
 // House providers
-final houseProvider = FutureProvider.family<House?, String>((ref, houseId) async {
+final houseProvider = FutureProvider.family<House?, String>((
+  ref,
+  houseId,
+) async {
   // This would need to be implemented in the repository
   // For now, return null
   return null;

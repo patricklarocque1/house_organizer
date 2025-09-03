@@ -84,16 +84,18 @@ class _JoinHouseScreenState extends ConsumerState<JoinHouseScreen> {
                 Text(
                   'Join a Group Home',
                   style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                    fontWeight: FontWeight.bold,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 8),
                 Text(
                   'Enter the join code provided by your supervisor',
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
-                      ),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.7),
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 48),
@@ -131,14 +133,18 @@ class _JoinHouseScreenState extends ConsumerState<JoinHouseScreen> {
                       children: [
                         Icon(
                           Icons.info_outline,
-                          color: Theme.of(context).colorScheme.onPrimaryContainer,
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onPrimaryContainer,
                         ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(
                             'Ask your supervisor for the join code if you don\'t have it',
                             style: TextStyle(
-                              color: Theme.of(context).colorScheme.onPrimaryContainer,
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onPrimaryContainer,
                             ),
                           ),
                         ),
@@ -166,9 +172,11 @@ class _JoinHouseScreenState extends ConsumerState<JoinHouseScreen> {
 
                 // Back button
                 TextButton(
-                  onPressed: _isLoading ? null : () {
-                    Navigator.of(context).pop();
-                  },
+                  onPressed: _isLoading
+                      ? null
+                      : () {
+                          Navigator.of(context).pop();
+                        },
                   child: const Text('Back'),
                 ),
               ],

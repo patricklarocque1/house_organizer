@@ -11,7 +11,8 @@ class AuthRepository {
   final HiveService _hiveService = HiveService.instance;
 
   // Auth state stream
-  Stream<firebase_auth.User?> get authStateChanges => _firebaseService.auth.authStateChanges();
+  Stream<firebase_auth.User?> get authStateChanges =>
+      _firebaseService.auth.authStateChanges();
 
   // Current user
   firebase_auth.User? get currentUser => _firebaseService.auth.currentUser;
@@ -276,11 +277,11 @@ class AuthRepository {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     final random = DateTime.now().millisecondsSinceEpoch;
     final code = StringBuffer();
-    
+
     for (int i = 0; i < 6; i++) {
       code.write(chars[random % chars.length]);
     }
-    
+
     return code.toString();
   }
 }

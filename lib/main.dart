@@ -5,6 +5,7 @@ import 'package:house_organizer/core/services/firebase_service.dart';
 import 'package:house_organizer/core/constants/app_constants.dart';
 import 'package:house_organizer/features/auth/providers/auth_providers.dart';
 import 'package:house_organizer/features/auth/screens/login_screen.dart';
+import 'package:house_organizer/features/dashboard/screens/home_screen.dart';
 import 'package:house_organizer/data/models/user.dart';
 
 void main() async {
@@ -154,45 +155,4 @@ class _SplashScreenContentState extends State<_SplashScreenContent> {
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
 
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(AppConstants.appName),
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      ),
-      body: const Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.check_circle, size: 64, color: Colors.green),
-            SizedBox(height: 16),
-            Text(
-              'House Organizer App',
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 8),
-            Text(
-              'Project initialized successfully!',
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 24),
-            Text(
-              'Ready to implement features:',
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
-            ),
-            SizedBox(height: 16),
-            Text('• Authentication & Onboarding'),
-            Text('• Task Management'),
-            Text('• Grocery Lists'),
-            Text('• Notifications'),
-            Text('• Supervisor Dashboard'),
-          ],
-        ),
-      ),
-    );
-  }
-}

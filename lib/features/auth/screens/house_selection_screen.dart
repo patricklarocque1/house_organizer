@@ -19,7 +19,8 @@ class HouseSelectionScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<HouseSelectionScreen> createState() => _HouseSelectionScreenState();
+  ConsumerState<HouseSelectionScreen> createState() =>
+      _HouseSelectionScreenState();
 }
 
 class _HouseSelectionScreenState extends ConsumerState<HouseSelectionScreen> {
@@ -31,7 +32,9 @@ class _HouseSelectionScreenState extends ConsumerState<HouseSelectionScreen> {
     });
 
     try {
-      await ref.read(authNotifierProvider.notifier).createUserWithEmailAndPassword(
+      await ref
+          .read(authNotifierProvider.notifier)
+          .createUserWithEmailAndPassword(
             email: widget.email,
             password: widget.password,
             displayName: widget.displayName,
@@ -42,9 +45,7 @@ class _HouseSelectionScreenState extends ConsumerState<HouseSelectionScreen> {
       if (mounted) {
         // Navigate to main app or show success message
         Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(
-            builder: (context) => const LoginScreen(),
-          ),
+          MaterialPageRoute(builder: (context) => const LoginScreen()),
           (route) => false,
         );
 
@@ -91,16 +92,18 @@ class _HouseSelectionScreenState extends ConsumerState<HouseSelectionScreen> {
               Text(
                 'Welcome, ${widget.displayName}!',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                  fontWeight: FontWeight.bold,
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
               Text(
                 'Are you joining an existing group home or creating a new one?',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
-                    ),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.7),
+                ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 48),
@@ -108,18 +111,20 @@ class _HouseSelectionScreenState extends ConsumerState<HouseSelectionScreen> {
               // Join existing house option
               Card(
                 child: InkWell(
-                  onTap: _isLoading ? null : () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => JoinHouseScreen(
-                          email: widget.email,
-                          password: widget.password,
-                          displayName: widget.displayName,
-                          onAccountCreated: _createAccount,
-                        ),
-                      ),
-                    );
-                  },
+                  onTap: _isLoading
+                      ? null
+                      : () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => JoinHouseScreen(
+                                email: widget.email,
+                                password: widget.password,
+                                displayName: widget.displayName,
+                                onAccountCreated: _createAccount,
+                              ),
+                            ),
+                          );
+                        },
                   borderRadius: BorderRadius.circular(12),
                   child: Padding(
                     padding: const EdgeInsets.all(24.0),
@@ -133,15 +138,17 @@ class _HouseSelectionScreenState extends ConsumerState<HouseSelectionScreen> {
                         const SizedBox(height: 16),
                         Text(
                           'Join Existing House',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'I have a join code from a supervisor',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.7),
                               ),
                           textAlign: TextAlign.center,
                         ),
@@ -155,18 +162,20 @@ class _HouseSelectionScreenState extends ConsumerState<HouseSelectionScreen> {
               // Create new house option
               Card(
                 child: InkWell(
-                  onTap: _isLoading ? null : () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => CreateHouseScreen(
-                          email: widget.email,
-                          password: widget.password,
-                          displayName: widget.displayName,
-                          onAccountCreated: _createAccount,
-                        ),
-                      ),
-                    );
-                  },
+                  onTap: _isLoading
+                      ? null
+                      : () {
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => CreateHouseScreen(
+                                email: widget.email,
+                                password: widget.password,
+                                displayName: widget.displayName,
+                                onAccountCreated: _createAccount,
+                              ),
+                            ),
+                          );
+                        },
                   borderRadius: BorderRadius.circular(12),
                   child: Padding(
                     padding: const EdgeInsets.all(24.0),
@@ -180,15 +189,17 @@ class _HouseSelectionScreenState extends ConsumerState<HouseSelectionScreen> {
                         const SizedBox(height: 16),
                         Text(
                           'Create New House',
-                          style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                          style: Theme.of(context).textTheme.titleLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'I am a supervisor creating a new group home',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.7),
                               ),
                           textAlign: TextAlign.center,
                         ),
@@ -200,18 +211,17 @@ class _HouseSelectionScreenState extends ConsumerState<HouseSelectionScreen> {
               const SizedBox(height: 32),
 
               // Loading indicator
-              if (_isLoading)
-                const Center(
-                  child: CircularProgressIndicator(),
-                ),
+              if (_isLoading) const Center(child: CircularProgressIndicator()),
 
               const Spacer(),
 
               // Back button
               TextButton(
-                onPressed: _isLoading ? null : () {
-                  Navigator.of(context).pop();
-                },
+                onPressed: _isLoading
+                    ? null
+                    : () {
+                        Navigator.of(context).pop();
+                      },
                 child: const Text('Back'),
               ),
             ],

@@ -93,16 +93,18 @@ class _CreateHouseScreenState extends ConsumerState<CreateHouseScreen> {
                   Text(
                     'Create New Group Home',
                     style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                          fontWeight: FontWeight.bold,
-                        ),
+                      fontWeight: FontWeight.bold,
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 8),
                   Text(
                     'Set up your group home and become a supervisor',
                     style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
-                        ),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.7),
+                    ),
                     textAlign: TextAlign.center,
                   ),
                   const SizedBox(height: 32),
@@ -179,7 +181,9 @@ class _CreateHouseScreenState extends ConsumerState<CreateHouseScreen> {
                     ),
                     validator: (value) {
                       if (value != null && value.isNotEmpty) {
-                        if (!RegExp(r'^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$').hasMatch(value)) {
+                        if (!RegExp(
+                          r'^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$',
+                        ).hasMatch(value)) {
                           return 'Please enter a valid phone number';
                         }
                       }
@@ -202,7 +206,9 @@ class _CreateHouseScreenState extends ConsumerState<CreateHouseScreen> {
                     ),
                     validator: (value) {
                       if (value != null && value.isNotEmpty) {
-                        if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
+                        if (!RegExp(
+                          r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
+                        ).hasMatch(value)) {
                           return 'Please enter a valid email';
                         }
                       }
@@ -220,14 +226,18 @@ class _CreateHouseScreenState extends ConsumerState<CreateHouseScreen> {
                         children: [
                           Icon(
                             Icons.admin_panel_settings_outlined,
-                            color: Theme.of(context).colorScheme.onSecondaryContainer,
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSecondaryContainer,
                           ),
                           const SizedBox(width: 12),
                           Expanded(
                             child: Text(
                               'As a supervisor, you will be able to manage residents, tasks, and view reports',
                               style: TextStyle(
-                                color: Theme.of(context).colorScheme.onSecondaryContainer,
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSecondaryContainer,
                               ),
                             ),
                           ),
@@ -255,9 +265,11 @@ class _CreateHouseScreenState extends ConsumerState<CreateHouseScreen> {
 
                   // Back button
                   TextButton(
-                    onPressed: _isLoading ? null : () {
-                      Navigator.of(context).pop();
-                    },
+                    onPressed: _isLoading
+                        ? null
+                        : () {
+                            Navigator.of(context).pop();
+                          },
                     child: const Text('Back'),
                   ),
                 ],
