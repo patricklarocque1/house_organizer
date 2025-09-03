@@ -8,10 +8,12 @@ class NotificationSettingsScreen extends ConsumerStatefulWidget {
   const NotificationSettingsScreen({super.key});
 
   @override
-  ConsumerState<NotificationSettingsScreen> createState() => _NotificationSettingsScreenState();
+  ConsumerState<NotificationSettingsScreen> createState() =>
+      _NotificationSettingsScreenState();
 }
 
-class _NotificationSettingsScreenState extends ConsumerState<NotificationSettingsScreen> {
+class _NotificationSettingsScreenState
+    extends ConsumerState<NotificationSettingsScreen> {
   @override
   Widget build(BuildContext context) {
     final settings = ref.watch(notificationSettingsProvider);
@@ -33,9 +35,9 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
             value: settings.pushNotifications,
             onChanged: settingsNotifier.updatePushNotifications,
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           // Task Notifications Section
           _buildSectionHeader('Task Notifications'),
           _buildSwitchTile(
@@ -50,9 +52,9 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
             value: settings.reminders,
             onChanged: settingsNotifier.updateReminders,
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           // List Notifications Section
           _buildSectionHeader('List Notifications'),
           _buildSwitchTile(
@@ -61,9 +63,9 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
             value: settings.listNotifications,
             onChanged: settingsNotifier.updateListNotifications,
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           // Daily Summary Section
           _buildSectionHeader('Daily Summary'),
           _buildSwitchTile(
@@ -72,15 +74,15 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
             value: settings.dailySummary,
             onChanged: settingsNotifier.updateDailySummary,
           ),
-          
+
           const SizedBox(height: 24),
-          
+
           // Quiet Hours Section
           _buildSectionHeader('Quiet Hours'),
           _buildQuietHoursCard(settings, settingsNotifier),
-          
+
           const SizedBox(height: 24),
-          
+
           // Test Notifications Section
           _buildSectionHeader('Test Notifications'),
           _buildTestNotificationsCard(),
@@ -116,7 +118,7 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
         onChanged: onChanged,
         secondary: Icon(
           value ? Icons.notifications_active : Icons.notifications_off,
-          color: value 
+          color: value
               ? Theme.of(context).colorScheme.primary
               : Theme.of(context).colorScheme.onSurfaceVariant,
         ),
@@ -124,7 +126,10 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
     );
   }
 
-  Widget _buildQuietHoursCard(NotificationSettings settings, NotificationSettingsNotifier notifier) {
+  Widget _buildQuietHoursCard(
+    NotificationSettings settings,
+    NotificationSettingsNotifier notifier,
+  ) {
     return Card(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -169,12 +174,20 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
                         onTap: () => _selectTime(
                           context,
                           settings.quietHoursStart,
-                          (time) => notifier.updateQuietHours(time, settings.quietHoursEnd),
+                          (time) => notifier.updateQuietHours(
+                            time,
+                            settings.quietHoursEnd,
+                          ),
                         ),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
-                            border: Border.all(color: Theme.of(context).colorScheme.outline),
+                            border: Border.all(
+                              color: Theme.of(context).colorScheme.outline,
+                            ),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
@@ -203,12 +216,20 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
                         onTap: () => _selectTime(
                           context,
                           settings.quietHoursEnd,
-                          (time) => notifier.updateQuietHours(settings.quietHoursStart, time),
+                          (time) => notifier.updateQuietHours(
+                            settings.quietHoursStart,
+                            time,
+                          ),
                         ),
                         child: Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 8,
+                          ),
                           decoration: BoxDecoration(
-                            border: Border.all(color: Theme.of(context).colorScheme.outline),
+                            border: Border.all(
+                              color: Theme.of(context).colorScheme.outline,
+                            ),
                             borderRadius: BorderRadius.circular(8),
                           ),
                           child: Row(
@@ -286,7 +307,11 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
     );
   }
 
-  Future<void> _selectTime(BuildContext context, String currentTime, Function(String) onTimeSelected) async {
+  Future<void> _selectTime(
+    BuildContext context,
+    String currentTime,
+    Function(String) onTimeSelected,
+  ) async {
     final timeParts = currentTime.split(':');
     final initialTime = TimeOfDay(
       hour: int.parse(timeParts[0]),
@@ -299,14 +324,15 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
     );
 
     if (selectedTime != null) {
-      final formattedTime = '${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}';
+      final formattedTime =
+          '${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}';
       onTimeSelected(formattedTime);
     }
   }
 
   Future<void> _sendTestNotification(String type) async {
     final notificationActions = ref.read(notificationActionsProvider);
-    
+
     if (type == 'task') {
       // Create a mock task for testing
       final mockTask = Task(
@@ -321,7 +347,7 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
         updatedAt: DateTime.now(),
         houseId: 'test_house',
       );
-      
+
       await notificationActions.notifyTaskAssignment(mockTask);
     } else if (type == 'list') {
       // Create a mock list for testing
@@ -339,7 +365,7 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
         isCompleted: false,
         dueDate: DateTime.now().add(const Duration(days: 1)),
       );
-      
+
       await notificationActions.notifyListAssignment(mockList);
     }
 

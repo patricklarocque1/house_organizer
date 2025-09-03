@@ -9,6 +9,7 @@ import 'package:house_organizer/features/notifications/screens/notification_sett
 import 'package:house_organizer/features/dashboard/widgets/task_summary_card.dart';
 import 'package:house_organizer/features/dashboard/widgets/quick_actions_card.dart';
 import 'package:house_organizer/features/dashboard/widgets/list_summary_card.dart';
+import 'package:house_organizer/features/dashboard/widgets/todo_summary_card.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -159,6 +160,20 @@ class HomeScreen extends ConsumerWidget {
                           ),
                         ),
                       ),
+                    );
+                  },
+                  loading: () => const SizedBox.shrink(),
+                  error: (_, __) => const SizedBox.shrink(),
+                ),
+                const SizedBox(height: 16),
+
+                // Todo summary
+                authState.when(
+                  data: (user) {
+                    if (user == null) return const SizedBox.shrink();
+                    return TodoSummaryCard(
+                      houseId: user.houseId,
+                      currentUserId: user.id,
                     );
                   },
                   loading: () => const SizedBox.shrink(),

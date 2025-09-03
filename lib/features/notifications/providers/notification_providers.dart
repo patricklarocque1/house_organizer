@@ -9,9 +9,12 @@ final notificationServiceProvider = Provider<NotificationService>((ref) {
 });
 
 // Notification settings provider
-final notificationSettingsProvider = StateNotifierProvider<NotificationSettingsNotifier, NotificationSettings>((ref) {
-  return NotificationSettingsNotifier();
-});
+final notificationSettingsProvider =
+    StateNotifierProvider<NotificationSettingsNotifier, NotificationSettings>((
+      ref,
+    ) {
+      return NotificationSettingsNotifier();
+    });
 
 // Notification settings state
 class NotificationSettings {
@@ -79,10 +82,7 @@ class NotificationSettingsNotifier extends StateNotifier<NotificationSettings> {
   }
 
   void updateQuietHours(String start, String end) {
-    state = state.copyWith(
-      quietHoursStart: start,
-      quietHoursEnd: end,
-    );
+    state = state.copyWith(quietHoursStart: start, quietHoursEnd: end);
   }
 }
 
@@ -90,7 +90,7 @@ class NotificationSettingsNotifier extends StateNotifier<NotificationSettings> {
 final notificationActionsProvider = Provider<NotificationActions>((ref) {
   final notificationService = ref.watch(notificationServiceProvider);
   final settings = ref.watch(notificationSettingsProvider);
-  
+
   return NotificationActions(
     notificationService: notificationService,
     settings: settings,

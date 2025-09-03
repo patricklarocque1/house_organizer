@@ -9,16 +9,14 @@ import 'package:workmanager/workmanager.dart';
 import 'package:house_organizer/data/models/task.dart';
 import 'package:house_organizer/data/models/list_model.dart';
 
-
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
   factory NotificationService() => _instance;
   NotificationService._internal();
 
-  final FlutterLocalNotificationsPlugin _localNotifications = 
+  final FlutterLocalNotificationsPlugin _localNotifications =
       FlutterLocalNotificationsPlugin();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
-
 
   bool _isInitialized = false;
   StreamSubscription<RemoteMessage>? _messageSubscription;
@@ -30,7 +28,9 @@ class NotificationService {
   static const String _reminderChannelId = 'reminders';
 
   // Background message handler
-  static Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  static Future<void> firebaseMessagingBackgroundHandler(
+    RemoteMessage message,
+  ) async {
     print('Handling a background message: ${message.messageId}');
   }
 
@@ -58,16 +58,16 @@ class NotificationService {
 
     const DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-    );
+          requestAlertPermission: true,
+          requestBadgePermission: true,
+          requestSoundPermission: true,
+        );
 
     const InitializationSettings initializationSettings =
         InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS,
-    );
+          android: initializationSettingsAndroid,
+          iOS: initializationSettingsIOS,
+        );
 
     await _localNotifications.initialize(
       initializationSettings,
@@ -95,34 +95,44 @@ class NotificationService {
       importance: Importance.high,
     );
 
-    const AndroidNotificationChannel dailySummaryChannel = AndroidNotificationChannel(
-      _dailySummaryChannelId,
-      'Daily Summary',
-      description: 'Daily task and list summaries',
-      importance: Importance.defaultImportance,
-    );
+    const AndroidNotificationChannel dailySummaryChannel =
+        AndroidNotificationChannel(
+          _dailySummaryChannelId,
+          'Daily Summary',
+          description: 'Daily task and list summaries',
+          importance: Importance.defaultImportance,
+        );
 
-    const AndroidNotificationChannel reminderChannel = AndroidNotificationChannel(
-      _reminderChannelId,
-      'Reminders',
-      description: 'Task and list reminders',
-      importance: Importance.high,
-    );
+    const AndroidNotificationChannel reminderChannel =
+        AndroidNotificationChannel(
+          _reminderChannelId,
+          'Reminders',
+          description: 'Task and list reminders',
+          importance: Importance.high,
+        );
 
     await _localNotifications
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(taskChannel);
 
     await _localNotifications
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(listChannel);
 
     await _localNotifications
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(dailySummaryChannel);
 
     await _localNotifications
-        .resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()
+        .resolvePlatformSpecificImplementation<
+          AndroidFlutterLocalNotificationsPlugin
+        >()
         ?.createNotificationChannel(reminderChannel);
   }
 
@@ -134,23 +144,23 @@ class NotificationService {
     FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
     // Handle foreground messages
-    _messageSubscription = FirebaseMessaging.onMessage.listen(_handleForegroundMessage);
+    _messageSubscription = FirebaseMessaging.onMessage.listen(
+      _handleForegroundMessage,
+    );
 
     // Handle notification taps when app is in background
     FirebaseMessaging.onMessageOpenedApp.listen(_handleNotificationTap);
 
     // Handle notification tap when app is terminated
-    RemoteMessage? initialMessage = await _firebaseMessaging.getInitialMessage();
+    RemoteMessage? initialMessage = await _firebaseMessaging
+        .getInitialMessage();
     if (initialMessage != null) {
       _handleNotificationTap(initialMessage);
     }
   }
 
   Future<void> _initializeWorkmanager() async {
-    await Workmanager().initialize(
-      callbackDispatcher,
-      isInDebugMode: false,
-    );
+    await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
 
     // Register daily summary task
     await Workmanager().registerPeriodicTask(
@@ -203,13 +213,14 @@ class NotificationService {
     final notification = message.notification;
     if (notification == null) return;
 
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-      _taskChannelId,
-      'Task Notifications',
-      channelDescription: 'Notifications for task assignments and updates',
-      importance: Importance.high,
-      priority: Priority.high,
-    );
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
+          _taskChannelId,
+          'Task Notifications',
+          channelDescription: 'Notifications for task assignments and updates',
+          importance: Importance.high,
+          priority: Priority.high,
+        );
 
     const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
       presentAlert: true,
@@ -237,10 +248,10 @@ class NotificationService {
 
     final now = DateTime.now();
     final dueDate = task.dueDate!;
-    
+
     // Schedule reminder 1 day before due date
     final reminderTime = dueDate.subtract(const Duration(days: 1));
-    
+
     if (reminderTime.isAfter(now)) {
       await _scheduleNotification(
         id: task.hashCode,
@@ -311,7 +322,7 @@ class NotificationService {
     // Schedule daily summary at 9 AM
     final now = DateTime.now();
     var scheduledTime = DateTime(now.year, now.month, now.day, 9, 0);
-    
+
     // If it's already past 9 AM today, schedule for tomorrow
     if (scheduledTime.isBefore(now)) {
       scheduledTime = scheduledTime.add(const Duration(days: 1));
@@ -335,13 +346,14 @@ class NotificationService {
     required String channelId,
     String? payload,
   }) async {
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-      _taskChannelId,
-      'Task Notifications',
-      channelDescription: 'Notifications for task assignments and updates',
-      importance: Importance.high,
-      priority: Priority.high,
-    );
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
+          _taskChannelId,
+          'Task Notifications',
+          channelDescription: 'Notifications for task assignments and updates',
+          importance: Importance.high,
+          priority: Priority.high,
+        );
 
     const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
       presentAlert: true,
@@ -371,15 +383,19 @@ class NotificationService {
     required String channelId,
     String? payload,
   }) async {
-    final tz.TZDateTime scheduledTZ = tz.TZDateTime.from(scheduledDate, tz.local);
-
-    const AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-      _reminderChannelId,
-      'Reminders',
-      channelDescription: 'Task and list reminders',
-      importance: Importance.high,
-      priority: Priority.high,
+    final tz.TZDateTime scheduledTZ = tz.TZDateTime.from(
+      scheduledDate,
+      tz.local,
     );
+
+    const AndroidNotificationDetails androidDetails =
+        AndroidNotificationDetails(
+          _reminderChannelId,
+          'Reminders',
+          channelDescription: 'Task and list reminders',
+          importance: Importance.high,
+          priority: Priority.high,
+        );
 
     const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
       presentAlert: true,

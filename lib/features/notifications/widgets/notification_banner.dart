@@ -4,11 +4,8 @@ import 'package:house_organizer/features/notifications/providers/notification_pr
 
 class NotificationBanner extends ConsumerStatefulWidget {
   final Widget child;
-  
-  const NotificationBanner({
-    super.key,
-    required this.child,
-  });
+
+  const NotificationBanner({super.key, required this.child});
 
   @override
   ConsumerState<NotificationBanner> createState() => _NotificationBannerState();
@@ -70,7 +67,8 @@ class NotificationCard extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
-                  color: (iconColor ?? Theme.of(context).colorScheme.primary).withValues(alpha: 0.1),
+                  color: (iconColor ?? Theme.of(context).colorScheme.primary)
+                      .withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Icon(
