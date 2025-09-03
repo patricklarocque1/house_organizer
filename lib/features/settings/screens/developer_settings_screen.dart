@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_organizer/features/settings/providers/dev_settings_provider.dart';
 
@@ -53,6 +54,7 @@ class _DeveloperSettingsScreenState extends ConsumerState<DeveloperSettingsScree
 
   void _save() {
     final notifier = ref.read(devSettingsProvider.notifier);
+    final previous = ref.read(devSettingsProvider);
 
     int parsePort(TextEditingController c, int fallback) {
       final v = int.tryParse(c.text.trim());
@@ -63,9 +65,12 @@ class _DeveloperSettingsScreenState extends ConsumerState<DeveloperSettingsScree
     notifier.setHostDesktop(_desktopHost.text.trim());
     notifier.setHostAndroidEmulator(_androidHost.text.trim());
     notifier.setHostIOSSimulator(_iosHost.text.trim());
-    notifier.setFirestorePort(parsePort(_firestorePort, 8080));
-    notifier.setAuthPort(parsePort(_authPort, 9099));
-    notifier.setStoragePort(parsePort(_storagePort, 9199));
+    final newFirestorePort = parsePort(_firestorePort, 8080);
+    final newAuthPort = parsePort(_authPort, 9099);
+    final newStoragePort = parsePort(_storagePort, 9199);
+    notifier.setFirestorePort(newFirestorePort);
+    notifier.setAuthPort(newAuthPort);
+    notifier.setStoragePort(newStoragePort);
 
     notifier.setUseDataConnectEmulator(_useDcEmulator);
     notifier.setDataConnectHost(_dcHost.text.trim());
@@ -73,15 +78,47 @@ class _DeveloperSettingsScreenState extends ConsumerState<DeveloperSettingsScree
 
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Developer settings saved'),
-          action: SnackBarAction(
-            label: 'Restart note',
-            onPressed: () {},
-          ),
-        ),
+        const SnackBar(content: Text('Developer settings saved')),
       );
+      final firebaseChanged =
+          previous.useFirebaseEmulators != _useFirebaseEmulators ||
+          previous.hostDesktop != _desktopHost.text.trim() ||
+          previous.hostAndroidEmulator != _androidHost.text.trim() ||
+          previous.hostIOSSimulator != _iosHost.text.trim() ||
+          previous.firestorePort != newFirestorePort ||
+          previous.authPort != newAuthPort ||
+          previous.storagePort != newStoragePort;
+
+      if (firebaseChanged) {
+        _showRestartPrompt();
+      }
     }
+  }
+
+  void _showRestartPrompt() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Restart Required'),
+        content: const Text(
+          'Firebase emulator changes will take effect after restarting the app.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Later'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+              // Attempt a programmatic exit (dev convenience)
+              SystemNavigator.pop();
+            },
+            child: const Text('Restart Now'),
+          ),
+        ],
+      ),
+    );
   }
 
   void _reset() {
@@ -215,4 +252,3 @@ class _DeveloperSettingsScreenState extends ConsumerState<DeveloperSettingsScree
     );
   }
 }
-

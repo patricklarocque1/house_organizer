@@ -147,6 +147,24 @@ The app targets WCAG 2.2 AA. Implementation notes and testing guidance: `docs/ac
 
 GitHub Actions workflows for tests and builds are included. Details in `docs/ci-cd.md`.
 
+## 16KB Android Page-Size Compatibility
+
+Recent Android devices may use a 16KB OS page size. To ensure native libraries load reliably and efficiently on these devices, this app is configured to:
+
+- Package native libs uncompressed so they can be memory-mapped.
+  - `android/gradle.properties`: `android.bundle.enableUncompressedNativeLibs=true`
+- Disable legacy extraction of native libs at install time.
+  - `android/app/src/main/AndroidManifest.xml`: `<application android:extractNativeLibs="false" ... />`
+
+What to avoid:
+- Do not enable legacy packaging (e.g., `jniLibs.useLegacyPackaging = true`).
+- Do not force compression on `.so` files.
+- Avoid old bundletool/AGP versions that don’t page-align uncompressed `.so` files.
+
+Notes:
+- This project uses a recent Android Gradle Plugin and Flutter stable toolchain which produce page-aligned, uncompressed `.so` in the final split APKs generated from the AAB.
+- No code changes are required beyond the configuration above.
+
 ## Compliance
 
 Privacy, security, and accessibility notes live in `docs/compliance.md`.
