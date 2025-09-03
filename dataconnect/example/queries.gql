@@ -1,0 +1,90 @@
+mutation CreateTask(
+  $groupHomeId: UUID!,
+  $assignedToUserId: UUID!,
+  $title: String!,
+  $description: String!,
+  $dueDate: Timestamp!,
+  $type: String!,
+  $createdAt: Timestamp!
+) @auth(level: USER) {
+  task_insert(data: {
+    groupHomeId: $groupHomeId,
+    assignedToUserId: $assignedToUserId,
+    title: $title,
+    description: $description,
+    dueDate: $dueDate,
+    type: $type,
+    status: "pending",
+    createdAt: $createdAt
+  })
+}
+
+# Ensure User exists
+mutation UpsertUser(
+  $id: UUID!,
+  $displayName: String!,
+  $email: String!,
+  $role: String!,
+  $createdAt: Timestamp!,
+  $photoUrl: String
+) @auth(level: USER) {
+  user_upsert(data: {
+    id: $id,
+    displayName: $displayName,
+    email: $email,
+    role: $role,
+    createdAt: $createdAt,
+    photoUrl: $photoUrl
+  })
+}
+
+# Ensure GroupHome exists
+mutation UpsertGroupHome(
+  $id: UUID!,
+  $name: String!,
+  $adminUserId: UUID!,
+  $createdAt: Timestamp!,
+  $address: String,
+  $description: String
+) @auth(level: USER) {
+  groupHome_upsert(data: {
+    id: $id,
+    name: $name,
+    adminUserId: $adminUserId,
+    createdAt: $createdAt,
+    address: $address,
+    description: $description
+  })
+}
+
+# Link User to GroupHome
+mutation UpdateUserGroupHome(
+  $id: UUID!,
+  $groupHomeId: UUID!
+) @auth(level: USER) {
+  user_update(key: { id: $id }, data: { groupHomeId: $groupHomeId })
+}
+
+query GetTasks @auth(level: USER) {
+  tasks {
+    id
+    title
+    description
+    status
+    type
+    dueDate
+    createdAt
+  }
+}
+
+mutation UpdateTask($id: UUID!, $title: String, $description: String, $status: String) @auth(level: USER) {
+  task_update(key: {id: $id}, data: {
+    title: $title,
+    description: $description,
+    status: $status
+  })
+}
+
+mutation DeleteTask($id: UUID!) @auth(level: USER) {
+  task_delete(key: {id: $id})
+}

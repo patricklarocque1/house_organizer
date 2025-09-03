@@ -1,0 +1,37 @@
+{
+  "firestore": {
+    "database": "(default)",
+    "location": "northamerica-northeast1",
+    "rules": "firestore.rules",
+    "indexes": "firestore.indexes.json"
+  },
+  "dataconnect": [
+    {
+      "source": "dataconnect",
+      "serviceId": "app"
+    }
+  ],
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "house-organizer-75193",
+          "appId": "1:996807597018:android:181a6362238e37ca31bee3",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "house-organizer-75193",
+          "configurations": {
+            "android": "1:996807597018:android:181a6362238e37ca31bee3",
+            "ios": "1:996807597018:ios:5f370a1ead87346631bee3",
+            "macos": "1:996807597018:ios:5f370a1ead87346631bee3",
+            "web": "1:996807597018:web:845e7d94389fd0f731bee3",
+            "windows": "1:996807597018:web:a3ba5d6e94780d7331bee3"
+          }
+        }
+      }
+    }
+  }
+}
