@@ -1,0 +1,65 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive_ce/hive.dart';
+
+part 'audit_log.freezed.dart';
+part 'audit_log.g.dart';
+
+@freezed
+@HiveType(typeId: 6, adapterName: 'AuditLogAdapter')
+abstract class AuditLog with _$AuditLog {
+  const factory AuditLog({
+    @HiveField(0) required String id,
+    @HiveField(1) required String userId,
+    @HiveField(2) required String houseId,
+    @HiveField(3) required AuditAction action,
+    @HiveField(4) required String targetType,
+    @HiveField(5) required String targetId,
+    @HiveField(6) required DateTime timestamp,
+    @HiveField(7) Map<String, dynamic>? metadata,
+    @HiveField(8) String? description,
+    @HiveField(9) String? userDisplayName,
+  }) = _AuditLog;
+
+  factory AuditLog.fromJson(Map<String, dynamic> json) =>
+      _$AuditLogFromJson(json);
+}
+
+enum AuditAction {
+  create,
+  update,
+  delete,
+  complete,
+  assign,
+  unassign,
+  login,
+  logout,
+  joinHouse,
+  leaveHouse,
+}
+
+extension AuditActionExtension on AuditAction {
+  String get displayName {
+    switch (this) {
+      case AuditAction.create:
+        return 'Created';
+      case AuditAction.update:
+        return 'Updated';
+      case AuditAction.delete:
+        return 'Deleted';
+      case AuditAction.complete:
+        return 'Completed';
+      case AuditAction.assign:
+        return 'Assigned';
+      case AuditAction.unassign:
+        return 'Unassigned';
+      case AuditAction.login:
+        return 'Logged In';
+      case AuditAction.logout:
+        return 'Logged Out';
+      case AuditAction.joinHouse:
+        return 'Joined House';
+      case AuditAction.leaveHouse:
+        return 'Left House';
+    }
+  }
+}

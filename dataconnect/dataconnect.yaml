@@ -1,0 +1,16 @@
+specVersion: "v1"
+serviceId: "app"
+location: "us-central1"
+schema:
+  # This file bridges to the real schema under the Flutter app folder.
+  # Keep paths relative to this file.
+  source: "../house_organizer/dataconnect/schema"
+  datasource:
+    postgresql:
+      database: "fdcdb"
+      cloudSql:
+        instanceId: "app-fdc"
+        # schemaValidation: "STRICT"
+        # schemaValidation: "COMPATIBLE"
+connectorDirs: ["../house_organizer/dataconnect/example"]
+

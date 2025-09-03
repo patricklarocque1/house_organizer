@@ -1,0 +1,60 @@
+name: Flutter CI
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+          cache: true
+
+      - name: Flutter pub get
+        working-directory: house_organizer
+        run: flutter pub get
+
+      - name: Analyze
+        working-directory: house_organizer
+        run: flutter analyze
+
+      - name: Run tests
+        working-directory: house_organizer
+        run: flutter test --no-pub
+
+      - name: Build Android debug APK
+        working-directory: house_organizer
+        run: flutter build apk --debug --no-pub
+
+      - name: Build Android release AAB
+        working-directory: house_organizer
+        run: flutter build appbundle --no-pub
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-debug-apk
+          path: house_organizer/build/app/outputs/flutter-apk/app-debug.apk
+
+      - name: Upload AAB artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release-aab
+          path: house_organizer/build/app/outputs/bundle/release/app-release.aab
+

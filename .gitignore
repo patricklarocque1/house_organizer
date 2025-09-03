@@ -1,0 +1,6 @@
+
+house_organizer/android/key.properties
+
+**/*.jks
+
+**/*.keystore

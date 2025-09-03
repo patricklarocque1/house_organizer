@@ -1,0 +1,15 @@
+default_platform(:android)
+
+platform :android do
+  desc "Build release AAB"
+  lane :build do
+    gradle(task: "bundle", build_type: "Release")
+  end
+
+  desc "Upload to Play (internal)"
+  lane :deploy_internal do
+    # Requires service account JSON configured via FASTLANE_JSON_KEY env var
+    upload_to_play_store(track: 'internal', aab: '../build/app/outputs/bundle/release/app-release.aab')
+  end
+end
+
