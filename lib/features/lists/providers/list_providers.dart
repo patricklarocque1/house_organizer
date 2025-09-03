@@ -9,33 +9,40 @@ final listRepositoryProvider = Provider<ListRepository>((ref) {
 });
 
 // Lists for house provider
-final listsForHouseProvider = StreamProvider.family<List<ListModel>, String>((ref, houseId) {
+final listsForHouseProvider = StreamProvider.family<List<ListModel>, String>((
+  ref,
+  houseId,
+) {
   final listRepository = ref.watch(listRepositoryProvider);
   return listRepository.getListsForHouse(houseId);
 });
 
 // Lists by type provider
-final listsByTypeProvider = StreamProvider.family<List<ListModel>, ListTypeFilter>((ref, filter) {
-  final listRepository = ref.watch(listRepositoryProvider);
-  final authState = ref.watch(authNotifierProvider);
+final listsByTypeProvider =
+    StreamProvider.family<List<ListModel>, ListTypeFilter>((ref, filter) {
+      final listRepository = ref.watch(listRepositoryProvider);
+      final authState = ref.watch(authNotifierProvider);
 
-  return authState.when(
-    data: (user) {
-      if (user == null) return Stream.value([]);
+      return authState.when(
+        data: (user) {
+          if (user == null) return Stream.value([]);
 
-      if (filter.type != null) {
-        return listRepository.getListsByType(user.houseId, filter.type!);
-      } else {
-        return listRepository.getListsForHouse(user.houseId);
-      }
-    },
-    loading: () => Stream.value([]),
-    error: (_, __) => Stream.value([]),
-  );
-});
+          if (filter.type != null) {
+            return listRepository.getListsByType(user.houseId, filter.type!);
+          } else {
+            return listRepository.getListsForHouse(user.houseId);
+          }
+        },
+        loading: () => Stream.value([]),
+        error: (_, __) => Stream.value([]),
+      );
+    });
 
 // List statistics provider
-final listStatisticsProvider = FutureProvider.family<Map<String, int>, String>((ref, houseId) {
+final listStatisticsProvider = FutureProvider.family<Map<String, int>, String>((
+  ref,
+  houseId,
+) {
   final listRepository = ref.watch(listRepositoryProvider);
   return listRepository.getListStatistics(houseId);
 });
@@ -46,7 +53,7 @@ class ListNotifier extends StateNotifier<AsyncValue<void>> {
   final Ref _ref;
 
   ListNotifier(this._listRepository, this._ref)
-      : super(const AsyncValue.data(null));
+    : super(const AsyncValue.data(null));
 
   Future<void> createList({
     required String name,
@@ -159,7 +166,12 @@ class ListNotifier extends StateNotifier<AsyncValue<void>> {
         throw Exception('User not authenticated');
       }
 
-      await _listRepository.removeItemFromList(listId, itemId, user.houseId, user.id);
+      await _listRepository.removeItemFromList(
+        listId,
+        itemId,
+        user.houseId,
+        user.id,
+      );
       state = const AsyncValue.data(null);
     } catch (e) {
       state = AsyncValue.error(e, StackTrace.current);
@@ -186,10 +198,11 @@ class ListNotifier extends StateNotifier<AsyncValue<void>> {
 }
 
 // List notifier provider
-final listNotifierProvider = StateNotifierProvider<ListNotifier, AsyncValue<void>>((ref) {
-  final listRepository = ref.watch(listRepositoryProvider);
-  return ListNotifier(listRepository, ref);
-});
+final listNotifierProvider =
+    StateNotifierProvider<ListNotifier, AsyncValue<void>>((ref) {
+      final listRepository = ref.watch(listRepositoryProvider);
+      return ListNotifier(listRepository, ref);
+    });
 
 // List type filter class
 class ListTypeFilter {
@@ -198,10 +211,7 @@ class ListTypeFilter {
 
   const ListTypeFilter({this.type, this.isCompleted});
 
-  ListTypeFilter copyWith({
-    ListType? type,
-    bool? isCompleted,
-  }) {
+  ListTypeFilter copyWith({ListType? type, bool? isCompleted}) {
     return ListTypeFilter(
       type: type ?? this.type,
       isCompleted: isCompleted ?? this.isCompleted,

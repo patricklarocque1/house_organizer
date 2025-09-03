@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_organizer/data/models/list_model.dart';
-import 'package:house_organizer/features/lists/providers/list_providers.dart';
 import 'package:house_organizer/features/lists/widgets/list_item_card.dart';
 import 'package:house_organizer/features/lists/widgets/add_item_dialog.dart';
-import 'package:uuid/uuid.dart';
 
 class ListDetailScreen extends ConsumerStatefulWidget {
   final String listId;
 
-  const ListDetailScreen({
-    super.key,
-    required this.listId,
-  });
+  const ListDetailScreen({super.key, required this.listId});
 
   @override
   ConsumerState<ListDetailScreen> createState() => _ListDetailScreenState();
@@ -54,9 +49,7 @@ class _ListDetailScreenState extends ConsumerState<ListDetailScreen> {
             ),
           ),
           // List content
-          Expanded(
-            child: _buildListContent(),
-          ),
+          Expanded(child: _buildListContent()),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -90,9 +83,9 @@ class _ListDetailScreenState extends ConsumerState<ListDetailScreen> {
                 const SizedBox(height: 8),
                 Text(
                   snapshot.error.toString(),
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.grey,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
                   textAlign: TextAlign.center,
                 ),
               ],
@@ -102,9 +95,7 @@ class _ListDetailScreenState extends ConsumerState<ListDetailScreen> {
 
         final list = snapshot.data;
         if (list == null) {
-          return const Center(
-            child: Text('List not found'),
-          );
+          return const Center(child: Text('List not found'));
         }
 
         return _buildListItems(list);
@@ -117,40 +108,41 @@ class _ListDetailScreenState extends ConsumerState<ListDetailScreen> {
     final filteredItems = _searchQuery.isEmpty
         ? list.items
         : list.items
-            .where(
-              (item) =>
-                  item.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-                  (item.notes?.toLowerCase().contains(_searchQuery.toLowerCase()) ?? false),
-            )
-            .toList();
+              .where(
+                (item) =>
+                    item.name.toLowerCase().contains(
+                      _searchQuery.toLowerCase(),
+                    ) ||
+                    (item.notes?.toLowerCase().contains(
+                          _searchQuery.toLowerCase(),
+                        ) ??
+                        false),
+              )
+              .toList();
 
     if (filteredItems.isEmpty) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.list_alt,
-              size: 64,
-              color: Colors.grey,
-            ),
+            Icon(Icons.list_alt, size: 64, color: Colors.grey),
             const SizedBox(height: 16),
             Text(
               _searchQuery.isNotEmpty
                   ? 'No items found'
                   : 'No items in this list',
-              style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Colors.grey,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.titleLarge?.copyWith(color: Colors.grey),
             ),
             const SizedBox(height: 8),
             Text(
               _searchQuery.isNotEmpty
                   ? 'Try adjusting your search terms'
                   : 'Add items to get started',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.grey,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
             ),
           ],
         ),
@@ -216,9 +208,9 @@ class _ListDetailScreenState extends ConsumerState<ListDetailScreen> {
       builder: (context) => AddItemDialog(
         onAddItem: (item) {
           // In real implementation, this would call the repository
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Added ${item.name} to list')),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text('Added ${item.name} to list')));
         },
       ),
     );
@@ -272,9 +264,9 @@ class _ListDetailScreenState extends ConsumerState<ListDetailScreen> {
             onPressed: () {
               Navigator.of(context).pop();
               // In real implementation, this would call the repository
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Deleted ${item.name}')),
-              );
+              ScaffoldMessenger.of(
+                context,
+              ).showSnackBar(SnackBar(content: Text('Deleted ${item.name}')));
             },
             style: TextButton.styleFrom(foregroundColor: Colors.red),
             child: const Text('Delete'),

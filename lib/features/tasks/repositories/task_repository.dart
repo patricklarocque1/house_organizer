@@ -1,5 +1,6 @@
 import 'package:house_organizer/core/services/firebase_service.dart';
 import 'package:house_organizer/core/services/hive_service.dart';
+import 'package:house_organizer/core/services/notification_service.dart';
 import 'package:house_organizer/data/models/task.dart';
 import 'package:house_organizer/data/models/audit_log.dart';
 import 'package:house_organizer/core/constants/app_constants.dart';
@@ -8,6 +9,7 @@ import 'package:uuid/uuid.dart';
 class TaskRepository {
   final FirebaseService _firebaseService = FirebaseService.instance;
   final HiveService _hiveService = HiveService.instance;
+  final NotificationService _notificationService = NotificationService();
   final Uuid _uuid = const Uuid();
 
   // Get tasks for a specific house
@@ -132,6 +134,14 @@ class TaskRepository {
         description: 'Created task: ${task.title}',
       );
 
+      // Schedule notifications if task is assigned and has due date
+      if (assignedTo != null) {
+        await _notificationService.notifyTaskAssignment(task);
+        if (dueDate != null) {
+          await _notificationService.scheduleTaskReminder(task);
+        }
+      }
+
       return task;
     } catch (e) {
       throw Exception('Failed to create task: ${e.toString()}');
@@ -162,6 +172,9 @@ class TaskRepository {
         targetId: task.id,
         description: 'Updated task: ${task.title}',
       );
+
+      // Notify about task update
+      await _notificationService.notifyTaskUpdate(updatedTask);
 
       return updatedTask;
     } catch (e) {
@@ -199,6 +212,9 @@ class TaskRepository {
         description: 'Completed task: ${task.title}',
       );
 
+      // Cancel existing reminders for this task
+      await _notificationService.cancelTaskReminders(task.id);
+
       // Handle repeating tasks
       if (task.repeatInterval != RepeatInterval.none) {
         await _createRepeatingTask(task);
@@ -225,6 +241,9 @@ class TaskRepository {
 
       // Delete from local cache
       await _hiveService.tasksBox.delete(taskId);
+
+      // Cancel any scheduled notifications for this task
+      await _notificationService.cancelTaskReminders(taskId);
 
       // Create audit log
       await _createAuditLog(
@@ -272,6 +291,14 @@ class TaskRepository {
         description: 'Assigned task "${task.title}" to user',
         metadata: {'assignedTo': assignedTo},
       );
+
+      // Notify the assigned user
+      await _notificationService.notifyTaskAssignment(assignedTask);
+
+      // Schedule reminders if task has due date
+      if (assignedTask.dueDate != null) {
+        await _notificationService.scheduleTaskReminder(assignedTask);
+      }
 
       return assignedTask;
     } catch (e) {

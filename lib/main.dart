@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_organizer/core/services/hive_service.dart';
 import 'package:house_organizer/core/services/firebase_service.dart';
+import 'package:house_organizer/core/services/notification_service.dart';
 import 'package:house_organizer/core/constants/app_constants.dart';
 import 'package:house_organizer/features/auth/providers/auth_providers.dart';
 import 'package:house_organizer/features/auth/screens/login_screen.dart';
 import 'package:house_organizer/features/dashboard/screens/home_screen.dart';
+import 'package:house_organizer/features/notifications/widgets/notification_banner.dart';
 import 'package:house_organizer/data/models/user.dart';
 
 void main() async {
@@ -14,6 +16,7 @@ void main() async {
   // Initialize services
   await HiveService.instance.initialize();
   await FirebaseService.instance.initialize();
+  await NotificationService().initialize();
 
   runApp(const ProviderScope(child: HouseOrganizerApp()));
 }
@@ -53,7 +56,7 @@ class HouseOrganizerApp extends StatelessWidget {
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const SplashScreen(),
+      home: const NotificationBanner(child: SplashScreen()),
       debugShowCheckedModeBanner: false,
     );
   }

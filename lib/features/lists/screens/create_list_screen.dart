@@ -34,12 +34,7 @@ class _CreateListScreenState extends ConsumerState<CreateListScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Create List'),
-        actions: [
-          TextButton(
-            onPressed: _saveList,
-            child: const Text('Save'),
-          ),
-        ],
+        actions: [TextButton(onPressed: _saveList, child: const Text('Save'))],
       ),
       body: Consumer(
         builder: (context, ref, child) {
@@ -48,7 +43,9 @@ class _CreateListScreenState extends ConsumerState<CreateListScreen> {
           return authState.when(
             data: (user) {
               if (user == null) {
-                return const Center(child: Text('Please sign in to create lists'));
+                return const Center(
+                  child: Text('Please sign in to create lists'),
+                );
               }
 
               return _buildForm();
@@ -197,7 +194,9 @@ class _CreateListScreenState extends ConsumerState<CreateListScreen> {
     }
 
     try {
-      await ref.read(listNotifierProvider.notifier).createList(
+      await ref
+          .read(listNotifierProvider.notifier)
+          .createList(
             name: _nameController.text.trim(),
             type: _selectedType,
             description: _descriptionController.text.trim().isEmpty
@@ -218,9 +217,9 @@ class _CreateListScreenState extends ConsumerState<CreateListScreen> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error creating list: $e')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(SnackBar(content: Text('Error creating list: $e')));
       }
     }
   }

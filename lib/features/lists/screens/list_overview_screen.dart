@@ -99,11 +99,11 @@ class _ListOverviewScreenState extends ConsumerState<ListOverviewScreen>
 
   Widget _buildListTab(ListType? type) {
     final filter = _currentFilter.copyWith(type: type);
-    
+
     return Consumer(
       builder: (context, ref, child) {
         final authState = ref.watch(authNotifierProvider);
-        
+
         return authState.when(
           data: (user) {
             if (user == null) {
@@ -129,40 +129,41 @@ class _ListOverviewScreenState extends ConsumerState<ListOverviewScreen>
         final filteredLists = _searchQuery.isEmpty
             ? lists
             : lists
-                .where(
-                  (list) =>
-                      list.name.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-                      (list.description?.toLowerCase().contains(_searchQuery.toLowerCase()) ?? false),
-                )
-                .toList();
+                  .where(
+                    (list) =>
+                        list.name.toLowerCase().contains(
+                          _searchQuery.toLowerCase(),
+                        ) ||
+                        (list.description?.toLowerCase().contains(
+                              _searchQuery.toLowerCase(),
+                            ) ??
+                            false),
+                  )
+                  .toList();
 
         if (filteredLists.isEmpty) {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Icon(
-                  Icons.list_alt,
-                  size: 64,
-                  color: Colors.grey,
-                ),
+                Icon(Icons.list_alt, size: 64, color: Colors.grey),
                 const SizedBox(height: 16),
                 Text(
                   _searchQuery.isNotEmpty
                       ? 'No lists found'
                       : 'No ${filter.type?.displayName.toLowerCase() ?? ''} lists',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: Colors.grey,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(color: Colors.grey),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   _searchQuery.isNotEmpty
                       ? 'Try adjusting your search terms'
                       : 'Create your first list to get started',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.grey,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
                 ),
               ],
             ),
@@ -208,9 +209,9 @@ class _ListOverviewScreenState extends ConsumerState<ListOverviewScreen>
             const SizedBox(height: 8),
             Text(
               error.toString(),
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.grey,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: 16),
@@ -266,8 +267,8 @@ class _ListOverviewScreenState extends ConsumerState<ListOverviewScreen>
 
   void _completeList(ListModel list) {
     ref.read(listNotifierProvider.notifier).completeList(list.id);
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('${list.name} marked as completed')),
-    );
+    ScaffoldMessenger.of(
+      context,
+    ).showSnackBar(SnackBar(content: Text('${list.name} marked as completed')));
   }
 }

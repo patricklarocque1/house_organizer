@@ -1,10 +1,11 @@
-import 'package:hive_flutter/hive_flutter.dart';
+import 'package:hive_ce_flutter/hive_flutter.dart';
 import 'package:house_organizer/data/models/user.dart';
 import 'package:house_organizer/data/models/house.dart';
 import 'package:house_organizer/data/models/task.dart';
 import 'package:house_organizer/data/models/list_model.dart';
 import 'package:house_organizer/data/models/audit_log.dart';
 import 'package:house_organizer/core/constants/app_constants.dart';
+import 'hive_registrar.g.dart';
 
 class HiveService {
   static HiveService? _instance;
@@ -19,19 +20,8 @@ class HiveService {
 
     await Hive.initFlutter();
 
-    // Register adapters
-    Hive.registerAdapter(UserAdapter());
-    Hive.registerAdapter(UserRoleAdapter());
-    Hive.registerAdapter(HouseAdapter());
-    Hive.registerAdapter(TaskAdapter());
-    Hive.registerAdapter(TaskStatusAdapter());
-    Hive.registerAdapter(TaskCategoryAdapter());
-    Hive.registerAdapter(RepeatIntervalAdapter());
-    Hive.registerAdapter(ListModelAdapter());
-    Hive.registerAdapter(ListItemAdapter());
-    Hive.registerAdapter(ListTypeAdapter());
-    Hive.registerAdapter(AuditLogAdapter());
-    Hive.registerAdapter(AuditActionAdapter());
+    // Register all adapters using Hive CE registrar
+    Hive.registerAdapters();
 
     // Open boxes
     await Future.wait([
@@ -75,9 +65,7 @@ class HiveService {
   }
 
   Future<List<ListModel>> getListsForHouse(String houseId) async {
-    return listsBox.values
-        .where((list) => list.houseId == houseId)
-        .toList();
+    return listsBox.values.where((list) => list.houseId == houseId).toList();
   }
 
   Future<void> deleteList(String listId) async {

@@ -1,5 +1,6 @@
 import 'package:house_organizer/core/services/firebase_service.dart';
 import 'package:house_organizer/core/services/hive_service.dart';
+import 'package:house_organizer/core/services/notification_service.dart';
 import 'package:house_organizer/data/models/list_model.dart';
 import 'package:house_organizer/data/models/audit_log.dart';
 import 'package:uuid/uuid.dart';
@@ -7,6 +8,7 @@ import 'package:uuid/uuid.dart';
 class ListRepository {
   final FirebaseService _firebaseService = FirebaseService.instance;
   final HiveService _hiveService = HiveService.instance;
+  final NotificationService _notificationService = NotificationService();
   final Uuid _uuid = const Uuid();
 
   // Create a new list
@@ -39,11 +41,7 @@ class ListRepository {
       );
 
       // Save to Firestore
-      await _firebaseService.setDocument(
-        'lists',
-        listId,
-        list.toJson(),
-      );
+      await _firebaseService.setDocument('lists', listId, list.toJson());
 
       // Save to local storage
       await _hiveService.saveList(list);
@@ -56,6 +54,11 @@ class ListRepository {
         targetId: listId,
         details: {'listName': name, 'listType': type.name},
       );
+
+      // Notify assigned user if list is assigned
+      if (assignedTo != null) {
+        await _notificationService.notifyListAssignment(list);
+      }
 
       return list;
     } catch (e) {
@@ -74,7 +77,9 @@ class ListRepository {
         )
         .map(
           (snapshot) => snapshot.docs
-              .map((doc) => ListModel.fromJson(doc.data() as Map<String, dynamic>))
+              .map(
+                (doc) => ListModel.fromJson(doc.data() as Map<String, dynamic>),
+              )
               .toList(),
         );
   }
@@ -91,7 +96,9 @@ class ListRepository {
         )
         .map(
           (snapshot) => snapshot.docs
-              .map((doc) => ListModel.fromJson(doc.data() as Map<String, dynamic>))
+              .map(
+                (doc) => ListModel.fromJson(doc.data() as Map<String, dynamic>),
+              )
               .toList(),
         );
   }
@@ -132,6 +139,9 @@ class ListRepository {
         targetId: list.id,
         details: {'listName': list.name},
       );
+
+      // Notify about list update
+      await _notificationService.notifyListUpdate(updatedList);
 
       return updatedList;
     } catch (e) {
@@ -249,7 +259,9 @@ class ListRepository {
         throw Exception('List not found');
       }
 
-      final updatedItems = list.items.where((item) => item.id != itemId).toList();
+      final updatedItems = list.items
+          .where((item) => item.id != itemId)
+          .toList();
       final updatedList = list.copyWith(
         items: updatedItems,
         updatedAt: DateTime.now(),

@@ -22,7 +22,9 @@ class ListItemCard extends StatelessWidget {
       child: ListTile(
         leading: Checkbox(
           value: item.isPurchased,
-          onChanged: onTogglePurchased != null ? (_) => onTogglePurchased!() : null,
+          onChanged: onTogglePurchased != null
+              ? (_) => onTogglePurchased!()
+              : null,
         ),
         title: Text(
           item.name,
@@ -40,39 +42,36 @@ class ListItemCard extends StatelessWidget {
               Text(
                 'Quantity: ${item.quantity}',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withValues(alpha: 0.6),
-                    ),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.6),
+                ),
               ),
             if (item.category != null)
               Text(
                 'Category: ${item.category}',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withValues(alpha: 0.6),
-                    ),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.6),
+                ),
               ),
             if (item.notes != null && item.notes!.isNotEmpty)
               Text(
                 item.notes!,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context)
-                          .colorScheme
-                          .onSurface
-                          .withValues(alpha: 0.6),
-                    ),
+                  color: Theme.of(
+                    context,
+                  ).colorScheme.onSurface.withValues(alpha: 0.6),
+                ),
               ),
             if (item.estimatedPrice != null)
               Text(
                 '\$${item.estimatedPrice!.toStringAsFixed(2)}',
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.green,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  color: Colors.green,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
           ],
         ),

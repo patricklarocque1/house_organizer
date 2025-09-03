@@ -5,6 +5,7 @@ import 'package:house_organizer/features/tasks/providers/task_providers.dart';
 import 'package:house_organizer/features/tasks/screens/task_list_screen.dart';
 import 'package:house_organizer/features/lists/screens/list_overview_screen.dart';
 import 'package:house_organizer/features/lists/providers/list_providers.dart';
+import 'package:house_organizer/features/notifications/screens/notification_settings_screen.dart';
 import 'package:house_organizer/features/dashboard/widgets/task_summary_card.dart';
 import 'package:house_organizer/features/dashboard/widgets/quick_actions_card.dart';
 import 'package:house_organizer/features/dashboard/widgets/list_summary_card.dart';
@@ -34,7 +35,11 @@ class HomeScreen extends ConsumerWidget {
                   // TODO: Implement profile screen
                   break;
                 case 'settings':
-                  // TODO: Implement settings screen
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const NotificationSettingsScreen(),
+                    ),
+                  );
                   break;
                 case 'logout':
                   ref.read(authNotifierProvider.notifier).signOut();
@@ -135,7 +140,9 @@ class HomeScreen extends ConsumerWidget {
                 authState.when(
                   data: (user) {
                     if (user == null) return const SizedBox.shrink();
-                    final listStats = ref.watch(listStatisticsProvider(user.houseId));
+                    final listStats = ref.watch(
+                      listStatisticsProvider(user.houseId),
+                    );
                     return listStats.when(
                       data: (stats) => ListSummaryCard(stats: stats),
                       loading: () => const Card(

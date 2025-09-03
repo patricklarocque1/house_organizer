@@ -6,11 +6,7 @@ class AddItemDialog extends StatefulWidget {
   final ListItem? initialItem;
   final Function(ListItem) onAddItem;
 
-  const AddItemDialog({
-    super.key,
-    this.initialItem,
-    required this.onAddItem,
-  });
+  const AddItemDialog({super.key, this.initialItem, required this.onAddItem});
 
   @override
   State<AddItemDialog> createState() => _AddItemDialogState();
@@ -30,7 +26,7 @@ class _AddItemDialogState extends State<AddItemDialog> {
   void initState() {
     super.initState();
     _isEditMode = widget.initialItem != null;
-    
+
     if (_isEditMode) {
       final item = widget.initialItem!;
       _nameController.text = item.name;
@@ -177,8 +173,12 @@ class _AddItemDialogState extends State<AddItemDialog> {
       name: _nameController.text.trim(),
       quantity: quantity,
       isPurchased: _isEditMode ? widget.initialItem!.isPurchased : false,
-      notes: _notesController.text.trim().isEmpty ? null : _notesController.text.trim(),
-      category: _categoryController.text.trim().isEmpty ? null : _categoryController.text.trim(),
+      notes: _notesController.text.trim().isEmpty
+          ? null
+          : _notesController.text.trim(),
+      category: _categoryController.text.trim().isEmpty
+          ? null
+          : _categoryController.text.trim(),
       estimatedPrice: price,
       purchasedAt: _isEditMode ? widget.initialItem!.purchasedAt : null,
       purchasedBy: _isEditMode ? widget.initialItem!.purchasedBy : null,
