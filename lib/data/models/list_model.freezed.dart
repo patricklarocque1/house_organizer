@@ -46,6 +46,8 @@ mixin _$ListModel {
   DateTime? get completedAt => throw _privateConstructorUsedError;
   @HiveField(12)
   String? get completedBy => throw _privateConstructorUsedError;
+  @HiveField(13)
+  DateTime? get dueDate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -71,7 +73,8 @@ abstract class $ListModelCopyWith<$Res> {
       @HiveField(9) String? description,
       @HiveField(10) bool? isCompleted,
       @HiveField(11) DateTime? completedAt,
-      @HiveField(12) String? completedBy});
+      @HiveField(12) String? completedBy,
+      @HiveField(13) DateTime? dueDate});
 }
 
 /// @nodoc
@@ -100,6 +103,7 @@ class _$ListModelCopyWithImpl<$Res, $Val extends ListModel>
     Object? isCompleted = freezed,
     Object? completedAt = freezed,
     Object? completedBy = freezed,
+    Object? dueDate = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -154,6 +158,10 @@ class _$ListModelCopyWithImpl<$Res, $Val extends ListModel>
           ? _value.completedBy
           : completedBy // ignore: cast_nullable_to_non_nullable
               as String?,
+      dueDate: freezed == dueDate
+          ? _value.dueDate
+          : dueDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -179,7 +187,8 @@ abstract class _$$ListModelImplCopyWith<$Res>
       @HiveField(9) String? description,
       @HiveField(10) bool? isCompleted,
       @HiveField(11) DateTime? completedAt,
-      @HiveField(12) String? completedBy});
+      @HiveField(12) String? completedBy,
+      @HiveField(13) DateTime? dueDate});
 }
 
 /// @nodoc
@@ -206,6 +215,7 @@ class __$$ListModelImplCopyWithImpl<$Res>
     Object? isCompleted = freezed,
     Object? completedAt = freezed,
     Object? completedBy = freezed,
+    Object? dueDate = freezed,
   }) {
     return _then(_$ListModelImpl(
       id: null == id
@@ -260,6 +270,10 @@ class __$$ListModelImplCopyWithImpl<$Res>
           ? _value.completedBy
           : completedBy // ignore: cast_nullable_to_non_nullable
               as String?,
+      dueDate: freezed == dueDate
+          ? _value.dueDate
+          : dueDate // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -280,7 +294,8 @@ class _$ListModelImpl implements _ListModel {
       @HiveField(9) this.description,
       @HiveField(10) this.isCompleted,
       @HiveField(11) this.completedAt,
-      @HiveField(12) this.completedBy})
+      @HiveField(12) this.completedBy,
+      @HiveField(13) this.dueDate})
       : _items = items;
 
   factory _$ListModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -331,10 +346,13 @@ class _$ListModelImpl implements _ListModel {
   @override
   @HiveField(12)
   final String? completedBy;
+  @override
+  @HiveField(13)
+  final DateTime? dueDate;
 
   @override
   String toString() {
-    return 'ListModel(id: $id, name: $name, type: $type, houseId: $houseId, createdBy: $createdBy, createdAt: $createdAt, updatedAt: $updatedAt, items: $items, assignedTo: $assignedTo, description: $description, isCompleted: $isCompleted, completedAt: $completedAt, completedBy: $completedBy)';
+    return 'ListModel(id: $id, name: $name, type: $type, houseId: $houseId, createdBy: $createdBy, createdAt: $createdAt, updatedAt: $updatedAt, items: $items, assignedTo: $assignedTo, description: $description, isCompleted: $isCompleted, completedAt: $completedAt, completedBy: $completedBy, dueDate: $dueDate)';
   }
 
   @override
@@ -362,7 +380,8 @@ class _$ListModelImpl implements _ListModel {
             (identical(other.completedAt, completedAt) ||
                 other.completedAt == completedAt) &&
             (identical(other.completedBy, completedBy) ||
-                other.completedBy == completedBy));
+                other.completedBy == completedBy) &&
+            (identical(other.dueDate, dueDate) || other.dueDate == dueDate));
   }
 
   @JsonKey(ignore: true)
@@ -381,7 +400,8 @@ class _$ListModelImpl implements _ListModel {
       description,
       isCompleted,
       completedAt,
-      completedBy);
+      completedBy,
+      dueDate);
 
   @JsonKey(ignore: true)
   @override
@@ -411,7 +431,8 @@ abstract class _ListModel implements ListModel {
       @HiveField(9) final String? description,
       @HiveField(10) final bool? isCompleted,
       @HiveField(11) final DateTime? completedAt,
-      @HiveField(12) final String? completedBy}) = _$ListModelImpl;
+      @HiveField(12) final String? completedBy,
+      @HiveField(13) final DateTime? dueDate}) = _$ListModelImpl;
 
   factory _ListModel.fromJson(Map<String, dynamic> json) =
       _$ListModelImpl.fromJson;
@@ -455,6 +476,9 @@ abstract class _ListModel implements ListModel {
   @override
   @HiveField(12)
   String? get completedBy;
+  @override
+  @HiveField(13)
+  DateTime? get dueDate;
   @override
   @JsonKey(ignore: true)
   _$$ListModelImplCopyWith<_$ListModelImpl> get copyWith =>

@@ -154,5 +154,3 @@ class _SplashScreenContentState extends State<_SplashScreenContent> {
     );
   }
 }
-
-

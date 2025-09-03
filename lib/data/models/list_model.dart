@@ -21,6 +21,7 @@ class ListModel with _$ListModel {
     @HiveField(10) bool? isCompleted,
     @HiveField(11) DateTime? completedAt,
     @HiveField(12) String? completedBy,
+    @HiveField(13) DateTime? dueDate,
   }) = _ListModel;
 
   factory ListModel.fromJson(Map<String, dynamic> json) =>

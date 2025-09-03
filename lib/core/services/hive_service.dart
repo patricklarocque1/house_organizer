@@ -65,6 +65,25 @@ class HiveService {
     ]);
   }
 
+  // List methods
+  Future<void> saveList(ListModel list) async {
+    await listsBox.put(list.id, list);
+  }
+
+  Future<ListModel?> getList(String listId) async {
+    return listsBox.get(listId);
+  }
+
+  Future<List<ListModel>> getListsForHouse(String houseId) async {
+    return listsBox.values
+        .where((list) => list.houseId == houseId)
+        .toList();
+  }
+
+  Future<void> deleteList(String listId) async {
+    await listsBox.delete(listId);
+  }
+
   Future<void> close() async {
     await Hive.close();
     _isInitialized = false;

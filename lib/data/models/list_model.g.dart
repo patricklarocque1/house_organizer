@@ -30,13 +30,14 @@ class ListModelAdapter extends TypeAdapter<ListModel> {
       isCompleted: fields[10] as bool?,
       completedAt: fields[11] as DateTime?,
       completedBy: fields[12] as String?,
+      dueDate: fields[13] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, ListModel obj) {
     writer
-      ..writeByte(13)
+      ..writeByte(14)
       ..writeByte(0)
       ..write(obj.id)
       ..writeByte(1)
@@ -62,7 +63,9 @@ class ListModelAdapter extends TypeAdapter<ListModel> {
       ..writeByte(11)
       ..write(obj.completedAt)
       ..writeByte(12)
-      ..write(obj.completedBy);
+      ..write(obj.completedBy)
+      ..writeByte(13)
+      ..write(obj.dueDate);
   }
 
   @override
@@ -201,6 +204,9 @@ _$ListModelImpl _$$ListModelImplFromJson(Map<String, dynamic> json) =>
           ? null
           : DateTime.parse(json['completedAt'] as String),
       completedBy: json['completedBy'] as String?,
+      dueDate: json['dueDate'] == null
+          ? null
+          : DateTime.parse(json['dueDate'] as String),
     );
 
 Map<String, dynamic> _$$ListModelImplToJson(_$ListModelImpl instance) =>
@@ -218,6 +224,7 @@ Map<String, dynamic> _$$ListModelImplToJson(_$ListModelImpl instance) =>
       'isCompleted': instance.isCompleted,
       'completedAt': instance.completedAt?.toIso8601String(),
       'completedBy': instance.completedBy,
+      'dueDate': instance.dueDate?.toIso8601String(),
     };
 
 const _$ListTypeEnumMap = {

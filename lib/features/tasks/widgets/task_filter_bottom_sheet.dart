@@ -7,7 +7,8 @@ class TaskFilterBottomSheet extends ConsumerStatefulWidget {
   const TaskFilterBottomSheet({super.key});
 
   @override
-  ConsumerState<TaskFilterBottomSheet> createState() => _TaskFilterBottomSheetState();
+  ConsumerState<TaskFilterBottomSheet> createState() =>
+      _TaskFilterBottomSheetState();
 }
 
 class _TaskFilterBottomSheetState extends ConsumerState<TaskFilterBottomSheet> {
@@ -44,9 +45,9 @@ class _TaskFilterBottomSheetState extends ConsumerState<TaskFilterBottomSheet> {
             children: [
               Text(
                 'Filter Tasks',
-                style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.bold,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleLarge?.copyWith(fontWeight: FontWeight.bold),
               ),
               const Spacer(),
               TextButton(
@@ -66,16 +67,18 @@ class _TaskFilterBottomSheetState extends ConsumerState<TaskFilterBottomSheet> {
           // Status filter
           Text(
             'Status',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
             children: [
               _buildStatusChip(null, 'All'),
-              ...TaskStatus.values.map((status) => _buildStatusChip(status, status.displayName)),
+              ...TaskStatus.values.map(
+                (status) => _buildStatusChip(status, status.displayName),
+              ),
             ],
           ),
           const SizedBox(height: 24),
@@ -83,16 +86,19 @@ class _TaskFilterBottomSheetState extends ConsumerState<TaskFilterBottomSheet> {
           // Category filter
           Text(
             'Category',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Wrap(
             spacing: 8,
             children: [
               _buildCategoryChip(null, 'All'),
-              ...TaskCategory.values.map((category) => _buildCategoryChip(category, category.displayName)),
+              ...TaskCategory.values.map(
+                (category) =>
+                    _buildCategoryChip(category, category.displayName),
+              ),
             ],
           ),
           const SizedBox(height: 24),
@@ -100,9 +106,9 @@ class _TaskFilterBottomSheetState extends ConsumerState<TaskFilterBottomSheet> {
           // Priority filter
           Text(
             'Priority',
-            style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.bold),
           ),
           const SizedBox(height: 8),
           Wrap(

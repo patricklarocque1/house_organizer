@@ -9,7 +9,10 @@ final taskRepositoryProvider = Provider<TaskRepository>((ref) {
 });
 
 // Tasks for house provider
-final tasksForHouseProvider = StreamProvider.family<List<Task>, String>((ref, houseId) {
+final tasksForHouseProvider = StreamProvider.family<List<Task>, String>((
+  ref,
+  houseId,
+) {
   final taskRepository = ref.watch(taskRepositoryProvider);
   return taskRepository.getTasksForHouse(houseId);
 });
@@ -18,7 +21,7 @@ final tasksForHouseProvider = StreamProvider.family<List<Task>, String>((ref, ho
 final tasksForCurrentUserProvider = StreamProvider<List<Task>>((ref) {
   final taskRepository = ref.watch(taskRepositoryProvider);
   final authState = ref.watch(authNotifierProvider);
-  
+
   return authState.when(
     data: (user) {
       if (user == null) return Stream.value([]);
@@ -30,34 +33,38 @@ final tasksForCurrentUserProvider = StreamProvider<List<Task>>((ref) {
 });
 
 // Tasks by status provider
-final tasksByStatusProvider = StreamProvider.family<List<Task>, TaskStatusFilter>((ref, filter) {
-  final taskRepository = ref.watch(taskRepositoryProvider);
-  final authState = ref.watch(authNotifierProvider);
-  
-  return authState.when(
-    data: (user) {
-      if (user == null) return Stream.value([]);
-      
-      switch (filter.status) {
-        case TaskStatus.pending:
-        case TaskStatus.inProgress:
-        case TaskStatus.completed:
-        case TaskStatus.cancelled:
-          return taskRepository.getTasksByStatus(user.houseId, filter.status!);
-        case null: // All tasks
-          return taskRepository.getTasksForHouse(user.houseId);
-      }
-    },
-    loading: () => Stream.value([]),
-    error: (_, __) => Stream.value([]),
-  );
-});
+final tasksByStatusProvider =
+    StreamProvider.family<List<Task>, TaskStatusFilter>((ref, filter) {
+      final taskRepository = ref.watch(taskRepositoryProvider);
+      final authState = ref.watch(authNotifierProvider);
+
+      return authState.when(
+        data: (user) {
+          if (user == null) return Stream.value([]);
+
+          switch (filter.status) {
+            case TaskStatus.pending:
+            case TaskStatus.inProgress:
+            case TaskStatus.completed:
+            case TaskStatus.cancelled:
+              return taskRepository.getTasksByStatus(
+                user.houseId,
+                filter.status!,
+              );
+            case null: // All tasks
+              return taskRepository.getTasksForHouse(user.houseId);
+          }
+        },
+        loading: () => Stream.value([]),
+        error: (_, __) => Stream.value([]),
+      );
+    });
 
 // Overdue tasks provider
 final overdueTasksProvider = StreamProvider<List<Task>>((ref) {
   final taskRepository = ref.watch(taskRepositoryProvider);
   final authState = ref.watch(authNotifierProvider);
-  
+
   return authState.when(
     data: (user) {
       if (user == null) return Stream.value([]);
@@ -72,7 +79,7 @@ final overdueTasksProvider = StreamProvider<List<Task>>((ref) {
 final taskStatisticsProvider = FutureProvider<Map<String, int>>((ref) {
   final taskRepository = ref.watch(taskRepositoryProvider);
   final authState = ref.watch(authNotifierProvider);
-  
+
   return authState.when(
     data: (user) async {
       if (user == null) return {};
@@ -88,7 +95,8 @@ class TaskNotifier extends StateNotifier<AsyncValue<void>> {
   final TaskRepository _taskRepository;
   final Ref _ref;
 
-  TaskNotifier(this._taskRepository, this._ref) : super(const AsyncValue.data(null));
+  TaskNotifier(this._taskRepository, this._ref)
+    : super(const AsyncValue.data(null));
 
   Future<void> createTask({
     required String title,
@@ -102,11 +110,11 @@ class TaskNotifier extends StateNotifier<AsyncValue<void>> {
     String? notes,
   }) async {
     state = const AsyncValue.loading();
-    
+
     try {
       final authState = _ref.read(authNotifierProvider);
       final user = authState.value;
-      
+
       if (user == null) {
         throw Exception('User not authenticated');
       }
@@ -133,7 +141,7 @@ class TaskNotifier extends StateNotifier<AsyncValue<void>> {
 
   Future<void> updateTask(Task task) async {
     state = const AsyncValue.loading();
-    
+
     try {
       await _taskRepository.updateTask(task);
       state = const AsyncValue.data(null);
@@ -144,11 +152,11 @@ class TaskNotifier extends StateNotifier<AsyncValue<void>> {
 
   Future<void> completeTask(Task task) async {
     state = const AsyncValue.loading();
-    
+
     try {
       final authState = _ref.read(authNotifierProvider);
       final user = authState.value;
-      
+
       if (user == null) {
         throw Exception('User not authenticated');
       }
@@ -162,11 +170,11 @@ class TaskNotifier extends StateNotifier<AsyncValue<void>> {
 
   Future<void> deleteTask(String taskId) async {
     state = const AsyncValue.loading();
-    
+
     try {
       final authState = _ref.read(authNotifierProvider);
       final user = authState.value;
-      
+
       if (user == null) {
         throw Exception('User not authenticated');
       }
@@ -180,11 +188,11 @@ class TaskNotifier extends StateNotifier<AsyncValue<void>> {
 
   Future<void> assignTask(Task task, String assignedTo) async {
     state = const AsyncValue.loading();
-    
+
     try {
       final authState = _ref.read(authNotifierProvider);
       final user = authState.value;
-      
+
       if (user == null) {
         throw Exception('User not authenticated');
       }
@@ -198,10 +206,11 @@ class TaskNotifier extends StateNotifier<AsyncValue<void>> {
 }
 
 // Task notifier provider
-final taskNotifierProvider = StateNotifierProvider<TaskNotifier, AsyncValue<void>>((ref) {
-  final taskRepository = ref.watch(taskRepositoryProvider);
-  return TaskNotifier(taskRepository, ref);
-});
+final taskNotifierProvider =
+    StateNotifierProvider<TaskNotifier, AsyncValue<void>>((ref) {
+      final taskRepository = ref.watch(taskRepositoryProvider);
+      return TaskNotifier(taskRepository, ref);
+    });
 
 // Task status filter class
 class TaskStatusFilter {
@@ -209,11 +218,7 @@ class TaskStatusFilter {
   final String? category;
   final String? assignedTo;
 
-  const TaskStatusFilter({
-    this.status,
-    this.category,
-    this.assignedTo,
-  });
+  const TaskStatusFilter({this.status, this.category, this.assignedTo});
 
   TaskStatusFilter copyWith({
     TaskStatus? status,

@@ -4,8 +4,10 @@ import 'package:house_organizer/features/auth/providers/auth_providers.dart';
 import 'package:house_organizer/features/tasks/providers/task_providers.dart';
 import 'package:house_organizer/features/tasks/screens/task_list_screen.dart';
 import 'package:house_organizer/features/lists/screens/list_overview_screen.dart';
+import 'package:house_organizer/features/lists/providers/list_providers.dart';
 import 'package:house_organizer/features/dashboard/widgets/task_summary_card.dart';
 import 'package:house_organizer/features/dashboard/widgets/quick_actions_card.dart';
+import 'package:house_organizer/features/dashboard/widgets/list_summary_card.dart';
 
 class HomeScreen extends ConsumerWidget {
   const HomeScreen({super.key});
@@ -90,15 +92,17 @@ class HomeScreen extends ConsumerWidget {
                       children: [
                         Text(
                           'Welcome back, ${user.displayName}!',
-                          style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                                fontWeight: FontWeight.bold,
-                              ),
+                          style: Theme.of(context).textTheme.headlineSmall
+                              ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'Here\'s what\'s happening in your house today',
-                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
+                          style: Theme.of(context).textTheme.bodyMedium
+                              ?.copyWith(
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onSurface.withValues(alpha: 0.7),
                               ),
                         ),
                       ],
@@ -119,9 +123,39 @@ class HomeScreen extends ConsumerWidget {
                   error: (error, stack) => Card(
                     child: Padding(
                       padding: const EdgeInsets.all(16),
-                      child: Text('Error loading task statistics: ${error.toString()}'),
+                      child: Text(
+                        'Error loading task statistics: ${error.toString()}',
+                      ),
                     ),
                   ),
+                ),
+                const SizedBox(height: 16),
+
+                // List summary
+                authState.when(
+                  data: (user) {
+                    if (user == null) return const SizedBox.shrink();
+                    final listStats = ref.watch(listStatisticsProvider(user.houseId));
+                    return listStats.when(
+                      data: (stats) => ListSummaryCard(stats: stats),
+                      loading: () => const Card(
+                        child: Padding(
+                          padding: EdgeInsets.all(16),
+                          child: Center(child: CircularProgressIndicator()),
+                        ),
+                      ),
+                      error: (error, stack) => Card(
+                        child: Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            'Error loading list statistics: ${error.toString()}',
+                          ),
+                        ),
+                      ),
+                    );
+                  },
+                  loading: () => const SizedBox.shrink(),
+                  error: (_, __) => const SizedBox.shrink(),
                 ),
                 const SizedBox(height: 16),
 
@@ -136,8 +170,8 @@ class HomeScreen extends ConsumerWidget {
                     Text(
                       'Recent Tasks',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     TextButton(
                       onPressed: () {
@@ -164,8 +198,8 @@ class HomeScreen extends ConsumerWidget {
                     Text(
                       'Lists',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.bold,
-                          ),
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     TextButton(
                       onPressed: () {
@@ -188,25 +222,15 @@ class HomeScreen extends ConsumerWidget {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
-          child: Text('Error: ${error.toString()}'),
-        ),
+        error: (error, stack) =>
+            Center(child: Text('Error: ${error.toString()}')),
       ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.task_alt),
-            label: 'Tasks',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.list),
-            label: 'Lists',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.task_alt), label: 'Tasks'),
+          BottomNavigationBarItem(icon: Icon(Icons.list), label: 'Lists'),
           BottomNavigationBarItem(
             icon: Icon(Icons.dashboard),
             label: 'Dashboard',
@@ -219,9 +243,7 @@ class HomeScreen extends ConsumerWidget {
               break;
             case 1:
               Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => const TaskListScreen(),
-                ),
+                MaterialPageRoute(builder: (context) => const TaskListScreen()),
               );
               break;
             case 2:
@@ -246,18 +268,14 @@ class HomeScreen extends ConsumerWidget {
     return tasksAsync.when(
       data: (tasks) {
         final recentTasks = tasks.take(3).toList();
-        
+
         if (recentTasks.isEmpty) {
           return Card(
             child: Padding(
               padding: const EdgeInsets.all(16),
               child: Column(
                 children: [
-                  Icon(
-                    Icons.task_alt,
-                    size: 48,
-                    color: Colors.grey,
-                  ),
+                  Icon(Icons.task_alt, size: 48, color: Colors.grey),
                   const SizedBox(height: 8),
                   Text(
                     'No tasks yet',
@@ -266,9 +284,9 @@ class HomeScreen extends ConsumerWidget {
                   const SizedBox(height: 4),
                   Text(
                     'Create your first task to get started',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: Colors.grey,
-                        ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
                   ),
                 ],
               ),
@@ -277,34 +295,38 @@ class HomeScreen extends ConsumerWidget {
         }
 
         return Column(
-          children: recentTasks.map((task) => Card(
-            margin: const EdgeInsets.only(bottom: 8),
-            child: ListTile(
-              leading: CircleAvatar(
-                backgroundColor: _getStatusColor(task.status),
-                child: Icon(
-                  _getStatusIcon(task.status),
-                  color: Colors.white,
-                  size: 20,
-                ),
-              ),
-              title: Text(task.title),
-              subtitle: Text(task.category.name),
-              trailing: task.dueDate != null
-                  ? Text(
-                      _formatDate(task.dueDate!),
-                      style: Theme.of(context).textTheme.bodySmall,
-                    )
-                  : null,
-              onTap: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => const TaskListScreen(),
+          children: recentTasks
+              .map(
+                (task) => Card(
+                  margin: const EdgeInsets.only(bottom: 8),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: _getStatusColor(task.status),
+                      child: Icon(
+                        _getStatusIcon(task.status),
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                    title: Text(task.title),
+                    subtitle: Text(task.category.name),
+                    trailing: task.dueDate != null
+                        ? Text(
+                            _formatDate(task.dueDate!),
+                            style: Theme.of(context).textTheme.bodySmall,
+                          )
+                        : null,
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const TaskListScreen(),
+                        ),
+                      );
+                    },
                   ),
-                );
-              },
-            ),
-          )).toList(),
+                ),
+              )
+              .toList(),
         );
       },
       loading: () => const Card(
@@ -329,11 +351,7 @@ class HomeScreen extends ConsumerWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Icon(
-              Icons.list_alt,
-              size: 48,
-              color: Colors.grey,
-            ),
+            Icon(Icons.list_alt, size: 48, color: Colors.grey),
             const SizedBox(height: 8),
             Text(
               'No lists yet',
@@ -342,9 +360,9 @@ class HomeScreen extends ConsumerWidget {
             const SizedBox(height: 4),
             Text(
               'Create your first list to get started',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.grey,
-                  ),
+              style: Theme.of(
+                context,
+              ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
             ),
           ],
         ),

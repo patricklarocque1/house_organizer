@@ -17,7 +17,8 @@ class TaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isOverdue = task.dueDate != null &&
+    final isOverdue =
+        task.dueDate != null &&
         task.dueDate!.isBefore(DateTime.now()) &&
         task.status != TaskStatus.completed;
 
@@ -38,11 +39,11 @@ class TaskCard extends StatelessWidget {
                     child: Text(
                       task.title,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.bold,
-                            decoration: task.status == TaskStatus.completed
-                                ? TextDecoration.lineThrough
-                                : null,
-                          ),
+                        fontWeight: FontWeight.bold,
+                        decoration: task.status == TaskStatus.completed
+                            ? TextDecoration.lineThrough
+                            : null,
+                      ),
                     ),
                   ),
                   _buildStatusChip(context),
@@ -55,8 +56,10 @@ class TaskCard extends StatelessWidget {
                 Text(
                   task.description,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.7),
-                      ),
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSurface.withValues(alpha: 0.7),
+                  ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -89,17 +92,21 @@ class TaskCard extends StatelessWidget {
                       size: 16,
                       color: isOverdue
                           ? Colors.red
-                          : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                          : Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
                     const SizedBox(width: 4),
                     Text(
                       _formatDueDate(task.dueDate!),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: isOverdue
-                                ? Colors.red
-                                : Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
-                            fontWeight: isOverdue ? FontWeight.bold : null,
-                          ),
+                        color: isOverdue
+                            ? Colors.red
+                            : Theme.of(
+                                context,
+                              ).colorScheme.onSurface.withValues(alpha: 0.6),
+                        fontWeight: isOverdue ? FontWeight.bold : null,
+                      ),
                     ),
                     const SizedBox(width: 16),
                   ],
@@ -107,15 +114,19 @@ class TaskCard extends StatelessWidget {
                     Icon(
                       Icons.person,
                       size: 16,
-                      color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.6),
                     ),
                     const SizedBox(width: 4),
                     Expanded(
                       child: Text(
                         'Assigned to ${task.assignedTo}',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6),
-                            ),
+                          color: Theme.of(
+                            context,
+                          ).colorScheme.onSurface.withValues(alpha: 0.6),
+                        ),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
@@ -131,14 +142,17 @@ class TaskCard extends StatelessWidget {
                   runSpacing: 4,
                   children: task.tags!
                       .take(3)
-                      .map((tag) => Chip(
-                            label: Text(
-                              tag,
-                              style: Theme.of(context).textTheme.bodySmall,
-                            ),
-                            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            visualDensity: VisualDensity.compact,
-                          ))
+                      .map(
+                        (tag) => Chip(
+                          label: Text(
+                            tag,
+                            style: Theme.of(context).textTheme.bodySmall,
+                          ),
+                          materialTapTargetSize:
+                              MaterialTapTargetSize.shrinkWrap,
+                          visualDensity: VisualDensity.compact,
+                        ),
+                      )
                       .toList(),
                 ),
               ],
@@ -252,7 +266,7 @@ class TaskCard extends StatelessWidget {
   Widget _buildPriorityChip(BuildContext context) {
     Color color;
     String text;
-    
+
     switch (task.priority) {
       case 1:
         color = Colors.green;

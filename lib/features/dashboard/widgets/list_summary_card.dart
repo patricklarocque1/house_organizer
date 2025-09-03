@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:house_organizer/features/tasks/screens/task_list_screen.dart';
+import 'package:house_organizer/features/lists/screens/list_overview_screen.dart';
 
-class TaskSummaryCard extends StatelessWidget {
+class ListSummaryCard extends StatelessWidget {
   final Map<String, int> stats;
 
-  const TaskSummaryCard({super.key, required this.stats});
+  const ListSummaryCard({super.key, required this.stats});
 
   @override
   Widget build(BuildContext context) {
@@ -18,16 +18,16 @@ class TaskSummaryCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Task Summary',
+                  'List Summary',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => const TaskListScreen(),
+                        builder: (context) => const ListOverviewScreen(),
                       ),
                     );
                   },
@@ -43,26 +43,26 @@ class TaskSummaryCard extends StatelessWidget {
                     context,
                     'Total',
                     stats['total'] ?? 0,
-                    Icons.task_alt,
+                    Icons.list_alt,
                     Colors.blue,
                   ),
                 ),
                 Expanded(
                   child: _buildStatItem(
                     context,
-                    'Pending',
-                    stats['pending'] ?? 0,
-                    Icons.pending,
+                    'Grocery',
+                    stats['grocery'] ?? 0,
+                    Icons.shopping_cart,
+                    Colors.green,
+                  ),
+                ),
+                Expanded(
+                  child: _buildStatItem(
+                    context,
+                    'Errands',
+                    stats['errands'] ?? 0,
+                    Icons.directions_run,
                     Colors.orange,
-                  ),
-                ),
-                Expanded(
-                  child: _buildStatItem(
-                    context,
-                    'In Progress',
-                    stats['inProgress'] ?? 0,
-                    Icons.play_arrow,
-                    Colors.blue,
                   ),
                 ),
                 Expanded(
@@ -71,28 +71,28 @@ class TaskSummaryCard extends StatelessWidget {
                     'Completed',
                     stats['completed'] ?? 0,
                     Icons.check_circle,
-                    Colors.green,
+                    Colors.purple,
                   ),
                 ),
               ],
             ),
-            if ((stats['overdue'] ?? 0) > 0) ...[
+            if ((stats['pending'] ?? 0) > 0) ...[
               const SizedBox(height: 16),
               Container(
                 padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.red.withValues(alpha: 0.1),
+                  color: Colors.blue.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
-                  border: Border.all(color: Colors.red.withValues(alpha: 0.3)),
+                  border: Border.all(color: Colors.blue.withValues(alpha: 0.3)),
                 ),
                 child: Row(
                   children: [
-                    Icon(Icons.warning, color: Colors.red, size: 20),
+                    Icon(Icons.pending, color: Colors.blue, size: 20),
                     const SizedBox(width: 8),
                     Text(
-                      '${stats['overdue']} overdue tasks',
+                      '${stats['pending']} pending lists',
                       style: TextStyle(
-                        color: Colors.red,
+                        color: Colors.blue,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
@@ -127,17 +127,18 @@ class TaskSummaryCard extends StatelessWidget {
         Text(
           count.toString(),
           style: Theme.of(context).textTheme.titleLarge?.copyWith(
-            fontWeight: FontWeight.bold,
-            color: color,
-          ),
+                fontWeight: FontWeight.bold,
+                color: color,
+              ),
         ),
         Text(
           label,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
-            color: Theme.of(
-              context,
-            ).colorScheme.onSurface.withValues(alpha: 0.7),
-          ),
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withValues(alpha: 0.7),
+              ),
         ),
       ],
     );

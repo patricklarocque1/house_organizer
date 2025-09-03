@@ -63,9 +63,7 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen>
       body: authState.when(
         data: (user) {
           if (user == null) {
-            return const Center(
-              child: Text('Please sign in to view tasks'),
-            );
+            return const Center(child: Text('Please sign in to view tasks'));
           }
 
           return TabBarView(
@@ -79,16 +77,13 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen>
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
-          child: Text('Error: ${error.toString()}'),
-        ),
+        error: (error, stack) =>
+            Center(child: Text('Error: ${error.toString()}')),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => const CreateTaskScreen(),
-            ),
+            MaterialPageRoute(builder: (context) => const CreateTaskScreen()),
           );
         },
         child: const Icon(Icons.add),
@@ -97,18 +92,26 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen>
   }
 
   Widget _buildTaskList(String houseId, TaskStatus? status) {
-    final tasksAsync = ref.watch(tasksByStatusProvider(
-      TaskStatusFilter(status: status),
-    ));
+    final tasksAsync = ref.watch(
+      tasksByStatusProvider(TaskStatusFilter(status: status)),
+    );
 
     return tasksAsync.when(
       data: (tasks) {
         // Apply search filter
         final filteredTasks = _searchQuery.isEmpty
             ? tasks
-            : tasks.where((task) =>
-                task.title.toLowerCase().contains(_searchQuery.toLowerCase()) ||
-                task.description.toLowerCase().contains(_searchQuery.toLowerCase())).toList();
+            : tasks
+                  .where(
+                    (task) =>
+                        task.title.toLowerCase().contains(
+                          _searchQuery.toLowerCase(),
+                        ) ||
+                        task.description.toLowerCase().contains(
+                          _searchQuery.toLowerCase(),
+                        ),
+                  )
+                  .toList();
 
         if (filteredTasks.isEmpty) {
           return Center(
@@ -125,18 +128,18 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen>
                   status == null
                       ? 'No tasks found'
                       : 'No ${status.displayName.toLowerCase()} tasks',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        color: Colors.grey,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.titleLarge?.copyWith(color: Colors.grey),
                 ),
                 const SizedBox(height: 8),
                 Text(
                   status == null
                       ? 'Create your first task to get started'
                       : 'All caught up with ${status.displayName.toLowerCase()} tasks!',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Colors.grey,
-                      ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
                 ),
               ],
             ),
@@ -146,7 +149,9 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen>
         return RefreshIndicator(
           onRefresh: () async {
             // Refresh the data
-            ref.invalidate(tasksByStatusProvider(TaskStatusFilter(status: status)));
+            ref.invalidate(
+              tasksByStatusProvider(TaskStatusFilter(status: status)),
+            );
           },
           child: ListView.builder(
             padding: const EdgeInsets.all(16),
@@ -183,7 +188,9 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen>
             const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
-                ref.invalidate(tasksByStatusProvider(TaskStatusFilter(status: status)));
+                ref.invalidate(
+                  tasksByStatusProvider(TaskStatusFilter(status: status)),
+                );
               },
               child: const Text('Retry'),
             ),

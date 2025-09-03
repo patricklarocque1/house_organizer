@@ -50,7 +50,9 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
           .where((tag) => tag.isNotEmpty)
           .toList();
 
-      await ref.read(taskNotifierProvider.notifier).createTask(
+      await ref
+          .read(taskNotifierProvider.notifier)
+          .createTask(
             title: _titleController.text.trim(),
             description: _descriptionController.text.trim(),
             category: _selectedCategory,
@@ -114,9 +116,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
       body: authState.when(
         data: (user) {
           if (user == null) {
-            return const Center(
-              child: Text('Please sign in to create tasks'),
-            );
+            return const Center(child: Text('Please sign in to create tasks'));
           }
 
           return SingleChildScrollView(
@@ -291,9 +291,8 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
           );
         },
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (error, stack) => Center(
-          child: Text('Error: ${error.toString()}'),
-        ),
+        error: (error, stack) =>
+            Center(child: Text('Error: ${error.toString()}')),
       ),
     );
   }

@@ -1,4 +1,3 @@
-
 import 'package:house_organizer/core/services/firebase_service.dart';
 import 'package:house_organizer/core/services/hive_service.dart';
 import 'package:house_organizer/data/models/task.dart';
@@ -20,9 +19,11 @@ class TaskRepository {
               .where('houseId', isEqualTo: houseId)
               .orderBy('createdAt', descending: true),
         )
-        .map((snapshot) => snapshot.docs
-            .map((doc) => Task.fromJson(doc.data() as Map<String, dynamic>))
-            .toList());
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) => Task.fromJson(doc.data() as Map<String, dynamic>))
+              .toList(),
+        );
   }
 
   // Get tasks assigned to a specific user
@@ -35,16 +36,15 @@ class TaskRepository {
               .where('assignedTo', isEqualTo: userId)
               .orderBy('dueDate', descending: false),
         )
-        .map((snapshot) => snapshot.docs
-            .map((doc) => Task.fromJson(doc.data() as Map<String, dynamic>))
-            .toList());
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) => Task.fromJson(doc.data() as Map<String, dynamic>))
+              .toList(),
+        );
   }
 
   // Get tasks by status
-  Stream<List<Task>> getTasksByStatus(
-    String houseId,
-    TaskStatus status,
-  ) {
+  Stream<List<Task>> getTasksByStatus(String houseId, TaskStatus status) {
     return _firebaseService
         .listenToCollection(
           AppConstants.tasksCollection,
@@ -53,9 +53,11 @@ class TaskRepository {
               .where('status', isEqualTo: status.name)
               .orderBy('dueDate', descending: false),
         )
-        .map((snapshot) => snapshot.docs
-            .map((doc) => Task.fromJson(doc.data() as Map<String, dynamic>))
-            .toList());
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) => Task.fromJson(doc.data() as Map<String, dynamic>))
+              .toList(),
+        );
   }
 
   // Get overdue tasks
@@ -70,9 +72,11 @@ class TaskRepository {
               .where('dueDate', isLessThan: now)
               .orderBy('dueDate', descending: false),
         )
-        .map((snapshot) => snapshot.docs
-            .map((doc) => Task.fromJson(doc.data() as Map<String, dynamic>))
-            .toList());
+        .map(
+          (snapshot) => snapshot.docs
+              .map((doc) => Task.fromJson(doc.data() as Map<String, dynamic>))
+              .toList(),
+        );
   }
 
   // Create a new task
@@ -237,7 +241,11 @@ class TaskRepository {
   }
 
   // Assign task to user
-  Future<Task> assignTask(Task task, String assignedTo, String assignedBy) async {
+  Future<Task> assignTask(
+    Task task,
+    String assignedTo,
+    String assignedBy,
+  ) async {
     try {
       final assignedTask = task.copyWith(
         assignedTo: assignedTo,
@@ -286,13 +294,19 @@ class TaskRepository {
       final stats = <String, int>{
         'total': tasks.length,
         'pending': tasks.where((t) => t.status == TaskStatus.pending).length,
-        'inProgress': tasks.where((t) => t.status == TaskStatus.inProgress).length,
-        'completed': tasks.where((t) => t.status == TaskStatus.completed).length,
+        'inProgress': tasks
+            .where((t) => t.status == TaskStatus.inProgress)
+            .length,
+        'completed': tasks
+            .where((t) => t.status == TaskStatus.completed)
+            .length,
         'overdue': tasks
-            .where((t) =>
-                t.status != TaskStatus.completed &&
-                t.dueDate != null &&
-                t.dueDate!.isBefore(DateTime.now()))
+            .where(
+              (t) =>
+                  t.status != TaskStatus.completed &&
+                  t.dueDate != null &&
+                  t.dueDate!.isBefore(DateTime.now()),
+            )
             .length,
       };
 
