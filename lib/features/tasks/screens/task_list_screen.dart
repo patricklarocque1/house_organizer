@@ -6,6 +6,7 @@ import 'package:house_organizer/features/tasks/widgets/task_card.dart';
 import 'package:house_organizer/features/tasks/widgets/task_filter_bottom_sheet.dart';
 import 'package:house_organizer/data/models/task.dart';
 import 'package:house_organizer/features/auth/providers/auth_providers.dart';
+import 'package:house_organizer/features/tasks/screens/task_detail_screen.dart';
 
 class TaskListScreen extends ConsumerStatefulWidget {
   const TaskListScreen({super.key});
@@ -102,16 +103,16 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen>
         final filteredTasks = _searchQuery.isEmpty
             ? tasks
             : tasks
-                  .where(
-                    (task) =>
-                        task.title.toLowerCase().contains(
-                          _searchQuery.toLowerCase(),
-                        ) ||
-                        task.description.toLowerCase().contains(
-                          _searchQuery.toLowerCase(),
-                        ),
-                  )
-                  .toList();
+                .where(
+                  (task) =>
+                      task.title.toLowerCase().contains(
+                            _searchQuery.toLowerCase(),
+                          ) ||
+                      task.description.toLowerCase().contains(
+                            _searchQuery.toLowerCase(),
+                          ),
+                )
+                .toList();
 
         if (filteredTasks.isEmpty) {
           return Center(
@@ -214,31 +215,9 @@ class _TaskListScreenState extends ConsumerState<TaskListScreen>
   }
 
   void _showTaskDetails(BuildContext context, Task task) {
-    // TODO: Implement task details screen
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(task.title),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Description: ${task.description}'),
-            const SizedBox(height: 8),
-            Text('Status: ${task.status.displayName}'),
-            Text('Category: ${task.category.displayName}'),
-            if (task.dueDate != null)
-              Text('Due: ${task.dueDate!.toString().split(' ')[0]}'),
-            if (task.assignedTo != null)
-              Text('Assigned to: ${task.assignedTo}'),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(context).pop(),
-            child: const Text('Close'),
-          ),
-        ],
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => TaskDetailScreen(task: task),
       ),
     );
   }

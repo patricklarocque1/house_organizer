@@ -1,21 +1,23 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive_ce/hive.dart';
 
 part 'audit_log.freezed.dart';
 part 'audit_log.g.dart';
 
 @freezed
-class AuditLog with _$AuditLog {
+@HiveType(typeId: 6, adapterName: 'AuditLogAdapter')
+abstract class AuditLog with _$AuditLog {
   const factory AuditLog({
-    required String id,
-    required String userId,
-    required String houseId,
-    required AuditAction action,
-    required String targetType,
-    required String targetId,
-    required DateTime timestamp,
-    Map<String, dynamic>? metadata,
-    String? description,
-    String? userDisplayName,
+    @HiveField(0) required String id,
+    @HiveField(1) required String userId,
+    @HiveField(2) required String houseId,
+    @HiveField(3) required AuditAction action,
+    @HiveField(4) required String targetType,
+    @HiveField(5) required String targetId,
+    @HiveField(6) required DateTime timestamp,
+    @HiveField(7) Map<String, dynamic>? metadata,
+    @HiveField(8) String? description,
+    @HiveField(9) String? userDisplayName,
   }) = _AuditLog;
 
   factory AuditLog.fromJson(Map<String, dynamic> json) =>

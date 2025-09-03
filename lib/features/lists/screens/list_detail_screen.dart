@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_organizer/data/models/list_model.dart';
+import 'package:house_organizer/data/models/list_item.dart';
+import 'package:house_organizer/features/lists/providers/list_providers.dart';
 import 'package:house_organizer/features/lists/widgets/list_item_card.dart';
 import 'package:house_organizer/features/lists/widgets/add_item_dialog.dart';
 
@@ -60,46 +62,37 @@ class _ListDetailScreenState extends ConsumerState<ListDetailScreen> {
   }
 
   Widget _buildListContent() {
-    // For now, we'll create a mock list since we don't have a provider for individual lists
-    // In a real implementation, you'd have a provider like `listProvider(listId)`
-    return FutureBuilder<ListModel?>(
-      future: _getList(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (snapshot.hasError) {
-          return Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(Icons.error, size: 64, color: Colors.red),
-                const SizedBox(height: 16),
-                Text(
-                  'Error loading list',
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  snapshot.error.toString(),
-                  style: Theme.of(
-                    context,
-                  ).textTheme.bodyMedium?.copyWith(color: Colors.grey),
-                  textAlign: TextAlign.center,
-                ),
-              ],
-            ),
-          );
-        }
-
-        final list = snapshot.data;
+    final listAsync = ref.watch(listProvider(widget.listId));
+    return listAsync.when(
+      data: (list) {
         if (list == null) {
           return const Center(child: Text('List not found'));
         }
-
         return _buildListItems(list);
       },
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, _) => Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error, size: 64, color: Colors.red),
+            const SizedBox(height: 16),
+            Text(
+              'Error loading list',
+              style: Theme.of(context).textTheme.titleLarge,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              error.toString(),
+              style: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.grey),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -108,17 +101,17 @@ class _ListDetailScreenState extends ConsumerState<ListDetailScreen> {
     final filteredItems = _searchQuery.isEmpty
         ? list.items
         : list.items
-              .where(
-                (item) =>
-                    item.name.toLowerCase().contains(
-                      _searchQuery.toLowerCase(),
-                    ) ||
-                    (item.notes?.toLowerCase().contains(
-                          _searchQuery.toLowerCase(),
-                        ) ??
-                        false),
-              )
-              .toList();
+            .where(
+              (item) =>
+                  item.name.toLowerCase().contains(
+                        _searchQuery.toLowerCase(),
+                      ) ||
+                  (item.notes?.toLowerCase().contains(
+                            _searchQuery.toLowerCase(),
+                          ) ??
+                      false),
+            )
+            .toList();
 
     if (filteredItems.isEmpty) {
       return Center(
@@ -164,49 +157,13 @@ class _ListDetailScreenState extends ConsumerState<ListDetailScreen> {
     );
   }
 
-  Future<ListModel?> _getList() async {
-    // Mock implementation - in real app, this would use a provider
-    await Future.delayed(const Duration(seconds: 1));
-    return ListModel(
-      id: widget.listId,
-      name: 'Sample Grocery List',
-      houseId: 'house1',
-      createdBy: 'user1',
-      type: ListType.grocery,
-      description: 'Weekly grocery shopping',
-      items: [
-        ListItem(
-          id: '1',
-          name: 'Milk',
-          quantity: 2,
-          isPurchased: false,
-          category: 'Dairy',
-        ),
-        ListItem(
-          id: '2',
-          name: 'Bread',
-          quantity: 1,
-          isPurchased: true,
-          category: 'Bakery',
-        ),
-        ListItem(
-          id: '3',
-          name: 'Apples',
-          quantity: 5,
-          isPurchased: false,
-          category: 'Fruits',
-        ),
-      ],
-      createdAt: DateTime.now().subtract(const Duration(days: 1)),
-      updatedAt: DateTime.now(),
-    );
-  }
+  // Removed mock _getList; using provider instead
 
   void _showAddItemDialog() {
     showDialog(
       context: context,
       builder: (context) => AddItemDialog(
-        onAddItem: (item) {
+        onAddItem: (ListItem item) {
           // In real implementation, this would call the repository
           ScaffoldMessenger.of(
             context,
@@ -221,7 +178,7 @@ class _ListDetailScreenState extends ConsumerState<ListDetailScreen> {
       context: context,
       builder: (context) => AddItemDialog(
         initialItem: item,
-        onAddItem: (updatedItem) {
+        onAddItem: (ListItem updatedItem) {
           // In real implementation, this would call the repository
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Updated ${updatedItem.name}')),

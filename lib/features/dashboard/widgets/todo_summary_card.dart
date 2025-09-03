@@ -29,8 +29,8 @@ class TodoSummaryCard extends ConsumerWidget {
                 Text(
                   'To-Do List',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
                 IconButton(
                   onPressed: () {
@@ -50,7 +50,8 @@ class TodoSummaryCard extends ConsumerWidget {
             const SizedBox(height: 12),
             todoState.when(
               data: (todos) {
-                final completedCount = todos.where((todo) => todo.completed).length;
+                final completedCount =
+                    todos.where((todo) => todo.completed).length;
                 final pendingCount = todos.length - completedCount;
                 final totalCount = todos.length;
 
@@ -87,7 +88,9 @@ class TodoSummaryCard extends ConsumerWidget {
                       const SizedBox(height: 12),
                       LinearProgressIndicator(
                         value: totalCount > 0 ? completedCount / totalCount : 0,
-                        backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.surfaceContainerHighest,
                         valueColor: AlwaysStoppedAnimation<Color>(
                           Theme.of(context).colorScheme.primary,
                         ),
@@ -96,8 +99,10 @@ class TodoSummaryCard extends ConsumerWidget {
                       Text(
                         '${((completedCount / totalCount) * 100).toStringAsFixed(0)}% completed',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
+                            ),
                       ),
                     ],
                   ],
@@ -122,8 +127,8 @@ class TodoSummaryCard extends ConsumerWidget {
                       Text(
                         'Error loading todos',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.error,
-                        ),
+                              color: Theme.of(context).colorScheme.error,
+                            ),
                       ),
                     ],
                   ),
@@ -164,24 +169,20 @@ class TodoSummaryCard extends ConsumerWidget {
     return Expanded(
       child: Column(
         children: [
-          Icon(
-            icon,
-            color: color,
-            size: 24,
-          ),
+          Icon(icon, color: color, size: 24),
           const SizedBox(height: 4),
           Text(
             value,
             style: Theme.of(context).textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-              color: color,
-            ),
+                  fontWeight: FontWeight.bold,
+                  color: color,
+                ),
           ),
           Text(
             label,
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
           ),
         ],
       ),

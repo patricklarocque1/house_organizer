@@ -2,6 +2,7 @@ import 'package:house_organizer/core/services/firebase_service.dart';
 import 'package:house_organizer/core/services/hive_service.dart';
 import 'package:house_organizer/core/services/notification_service.dart';
 import 'package:house_organizer/data/models/list_model.dart';
+import 'package:house_organizer/data/models/list_item.dart';
 import 'package:house_organizer/data/models/audit_log.dart';
 import 'package:uuid/uuid.dart';
 
@@ -114,6 +115,14 @@ class ListRepository {
     } catch (e) {
       throw Exception('Failed to get list: $e');
     }
+  }
+
+  // Watch a specific list by ID
+  Stream<ListModel?> watchList(String listId) {
+    return _firebaseService.listenToDocument('lists', listId).map((doc) =>
+        doc.exists
+            ? ListModel.fromJson(doc.data() as Map<String, dynamic>)
+            : null);
   }
 
   // Update a list
@@ -259,9 +268,8 @@ class ListRepository {
         throw Exception('List not found');
       }
 
-      final updatedItems = list.items
-          .where((item) => item.id != itemId)
-          .toList();
+      final updatedItems =
+          list.items.where((item) => item.id != itemId).toList();
       final updatedList = list.copyWith(
         items: updatedItems,
         updatedAt: DateTime.now(),
@@ -356,10 +364,7 @@ class ListRepository {
         id: _uuid.v4(),
         houseId: houseId,
         userId: userId,
-        action: AuditAction.values.firstWhere(
-          (a) => a.name == action,
-          orElse: () => AuditAction.create,
-        ),
+        action: _parseAuditAction(action),
         targetId: targetId,
         targetType: 'list',
         timestamp: DateTime.now(),
@@ -373,5 +378,22 @@ class ListRepository {
     } catch (e) {
       // Don't throw here as audit logging is not critical
     }
+  }
+
+  AuditAction _parseAuditAction(String action) {
+    final a = action.trim().toLowerCase();
+    if (a.contains('create')) return AuditAction.create;
+    if (a.contains('update')) return AuditAction.update;
+    if (a.contains('delete') || a.contains('remove')) return AuditAction.delete;
+    if (a.contains('complete')) return AuditAction.complete;
+    if (a.contains('unassign')) return AuditAction.unassign;
+    if (a.contains('assign')) return AuditAction.assign;
+    if (a.contains('login')) return AuditAction.login;
+    if (a.contains('logout')) return AuditAction.logout;
+    if (a.contains('join') && a.contains('house')) return AuditAction.joinHouse;
+    if (a.contains('leave') && a.contains('house')) {
+      return AuditAction.leaveHouse;
+    }
+    return AuditAction.create;
   }
 }

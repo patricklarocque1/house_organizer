@@ -321,12 +321,10 @@ class TaskRepository {
       final stats = <String, int>{
         'total': tasks.length,
         'pending': tasks.where((t) => t.status == TaskStatus.pending).length,
-        'inProgress': tasks
-            .where((t) => t.status == TaskStatus.inProgress)
-            .length,
-        'completed': tasks
-            .where((t) => t.status == TaskStatus.completed)
-            .length,
+        'inProgress':
+            tasks.where((t) => t.status == TaskStatus.inProgress).length,
+        'completed':
+            tasks.where((t) => t.status == TaskStatus.completed).length,
         'overdue': tasks
             .where(
               (t) =>

@@ -8,6 +8,9 @@ import 'package:timezone/data/latest.dart' as tz;
 import 'package:workmanager/workmanager.dart';
 import 'package:house_organizer/data/models/task.dart';
 import 'package:house_organizer/data/models/list_model.dart';
+import 'package:house_organizer/core/logging.dart';
+
+final _log = buildLogger();
 
 class NotificationService {
   static final NotificationService _instance = NotificationService._internal();
@@ -31,7 +34,7 @@ class NotificationService {
   static Future<void> firebaseMessagingBackgroundHandler(
     RemoteMessage message,
   ) async {
-    print('Handling a background message: ${message.messageId}');
+    _log.i('Handling a background message: ${message.messageId}');
   }
 
   Future<void> initialize() async {
@@ -58,16 +61,16 @@ class NotificationService {
 
     const DarwinInitializationSettings initializationSettingsIOS =
         DarwinInitializationSettings(
-          requestAlertPermission: true,
-          requestBadgePermission: true,
-          requestSoundPermission: true,
-        );
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+    );
 
     const InitializationSettings initializationSettings =
         InitializationSettings(
-          android: initializationSettingsAndroid,
-          iOS: initializationSettingsIOS,
-        );
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS,
+    );
 
     await _localNotifications.initialize(
       initializationSettings,
@@ -97,42 +100,38 @@ class NotificationService {
 
     const AndroidNotificationChannel dailySummaryChannel =
         AndroidNotificationChannel(
-          _dailySummaryChannelId,
-          'Daily Summary',
-          description: 'Daily task and list summaries',
-          importance: Importance.defaultImportance,
-        );
+      _dailySummaryChannelId,
+      'Daily Summary',
+      description: 'Daily task and list summaries',
+      importance: Importance.defaultImportance,
+    );
 
     const AndroidNotificationChannel reminderChannel =
         AndroidNotificationChannel(
-          _reminderChannelId,
-          'Reminders',
-          description: 'Task and list reminders',
-          importance: Importance.high,
-        );
+      _reminderChannelId,
+      'Reminders',
+      description: 'Task and list reminders',
+      importance: Importance.high,
+    );
 
     await _localNotifications
         .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(taskChannel);
 
     await _localNotifications
         .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(listChannel);
 
     await _localNotifications
         .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(dailySummaryChannel);
 
     await _localNotifications
         .resolvePlatformSpecificImplementation<
-          AndroidFlutterLocalNotificationsPlugin
-        >()
+            AndroidFlutterLocalNotificationsPlugin>()
         ?.createNotificationChannel(reminderChannel);
   }
 
@@ -152,15 +151,15 @@ class NotificationService {
     FirebaseMessaging.onMessageOpenedApp.listen(_handleNotificationTap);
 
     // Handle notification tap when app is terminated
-    RemoteMessage? initialMessage = await _firebaseMessaging
-        .getInitialMessage();
+    RemoteMessage? initialMessage =
+        await _firebaseMessaging.getInitialMessage();
     if (initialMessage != null) {
       _handleNotificationTap(initialMessage);
     }
   }
 
   Future<void> _initializeWorkmanager() async {
-    await Workmanager().initialize(callbackDispatcher, isInDebugMode: false);
+    await Workmanager().initialize(callbackDispatcher);
 
     // Register daily summary task
     await Workmanager().registerPeriodicTask(
@@ -178,7 +177,7 @@ class NotificationService {
     if (Platform.isAndroid) {
       final status = await Permission.notification.request();
       if (status != PermissionStatus.granted) {
-        print('Notification permission denied');
+        _log.e('Notification permission denied');
       }
     } else if (Platform.isIOS) {
       final settings = await _firebaseMessaging.requestPermission(
@@ -188,24 +187,24 @@ class NotificationService {
         provisional: false,
       );
       if (settings.authorizationStatus != AuthorizationStatus.authorized) {
-        print('Notification permission denied');
+        _log.e('Notification permission denied');
       }
     }
   }
 
   void _onNotificationTapped(NotificationResponse response) {
     // Handle local notification tap
-    print('Local notification tapped: ${response.payload}');
+    _log.i('Local notification tapped: ${response.payload}');
     // Navigate to appropriate screen based on payload
   }
 
   void _handleForegroundMessage(RemoteMessage message) {
-    print('Received foreground message: ${message.messageId}');
+    _log.i('Received foreground message: ${message.messageId}');
     _showLocalNotification(message);
   }
 
   void _handleNotificationTap(RemoteMessage message) {
-    print('Notification tapped: ${message.messageId}');
+    _log.i('Notification tapped: ${message.messageId}');
     // Navigate to appropriate screen based on message data
   }
 
@@ -215,12 +214,12 @@ class NotificationService {
 
     const AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
-          _taskChannelId,
-          'Task Notifications',
-          channelDescription: 'Notifications for task assignments and updates',
-          importance: Importance.high,
-          priority: Priority.high,
-        );
+      _taskChannelId,
+      'Task Notifications',
+      channelDescription: 'Notifications for task assignments and updates',
+      importance: Importance.high,
+      priority: Priority.high,
+    );
 
     const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
       presentAlert: true,
@@ -348,12 +347,12 @@ class NotificationService {
   }) async {
     const AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
-          _taskChannelId,
-          'Task Notifications',
-          channelDescription: 'Notifications for task assignments and updates',
-          importance: Importance.high,
-          priority: Priority.high,
-        );
+      _taskChannelId,
+      'Task Notifications',
+      channelDescription: 'Notifications for task assignments and updates',
+      importance: Importance.high,
+      priority: Priority.high,
+    );
 
     const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
       presentAlert: true,
@@ -390,12 +389,12 @@ class NotificationService {
 
     const AndroidNotificationDetails androidDetails =
         AndroidNotificationDetails(
-          _reminderChannelId,
-          'Reminders',
-          channelDescription: 'Task and list reminders',
-          importance: Importance.high,
-          priority: Priority.high,
-        );
+      _reminderChannelId,
+      'Reminders',
+      channelDescription: 'Task and list reminders',
+      importance: Importance.high,
+      priority: Priority.high,
+    );
 
     const DarwinNotificationDetails iosDetails = DarwinNotificationDetails(
       presentAlert: true,
@@ -465,5 +464,5 @@ void callbackDispatcher() {
 Future<void> _handleDailySummaryTask() async {
   // This would typically fetch data from local storage and send notifications
   // For now, we'll just log that the task ran
-  print('Daily summary task executed');
+  _log.i('Daily summary task executed');
 }

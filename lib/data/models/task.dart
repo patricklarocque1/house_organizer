@@ -1,28 +1,30 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive_ce/hive.dart';
 
 part 'task.freezed.dart';
 part 'task.g.dart';
 
 @freezed
-class Task with _$Task {
+@HiveType(typeId: 4, adapterName: 'TaskAdapter')
+abstract class Task with _$Task {
   const factory Task({
-    required String id,
-    required String title,
-    required String description,
-    required TaskStatus status,
-    required TaskCategory category,
-    required String houseId,
-    required String createdBy,
-    required DateTime createdAt,
-    required DateTime updatedAt,
-    String? assignedTo,
-    DateTime? dueDate,
-    RepeatInterval? repeatInterval,
-    DateTime? completedAt,
-    String? completedBy,
-    int? priority,
-    List<String>? tags,
-    String? notes,
+    @HiveField(0) required String id,
+    @HiveField(1) required String title,
+    @HiveField(2) required String description,
+    @HiveField(3) required TaskStatus status,
+    @HiveField(4) required TaskCategory category,
+    @HiveField(5) required String houseId,
+    @HiveField(6) required String createdBy,
+    @HiveField(7) required DateTime createdAt,
+    @HiveField(8) required DateTime updatedAt,
+    @HiveField(9) String? assignedTo,
+    @HiveField(10) DateTime? dueDate,
+    @HiveField(11) RepeatInterval? repeatInterval,
+    @HiveField(12) DateTime? completedAt,
+    @HiveField(13) String? completedBy,
+    @HiveField(14) int? priority,
+    @HiveField(15) List<String>? tags,
+    @HiveField(16) String? notes,
   }) = _Task;
 
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);

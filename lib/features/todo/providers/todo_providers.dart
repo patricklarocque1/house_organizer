@@ -8,13 +8,17 @@ final todoRepositoryProvider = Provider<TodoRepository>((ref) {
 });
 
 // Todo list provider for a specific house
-final todoListProvider = FutureProvider.family<List<SimpleTodo>, String>((ref, houseId) async {
+final todoListProvider = FutureProvider.family<List<SimpleTodo>, String>((
+  ref,
+  houseId,
+) async {
   final repository = ref.watch(todoRepositoryProvider);
   return await repository.getTodosForHouse(houseId);
 });
 
 // Todo notifier for managing todo state
-final todoNotifierProvider = StateNotifierProvider<TodoNotifier, AsyncValue<List<SimpleTodo>>>((ref) {
+final todoNotifierProvider =
+    StateNotifierProvider<TodoNotifier, AsyncValue<List<SimpleTodo>>>((ref) {
   return TodoNotifier(ref.watch(todoRepositoryProvider));
 });
 
@@ -52,7 +56,8 @@ class TodoNotifier extends StateNotifier<AsyncValue<List<SimpleTodo>>> {
       // Update the todo in the current list
       if (state.hasValue) {
         final currentTodos = state.value!;
-        final updatedTodos = currentTodos.map((t) => t.id == todo.id ? todo : t).toList();
+        final updatedTodos =
+            currentTodos.map((t) => t.id == todo.id ? todo : t).toList();
         state = AsyncValue.data(updatedTodos);
       }
     } catch (error, stackTrace) {

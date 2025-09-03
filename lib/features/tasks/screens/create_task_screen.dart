@@ -50,9 +50,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
           .where((tag) => tag.isNotEmpty)
           .toList();
 
-      await ref
-          .read(taskNotifierProvider.notifier)
-          .createTask(
+      await ref.read(taskNotifierProvider.notifier).createTask(
             title: _titleController.text.trim(),
             description: _descriptionController.text.trim(),
             category: _selectedCategory,

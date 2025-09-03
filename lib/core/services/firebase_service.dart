@@ -1,9 +1,9 @@
-import 'dart:typed_data';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
+import 'package:flutter/foundation.dart';
 import 'package:house_organizer/core/constants/app_constants.dart';
 
 class FirebaseService {
@@ -37,14 +37,26 @@ class FirebaseService {
 
     await Firebase.initializeApp();
 
+    // Use emulators in debug mode only
+    if (kDebugMode) {
+      try {
+        firestore.useFirestoreEmulator('localhost', 8080);
+      } catch (_) {}
+      try {
+        auth.useAuthEmulator('localhost', 9099);
+      } catch (_) {}
+      try {
+        storage.useStorageEmulator('localhost', 9199);
+      } catch (_) {}
+    }
+
     // Configure Firestore settings for Canadian region
     firestore.settings = const Settings(
       persistenceEnabled: true,
       cacheSizeBytes: Settings.CACHE_SIZE_UNLIMITED,
     );
 
-    // Configure Firebase Storage for Canadian region
-    storage.useStorageEmulator('localhost', 9199);
+    // Additional storage/firestore configuration can go here
 
     _isInitialized = true;
   }

@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_organizer/data/models/list_model.dart';
+import 'package:house_organizer/data/models/list_item.dart';
 import 'package:house_organizer/features/auth/providers/auth_providers.dart';
 import 'package:house_organizer/features/lists/repositories/list_repository.dart';
 
@@ -20,23 +21,29 @@ final listsForHouseProvider = StreamProvider.family<List<ListModel>, String>((
 // Lists by type provider
 final listsByTypeProvider =
     StreamProvider.family<List<ListModel>, ListTypeFilter>((ref, filter) {
-      final listRepository = ref.watch(listRepositoryProvider);
-      final authState = ref.watch(authNotifierProvider);
+  final listRepository = ref.watch(listRepositoryProvider);
+  final authState = ref.watch(authNotifierProvider);
 
-      return authState.when(
-        data: (user) {
-          if (user == null) return Stream.value([]);
+  return authState.when(
+    data: (user) {
+      if (user == null) return Stream.value([]);
 
-          if (filter.type != null) {
-            return listRepository.getListsByType(user.houseId, filter.type!);
-          } else {
-            return listRepository.getListsForHouse(user.houseId);
-          }
-        },
-        loading: () => Stream.value([]),
-        error: (_, __) => Stream.value([]),
-      );
-    });
+      if (filter.type != null) {
+        return listRepository.getListsByType(user.houseId, filter.type!);
+      } else {
+        return listRepository.getListsForHouse(user.houseId);
+      }
+    },
+    loading: () => Stream.value([]),
+    error: (_, __) => Stream.value([]),
+  );
+});
+
+// Single list by id provider
+final listProvider = StreamProvider.family<ListModel?, String>((ref, listId) {
+  final repo = ref.watch(listRepositoryProvider);
+  return repo.watchList(listId);
+});
 
 // List statistics provider
 final listStatisticsProvider = FutureProvider.family<Map<String, int>, String>((
@@ -53,7 +60,7 @@ class ListNotifier extends StateNotifier<AsyncValue<void>> {
   final Ref _ref;
 
   ListNotifier(this._listRepository, this._ref)
-    : super(const AsyncValue.data(null));
+      : super(const AsyncValue.data(null));
 
   Future<void> createList({
     required String name,
@@ -200,9 +207,9 @@ class ListNotifier extends StateNotifier<AsyncValue<void>> {
 // List notifier provider
 final listNotifierProvider =
     StateNotifierProvider<ListNotifier, AsyncValue<void>>((ref) {
-      final listRepository = ref.watch(listRepositoryProvider);
-      return ListNotifier(listRepository, ref);
-    });
+  final listRepository = ref.watch(listRepositoryProvider);
+  return ListNotifier(listRepository, ref);
+});
 
 // List type filter class
 class ListTypeFilter {

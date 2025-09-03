@@ -20,17 +20,14 @@ class TodoItem extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: ListTile(
-        leading: Checkbox(
-          value: todo.completed,
-          onChanged: (_) => onToggle(),
-        ),
+        leading: Checkbox(value: todo.completed, onChanged: (_) => onToggle()),
         title: Text(
           todo.title,
           style: TextStyle(
-            decoration: todo.completed 
-                ? TextDecoration.lineThrough 
+            decoration: todo.completed
+                ? TextDecoration.lineThrough
                 : TextDecoration.none,
-            color: todo.completed 
+            color: todo.completed
                 ? Theme.of(context).colorScheme.onSurfaceVariant
                 : null,
           ),
@@ -43,10 +40,10 @@ class TodoItem extends StatelessWidget {
               Text(
                 todo.notes!,
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: todo.completed 
-                      ? Theme.of(context).colorScheme.onSurfaceVariant
-                      : null,
-                ),
+                      color: todo.completed
+                          ? Theme.of(context).colorScheme.onSurfaceVariant
+                          : null,
+                    ),
               ),
             ],
             const SizedBox(height: 4),
@@ -61,22 +58,18 @@ class TodoItem extends StatelessWidget {
                 Text(
                   _formatDate(todo.createdAt),
                   style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
                 ),
                 if (todo.completed && todo.completedAt != null) ...[
                   const SizedBox(width: 16),
-                  Icon(
-                    Icons.check_circle,
-                    size: 12,
-                    color: Colors.green,
-                  ),
+                  Icon(Icons.check_circle, size: 12, color: Colors.green),
                   const SizedBox(width: 4),
                   Text(
                     'Completed ${_formatDate(todo.completedAt!)}',
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.green,
-                    ),
+                    style: Theme.of(
+                      context,
+                    ).textTheme.bodySmall?.copyWith(color: Colors.green),
                   ),
                 ],
               ],
@@ -98,11 +91,7 @@ class TodoItem extends StatelessWidget {
             const PopupMenuItem(
               value: 'edit',
               child: Row(
-                children: [
-                  Icon(Icons.edit),
-                  SizedBox(width: 8),
-                  Text('Edit'),
-                ],
+                children: [Icon(Icons.edit), SizedBox(width: 8), Text('Edit')],
               ),
             ),
             const PopupMenuItem(

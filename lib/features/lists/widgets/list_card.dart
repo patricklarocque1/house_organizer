@@ -38,11 +38,11 @@ class ListCard extends StatelessWidget {
                     child: Text(
                       list.name,
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        decoration: list.isCompleted == true
-                            ? TextDecoration.lineThrough
-                            : null,
-                      ),
+                            fontWeight: FontWeight.bold,
+                            decoration: list.isCompleted == true
+                                ? TextDecoration.lineThrough
+                                : null,
+                          ),
                     ),
                   ),
                   _buildTypeChip(context),
@@ -55,10 +55,10 @@ class ListCard extends StatelessWidget {
                 Text(
                   list.description!,
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(
-                      context,
-                    ).colorScheme.onSurface.withValues(alpha: 0.7),
-                  ),
+                        color: Theme.of(
+                          context,
+                        ).colorScheme.onSurface.withValues(alpha: 0.7),
+                      ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
@@ -84,10 +84,10 @@ class ListCard extends StatelessWidget {
                     Text(
                       '$completedItems/$totalItems',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withValues(alpha: 0.6),
-                      ),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
+                          ),
                     ),
                   ],
                 ),
@@ -109,10 +109,10 @@ class ListCard extends StatelessWidget {
                     Text(
                       _formatDueDate(list.dueDate!),
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(
-                          context,
-                        ).colorScheme.onSurface.withValues(alpha: 0.6),
-                      ),
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.onSurface.withValues(alpha: 0.6),
+                          ),
                     ),
                     const SizedBox(width: 16),
                   ],
@@ -129,10 +129,10 @@ class ListCard extends StatelessWidget {
                       child: Text(
                         'Assigned to ${list.assignedTo}',
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(
-                            context,
-                          ).colorScheme.onSurface.withValues(alpha: 0.6),
-                        ),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.onSurface.withValues(alpha: 0.6),
+                            ),
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),

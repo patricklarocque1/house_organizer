@@ -144,9 +144,9 @@ class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
 // Auth notifier provider
 final authNotifierProvider =
     StateNotifierProvider<AuthNotifier, AsyncValue<User?>>((ref) {
-      final authRepository = ref.watch(authRepositoryProvider);
-      return AuthNotifier(authRepository);
-    });
+  final authRepository = ref.watch(authRepositoryProvider);
+  return AuthNotifier(authRepository);
+});
 
 // House providers
 final houseProvider = FutureProvider.family<House?, String>((

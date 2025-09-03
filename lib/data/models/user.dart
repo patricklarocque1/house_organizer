@@ -1,21 +1,23 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:hive_ce/hive.dart';
 
 part 'user.freezed.dart';
 part 'user.g.dart';
 
 @freezed
-class User with _$User {
+@HiveType(typeId: 1, adapterName: 'UserAdapter')
+abstract class User with _$User {
   const factory User({
-    required String id,
-    required String email,
-    required String displayName,
-    required String houseId,
-    required UserRole role,
-    required DateTime createdAt,
-    required DateTime updatedAt,
-    String? profileImageUrl,
-    bool? isActive,
-    DateTime? lastLoginAt,
+    @HiveField(0) required String id,
+    @HiveField(1) required String email,
+    @HiveField(2) required String displayName,
+    @HiveField(3) required String houseId,
+    @HiveField(4) required UserRole role,
+    @HiveField(5) required DateTime createdAt,
+    @HiveField(6) required DateTime updatedAt,
+    @HiveField(7) String? profileImageUrl,
+    @HiveField(8) bool? isActive,
+    @HiveField(9) DateTime? lastLoginAt,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

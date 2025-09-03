@@ -5,7 +5,6 @@ import 'package:house_organizer/features/todo/providers/todo_providers.dart';
 import 'package:house_organizer/features/todo/widgets/todo_item.dart';
 import 'package:house_organizer/features/todo/widgets/add_todo_dialog.dart';
 
-
 class TodoListScreen extends ConsumerStatefulWidget {
   final String houseId;
   final String currentUserId;
@@ -74,39 +73,49 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
               },
             ),
           ),
-          
+
           // Todo list
           Expanded(
             child: todoState.when(
               data: (todos) {
                 final filteredTodos = _filterTodos(todos);
-                
+
                 if (filteredTodos.isEmpty) {
                   return Center(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
-                          _searchQuery.isNotEmpty ? Icons.search_off : Icons.checklist,
+                          _searchQuery.isNotEmpty
+                              ? Icons.search_off
+                              : Icons.checklist,
                           size: 64,
                           color: Theme.of(context).colorScheme.onSurfaceVariant,
                         ),
                         const SizedBox(height: 16),
                         Text(
-                          _searchQuery.isNotEmpty 
+                          _searchQuery.isNotEmpty
                               ? 'No todos found matching "$_searchQuery"'
                               : 'No todos yet',
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
+                          style:
+                              Theme.of(context).textTheme.titleMedium?.copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurfaceVariant,
+                                  ),
                         ),
                         const SizedBox(height: 8),
                         if (_searchQuery.isEmpty)
                           Text(
                             'Tap the + button to add your first todo',
-                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium
+                                ?.copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurfaceVariant,
+                                ),
                           ),
                       ],
                     ),
@@ -140,8 +149,8 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                     Text(
                       'Error loading todos',
                       style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.error,
-                      ),
+                            color: Theme.of(context).colorScheme.error,
+                          ),
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -152,7 +161,9 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
                     const SizedBox(height: 16),
                     ElevatedButton(
                       onPressed: () {
-                        ref.read(todoNotifierProvider.notifier).loadTodos(widget.houseId);
+                        ref
+                            .read(todoNotifierProvider.notifier)
+                            .loadTodos(widget.houseId);
                       },
                       child: const Text('Retry'),
                     ),
@@ -172,10 +183,10 @@ class _TodoListScreenState extends ConsumerState<TodoListScreen> {
 
   List<SimpleTodo> _filterTodos(List<SimpleTodo> todos) {
     if (_searchQuery.isEmpty) return todos;
-    
+
     return todos.where((todo) {
       return todo.title.toLowerCase().contains(_searchQuery) ||
-             (todo.notes?.toLowerCase().contains(_searchQuery) ?? false);
+          (todo.notes?.toLowerCase().contains(_searchQuery) ?? false);
     }).toList();
   }
 

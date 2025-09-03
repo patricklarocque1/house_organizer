@@ -97,9 +97,9 @@ class _NotificationSettingsScreenState
       child: Text(
         title,
         style: Theme.of(context).textTheme.titleMedium?.copyWith(
-          fontWeight: FontWeight.bold,
-          color: Theme.of(context).colorScheme.primary,
-        ),
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.primary,
+            ),
       ),
     );
   }
@@ -146,8 +146,8 @@ class _NotificationSettingsScreenState
                 Text(
                   'Quiet Hours',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
               ],
             ),
@@ -155,8 +155,8 @@ class _NotificationSettingsScreenState
             Text(
               'No notifications will be sent during quiet hours',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
             ),
             const SizedBox(height: 16),
             Row(
@@ -269,8 +269,8 @@ class _NotificationSettingsScreenState
                 Text(
                   'Test Notifications',
                   style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
-                  ),
+                        fontWeight: FontWeight.bold,
+                      ),
                 ),
               ],
             ),
@@ -278,8 +278,8 @@ class _NotificationSettingsScreenState
             Text(
               'Send test notifications to verify your settings',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
-              ),
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
             ),
             const SizedBox(height: 16),
             Row(
@@ -372,7 +372,7 @@ class _NotificationSettingsScreenState
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Test ${type} notification sent!'),
+          content: Text('Test $type notification sent!'),
           backgroundColor: Theme.of(context).colorScheme.primary,
         ),
       );

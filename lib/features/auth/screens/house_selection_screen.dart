@@ -92,18 +92,18 @@ class _HouseSelectionScreenState extends ConsumerState<HouseSelectionScreen> {
               Text(
                 'Welcome, ${widget.displayName}!',
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
+                      fontWeight: FontWeight.bold,
+                    ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 8),
               Text(
                 'Are you joining an existing group home or creating a new one?',
                 style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.onSurface.withValues(alpha: 0.7),
-                ),
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSurface.withValues(alpha: 0.7),
+                    ),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 48),
@@ -138,13 +138,17 @@ class _HouseSelectionScreenState extends ConsumerState<HouseSelectionScreen> {
                         const SizedBox(height: 16),
                         Text(
                           'Join Existing House',
-                          style: Theme.of(context).textTheme.titleLarge
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'I have a join code from a supervisor',
-                          style: Theme.of(context).textTheme.bodyMedium
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
                               ?.copyWith(
                                 color: Theme.of(
                                   context,
@@ -189,13 +193,17 @@ class _HouseSelectionScreenState extends ConsumerState<HouseSelectionScreen> {
                         const SizedBox(height: 16),
                         Text(
                           'Create New House',
-                          style: Theme.of(context).textTheme.titleLarge
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleLarge
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'I am a supervisor creating a new group home',
-                          style: Theme.of(context).textTheme.bodyMedium
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
                               ?.copyWith(
                                 color: Theme.of(
                                   context,

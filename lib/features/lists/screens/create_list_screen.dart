@@ -194,9 +194,7 @@ class _CreateListScreenState extends ConsumerState<CreateListScreen> {
     }
 
     try {
-      await ref
-          .read(listNotifierProvider.notifier)
-          .createList(
+      await ref.read(listNotifierProvider.notifier).createList(
             name: _nameController.text.trim(),
             type: _selectedType,
             description: _descriptionController.text.trim().isEmpty

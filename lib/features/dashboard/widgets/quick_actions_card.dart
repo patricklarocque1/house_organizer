@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:house_organizer/features/tasks/screens/create_task_screen.dart';
 import 'package:house_organizer/features/lists/screens/create_list_screen.dart';
+import 'package:house_organizer/features/reports/screens/reports_screen.dart';
+import 'package:house_organizer/features/house/screens/house_settings_screen.dart';
 
 class QuickActionsCard extends StatelessWidget {
   const QuickActionsCard({super.key});
@@ -65,10 +67,9 @@ class QuickActionsCard extends StatelessWidget {
                     Icons.analytics,
                     Colors.purple,
                     () {
-                      // TODO: Implement reports screen
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Reports feature coming soon!'),
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const ReportsScreen(),
                         ),
                       );
                     },
@@ -82,10 +83,9 @@ class QuickActionsCard extends StatelessWidget {
                     Icons.settings,
                     Colors.orange,
                     () {
-                      // TODO: Implement house settings screen
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('House settings coming soon!'),
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => const HouseSettingsScreen(),
                         ),
                       );
                     },
@@ -123,9 +123,9 @@ class QuickActionsCard extends StatelessWidget {
             Text(
               label,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                color: color,
-                fontWeight: FontWeight.w500,
-              ),
+                    color: color,
+                    fontWeight: FontWeight.w500,
+                  ),
               textAlign: TextAlign.center,
             ),
           ],

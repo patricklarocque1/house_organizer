@@ -129,17 +129,17 @@ class _ListOverviewScreenState extends ConsumerState<ListOverviewScreen>
         final filteredLists = _searchQuery.isEmpty
             ? lists
             : lists
-                  .where(
-                    (list) =>
-                        list.name.toLowerCase().contains(
-                          _searchQuery.toLowerCase(),
-                        ) ||
-                        (list.description?.toLowerCase().contains(
-                              _searchQuery.toLowerCase(),
-                            ) ??
-                            false),
-                  )
-                  .toList();
+                .where(
+                  (list) =>
+                      list.name.toLowerCase().contains(
+                            _searchQuery.toLowerCase(),
+                          ) ||
+                      (list.description?.toLowerCase().contains(
+                                _searchQuery.toLowerCase(),
+                              ) ??
+                          false),
+                )
+                .toList();
 
         if (filteredLists.isEmpty) {
           return Center(

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:house_organizer/data/models/list_model.dart';
+import 'package:house_organizer/data/models/list_item.dart';
 import 'package:uuid/uuid.dart';
 
 class AddItemDialog extends StatefulWidget {

@@ -11,10 +11,10 @@ final notificationServiceProvider = Provider<NotificationService>((ref) {
 // Notification settings provider
 final notificationSettingsProvider =
     StateNotifierProvider<NotificationSettingsNotifier, NotificationSettings>((
-      ref,
-    ) {
-      return NotificationSettingsNotifier();
-    });
+  ref,
+) {
+  return NotificationSettingsNotifier();
+});
 
 // Notification settings state
 class NotificationSettings {

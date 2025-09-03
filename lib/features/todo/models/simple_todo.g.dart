@@ -7,17 +7,17 @@ part of 'simple_todo.dart';
 // **************************************************************************
 
 SimpleTodo _$SimpleTodoFromJson(Map<String, dynamic> json) => SimpleTodo(
-  id: json['id'] as String,
-  title: json['title'] as String,
-  completed: json['completed'] as bool? ?? false,
-  createdAt: DateTime.parse(json['createdAt'] as String),
-  completedAt: json['completedAt'] == null
-      ? null
-      : DateTime.parse(json['completedAt'] as String),
-  notes: json['notes'] as String?,
-  houseId: json['houseId'] as String,
-  createdBy: json['createdBy'] as String,
-);
+      id: json['id'] as String,
+      title: json['title'] as String,
+      completed: json['completed'] as bool? ?? false,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      completedAt: json['completedAt'] == null
+          ? null
+          : DateTime.parse(json['completedAt'] as String),
+      notes: json['notes'] as String?,
+      houseId: json['houseId'] as String,
+      createdBy: json['createdBy'] as String,
+    );
 
 Map<String, dynamic> _$SimpleTodoToJson(SimpleTodo instance) =>
     <String, dynamic>{

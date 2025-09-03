@@ -6,6 +6,9 @@ import 'package:house_organizer/features/tasks/screens/task_list_screen.dart';
 import 'package:house_organizer/features/lists/screens/list_overview_screen.dart';
 import 'package:house_organizer/features/lists/providers/list_providers.dart';
 import 'package:house_organizer/features/notifications/screens/notification_settings_screen.dart';
+import 'package:house_organizer/features/notifications/screens/notifications_screen.dart';
+import 'package:house_organizer/features/profile/screens/profile_screen.dart';
+import 'package:house_organizer/features/dashboard/screens/dashboard_screen.dart';
 import 'package:house_organizer/features/dashboard/widgets/task_summary_card.dart';
 import 'package:house_organizer/features/dashboard/widgets/quick_actions_card.dart';
 import 'package:house_organizer/features/dashboard/widgets/list_summary_card.dart';
@@ -26,14 +29,22 @@ class HomeScreen extends ConsumerWidget {
           IconButton(
             icon: const Icon(Icons.notifications),
             onPressed: () {
-              // TODO: Implement notifications
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const NotificationsScreen(),
+                ),
+              );
             },
           ),
           PopupMenuButton<String>(
             onSelected: (value) {
               switch (value) {
                 case 'profile':
-                  // TODO: Implement profile screen
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => const ProfileScreen(),
+                    ),
+                  );
                   break;
                 case 'settings':
                   Navigator.of(context).push(
@@ -98,13 +109,17 @@ class HomeScreen extends ConsumerWidget {
                       children: [
                         Text(
                           'Welcome back, ${user.displayName}!',
-                          style: Theme.of(context).textTheme.headlineSmall
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall
                               ?.copyWith(fontWeight: FontWeight.bold),
                         ),
                         const SizedBox(height: 8),
                         Text(
                           'Here\'s what\'s happening in your house today',
-                          style: Theme.of(context).textTheme.bodyMedium
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyMedium
                               ?.copyWith(
                                 color: Theme.of(
                                   context,
@@ -192,8 +207,8 @@ class HomeScreen extends ConsumerWidget {
                     Text(
                       'Recent Tasks',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
                     TextButton(
                       onPressed: () {
@@ -220,8 +235,8 @@ class HomeScreen extends ConsumerWidget {
                     Text(
                       'Lists',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontWeight: FontWeight.bold,
-                      ),
+                            fontWeight: FontWeight.bold,
+                          ),
                     ),
                     TextButton(
                       onPressed: () {
@@ -276,7 +291,11 @@ class HomeScreen extends ConsumerWidget {
               );
               break;
             case 3:
-              // TODO: Implement dashboard screen
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => const DashboardScreen(),
+                ),
+              );
               break;
           }
         },

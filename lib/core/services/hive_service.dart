@@ -3,6 +3,7 @@ import 'package:house_organizer/data/models/user.dart';
 import 'package:house_organizer/data/models/house.dart';
 import 'package:house_organizer/data/models/task.dart';
 import 'package:house_organizer/data/models/list_model.dart';
+import 'package:house_organizer/data/models/list_item.dart';
 import 'package:house_organizer/data/models/audit_log.dart';
 import 'package:house_organizer/core/constants/app_constants.dart';
 
@@ -14,24 +15,18 @@ class HiveService {
 
   bool _isInitialized = false;
 
-  Future<void> initialize() async {
+  Future<void> init() async {
     if (_isInitialized) return;
 
     await Hive.initFlutter();
 
-    // Register adapters
+    // Register model adapters (enums are handled within generated adapters)
     Hive.registerAdapter(UserAdapter());
-    Hive.registerAdapter(UserRoleAdapter());
     Hive.registerAdapter(HouseAdapter());
     Hive.registerAdapter(TaskAdapter());
-    Hive.registerAdapter(TaskStatusAdapter());
-    Hive.registerAdapter(TaskCategoryAdapter());
-    Hive.registerAdapter(RepeatIntervalAdapter());
     Hive.registerAdapter(ListModelAdapter());
     Hive.registerAdapter(ListItemAdapter());
-    Hive.registerAdapter(ListTypeAdapter());
     Hive.registerAdapter(AuditLogAdapter());
-    Hive.registerAdapter(AuditActionAdapter());
 
     // Open boxes
     await Future.wait([
@@ -45,6 +40,9 @@ class HiveService {
 
     _isInitialized = true;
   }
+
+  // Backwards-compat alias
+  Future<void> initialize() => init();
 
   Box<User> get usersBox => Hive.box<User>(AppConstants.usersBox);
   Box<House> get housesBox => Hive.box<House>(AppConstants.housesBox);

@@ -35,30 +35,30 @@ final tasksForCurrentUserProvider = StreamProvider<List<Task>>((ref) {
 // Tasks by status provider
 final tasksByStatusProvider =
     StreamProvider.family<List<Task>, TaskStatusFilter>((ref, filter) {
-      final taskRepository = ref.watch(taskRepositoryProvider);
-      final authState = ref.watch(authNotifierProvider);
+  final taskRepository = ref.watch(taskRepositoryProvider);
+  final authState = ref.watch(authNotifierProvider);
 
-      return authState.when(
-        data: (user) {
-          if (user == null) return Stream.value([]);
+  return authState.when(
+    data: (user) {
+      if (user == null) return Stream.value([]);
 
-          switch (filter.status) {
-            case TaskStatus.pending:
-            case TaskStatus.inProgress:
-            case TaskStatus.completed:
-            case TaskStatus.cancelled:
-              return taskRepository.getTasksByStatus(
-                user.houseId,
-                filter.status!,
-              );
-            case null: // All tasks
-              return taskRepository.getTasksForHouse(user.houseId);
-          }
-        },
-        loading: () => Stream.value([]),
-        error: (_, __) => Stream.value([]),
-      );
-    });
+      switch (filter.status) {
+        case TaskStatus.pending:
+        case TaskStatus.inProgress:
+        case TaskStatus.completed:
+        case TaskStatus.cancelled:
+          return taskRepository.getTasksByStatus(
+            user.houseId,
+            filter.status!,
+          );
+        case null: // All tasks
+          return taskRepository.getTasksForHouse(user.houseId);
+      }
+    },
+    loading: () => Stream.value([]),
+    error: (_, __) => Stream.value([]),
+  );
+});
 
 // Overdue tasks provider
 final overdueTasksProvider = StreamProvider<List<Task>>((ref) {
@@ -96,7 +96,7 @@ class TaskNotifier extends StateNotifier<AsyncValue<void>> {
   final Ref _ref;
 
   TaskNotifier(this._taskRepository, this._ref)
-    : super(const AsyncValue.data(null));
+      : super(const AsyncValue.data(null));
 
   Future<void> createTask({
     required String title,
@@ -208,9 +208,9 @@ class TaskNotifier extends StateNotifier<AsyncValue<void>> {
 // Task notifier provider
 final taskNotifierProvider =
     StateNotifierProvider<TaskNotifier, AsyncValue<void>>((ref) {
-      final taskRepository = ref.watch(taskRepositoryProvider);
-      return TaskNotifier(taskRepository, ref);
-    });
+  final taskRepository = ref.watch(taskRepositoryProvider);
+  return TaskNotifier(taskRepository, ref);
+});
 
 // Task status filter class
 class TaskStatusFilter {

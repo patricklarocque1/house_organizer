@@ -97,15 +97,15 @@ class _AddTodoDialogState extends State<AddTodoDialog> {
       final todo = widget.existingTodo != null
           ? widget.existingTodo!.copyWith(
               title: _titleController.text.trim(),
-              notes: _notesController.text.trim().isEmpty 
-                  ? null 
+              notes: _notesController.text.trim().isEmpty
+                  ? null
                   : _notesController.text.trim(),
             )
           : SimpleTodo(
               id: _uuid.v4(),
               title: _titleController.text.trim(),
-              notes: _notesController.text.trim().isEmpty 
-                  ? null 
+              notes: _notesController.text.trim().isEmpty
+                  ? null
                   : _notesController.text.trim(),
               createdAt: DateTime.now(),
               houseId: widget.houseId,
