@@ -9,16 +9,16 @@ import 'package:house_organizer/core/constants/app_constants.dart';
 class HiveService {
   static HiveService? _instance;
   static HiveService get instance => _instance ??= HiveService._();
-  
+
   HiveService._();
-  
+
   bool _isInitialized = false;
-  
+
   Future<void> initialize() async {
     if (_isInitialized) return;
-    
+
     await Hive.initFlutter();
-    
+
     // Register adapters
     Hive.registerAdapter(UserAdapter());
     Hive.registerAdapter(UserRoleAdapter());
@@ -32,7 +32,7 @@ class HiveService {
     Hive.registerAdapter(ListTypeAdapter());
     Hive.registerAdapter(AuditLogAdapter());
     Hive.registerAdapter(AuditActionAdapter());
-    
+
     // Open boxes
     await Future.wait([
       Hive.openBox<User>(AppConstants.usersBox),
@@ -42,17 +42,18 @@ class HiveService {
       Hive.openBox<AuditLog>(AppConstants.auditLogsBox),
       Hive.openBox(AppConstants.settingsBox),
     ]);
-    
+
     _isInitialized = true;
   }
-  
+
   Box<User> get usersBox => Hive.box<User>(AppConstants.usersBox);
   Box<House> get housesBox => Hive.box<House>(AppConstants.housesBox);
   Box<Task> get tasksBox => Hive.box<Task>(AppConstants.tasksBox);
   Box<ListModel> get listsBox => Hive.box<ListModel>(AppConstants.listsBox);
-  Box<AuditLog> get auditLogsBox => Hive.box<AuditLog>(AppConstants.auditLogsBox);
+  Box<AuditLog> get auditLogsBox =>
+      Hive.box<AuditLog>(AppConstants.auditLogsBox);
   Box get settingsBox => Hive.box(AppConstants.settingsBox);
-  
+
   Future<void> clearAllData() async {
     await Future.wait([
       usersBox.clear(),
@@ -63,7 +64,7 @@ class HiveService {
       settingsBox.clear(),
     ]);
   }
-  
+
   Future<void> close() async {
     await Hive.close();
     _isInitialized = false;

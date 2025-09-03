@@ -23,7 +23,8 @@ class ListModel with _$ListModel {
     @HiveField(12) String? completedBy,
   }) = _ListModel;
 
-  factory ListModel.fromJson(Map<String, dynamic> json) => _$ListModelFromJson(json);
+  factory ListModel.fromJson(Map<String, dynamic> json) =>
+      _$ListModelFromJson(json);
 }
 
 @freezed
@@ -41,7 +42,8 @@ class ListItem with _$ListItem {
     @HiveField(8) String? purchasedBy,
   }) = _ListItem;
 
-  factory ListItem.fromJson(Map<String, dynamic> json) => _$ListItemFromJson(json);
+  factory ListItem.fromJson(Map<String, dynamic> json) =>
+      _$ListItemFromJson(json);
 }
 
 @HiveType(typeId: 9)

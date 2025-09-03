@@ -46,6 +46,8 @@ extension UserRoleExtension on UserRole {
   }
 
   bool get canManageTasks => this != UserRole.resident;
-  bool get canManageUsers => this == UserRole.supervisor || this == UserRole.admin;
-  bool get canAccessDashboard => this == UserRole.supervisor || this == UserRole.admin;
+  bool get canManageUsers =>
+      this == UserRole.supervisor || this == UserRole.admin;
+  bool get canAccessDashboard =>
+      this == UserRole.supervisor || this == UserRole.admin;
 }

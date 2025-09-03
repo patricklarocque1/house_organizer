@@ -3,30 +3,43 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import 'package:house_organizer/main.dart';
+import 'package:house_organizer/features/auth/screens/login_screen.dart';
+import 'package:house_organizer/features/auth/screens/signup_screen.dart';
 
 void main() {
-  testWidgets('App initializes and shows splash screen', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const ProviderScope(child: HouseOrganizerApp()));
+  testWidgets('Login screen has required elements', (
+    WidgetTester tester,
+  ) async {
+    // Build the login screen directly
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(
+          home: LoginScreen(),
+        ),
+      ),
+    );
 
-    // Verify that our splash screen shows the app name
-    expect(find.text('House Organizer'), findsOneWidget);
-    expect(find.text('Group-Home Task Organizer'), findsOneWidget);
-    expect(find.byIcon(Icons.home_work), findsOneWidget);
-    
-    // Clean up any pending timers
-    await tester.pumpAndSettle();
+    // Verify that the login screen has the required elements
+    expect(find.text('Sign in to your account'), findsOneWidget);
+    expect(find.byType(TextFormField), findsNWidgets(2)); // Email and password fields
+    expect(find.text('Sign In'), findsOneWidget);
   });
 
-  testWidgets('Splash screen transitions to home screen', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
-    await tester.pumpWidget(const ProviderScope(child: HouseOrganizerApp()));
+  testWidgets('Sign up screen has required elements', (
+    WidgetTester tester,
+  ) async {
+    // Build the sign up screen directly
+    await tester.pumpWidget(
+      const ProviderScope(
+        child: MaterialApp(
+          home: SignUpScreen(),
+        ),
+      ),
+    );
 
-    // Wait for splash screen to complete
-    await tester.pumpAndSettle();
-
-    // Verify that we're now on the home screen
-    expect(find.text('Project initialized successfully!'), findsOneWidget);
-    expect(find.byIcon(Icons.check_circle), findsOneWidget);
+    // Verify that the sign up screen has the required elements
+    expect(find.text('Create your account'), findsOneWidget);
+    expect(find.byType(TextFormField), findsNWidgets(4)); // Name, email, password, confirm password fields
+    expect(find.text('Continue'), findsOneWidget);
   });
 }

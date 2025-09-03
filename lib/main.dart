@@ -3,19 +3,18 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_organizer/core/services/hive_service.dart';
 import 'package:house_organizer/core/services/firebase_service.dart';
 import 'package:house_organizer/core/constants/app_constants.dart';
+import 'package:house_organizer/features/auth/providers/auth_providers.dart';
+import 'package:house_organizer/features/auth/screens/login_screen.dart';
+import 'package:house_organizer/data/models/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  
+
   // Initialize services
   await HiveService.instance.initialize();
   await FirebaseService.instance.initialize();
-  
-  runApp(
-    const ProviderScope(
-      child: HouseOrganizerApp(),
-    ),
-  );
+
+  runApp(const ProviderScope(child: HouseOrganizerApp()));
 }
 
 class HouseOrganizerApp extends StatelessWidget {
@@ -59,14 +58,50 @@ class HouseOrganizerApp extends StatelessWidget {
   }
 }
 
-class SplashScreen extends StatefulWidget {
+class SplashScreen extends ConsumerWidget {
   const SplashScreen({super.key});
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  Widget build(BuildContext context, WidgetRef ref) {
+    // Listen to auth state changes
+    ref.listen<AsyncValue<User?>>(authNotifierProvider, (previous, next) {
+      next.whenOrNull(
+        data: (user) {
+          if (context.mounted) {
+            if (user != null) {
+              // User is authenticated, navigate to main app
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
+              );
+            } else {
+              // User is not authenticated, navigate to login
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const LoginScreen()),
+              );
+            }
+          }
+        },
+        error: (error, stackTrace) {
+          // Handle error, navigate to login
+          if (context.mounted) {
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(builder: (context) => const LoginScreen()),
+            );
+          }
+        },
+      );
+    });
+
+    return _SplashScreenContent();
+  }
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenContent extends StatefulWidget {
+  @override
+  State<_SplashScreenContent> createState() => _SplashScreenContentState();
+}
+
+class _SplashScreenContentState extends State<_SplashScreenContent> {
   @override
   void initState() {
     super.initState();
@@ -76,15 +111,6 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> _initializeApp() async {
     // Simulate initialization time
     await Future.delayed(const Duration(seconds: 2));
-    
-    if (mounted) {
-      // Navigate to appropriate screen based on auth state
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const HomeScreen(),
-        ),
-      );
-    }
   }
 
   @override
@@ -112,7 +138,9 @@ class _SplashScreenState extends State<SplashScreen> {
             Text(
               'Group-Home Task Organizer',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).colorScheme.onPrimary.withValues(alpha: 0.8),
+                color: Theme.of(
+                  context,
+                ).colorScheme.onPrimary.withValues(alpha: 0.8),
               ),
             ),
             const SizedBox(height: 48),
@@ -140,11 +168,7 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
-              Icons.check_circle,
-              size: 64,
-              color: Colors.green,
-            ),
+            Icon(Icons.check_circle, size: 64, color: Colors.green),
             SizedBox(height: 16),
             Text(
               'House Organizer App',

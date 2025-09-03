@@ -20,7 +20,8 @@ class AuditLog with _$AuditLog {
     @HiveField(9) String? userDisplayName,
   }) = _AuditLog;
 
-  factory AuditLog.fromJson(Map<String, dynamic> json) => _$AuditLogFromJson(json);
+  factory AuditLog.fromJson(Map<String, dynamic> json) =>
+      _$AuditLogFromJson(json);
 }
 
 @HiveType(typeId: 11)
