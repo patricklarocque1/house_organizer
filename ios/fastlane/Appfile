@@ -1,0 +1,5 @@
+app_identifier("com.example.house_organizer")
+apple_id("you@example.com")
+itc_team_id("YOUR_ITC_TEAM_ID")
+team_id("YOUR_DEV_TEAM_ID")
+

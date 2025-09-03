@@ -98,6 +98,10 @@ flutter packages pub run build_runner build
 flutter packages pub run build_runner watch
 ```
 
+## Supervisor Dashboard
+
+Supervisors and admins can view cross-house metrics in the dashboard. See `docs/supervisor-dashboard.md`.
+
 ### Testing
 ```bash
 # Run unit tests
@@ -109,6 +113,18 @@ flutter test integration_test/
 # Run with coverage
 flutter test --coverage
 ```
+
+## Accessibility
+
+The app targets WCAG 2.2 AA. Implementation notes and testing guidance: `docs/accessibility.md`.
+
+## CI/CD
+
+GitHub Actions workflows for tests and builds are included. Details in `docs/ci-cd.md`.
+
+## Compliance
+
+Privacy, security, and accessibility notes live in `docs/compliance.md`.
 
 ### Building for Production
 

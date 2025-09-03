@@ -171,6 +171,7 @@ class _NotificationSettingsScreenState
                       ),
                       const SizedBox(height: 4),
                       InkWell(
+                        mouseCursor: SystemMouseCursors.click,
                         onTap: () => _selectTime(
                           context,
                           settings.quietHoursStart,
@@ -179,23 +180,27 @@ class _NotificationSettingsScreenState
                             settings.quietHoursEnd,
                           ),
                         ),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Theme.of(context).colorScheme.outline,
+                        child: Semantics(
+                          button: true,
+                          label: 'Select quiet hours start time, current ${settings.quietHoursStart}',
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
                             ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(settings.quietHoursStart),
-                              const Icon(Icons.access_time),
-                            ],
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Theme.of(context).colorScheme.outline,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(settings.quietHoursStart),
+                                const Icon(Icons.access_time),
+                              ],
+                            ),
                           ),
                         ),
                       ),
@@ -213,6 +218,7 @@ class _NotificationSettingsScreenState
                       ),
                       const SizedBox(height: 4),
                       InkWell(
+                        mouseCursor: SystemMouseCursors.click,
                         onTap: () => _selectTime(
                           context,
                           settings.quietHoursEnd,
@@ -221,23 +227,27 @@ class _NotificationSettingsScreenState
                             time,
                           ),
                         ),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: Theme.of(context).colorScheme.outline,
+                        child: Semantics(
+                          button: true,
+                          label: 'Select quiet hours end time, current ${settings.quietHoursEnd}',
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 8,
                             ),
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(settings.quietHoursEnd),
-                              const Icon(Icons.access_time),
-                            ],
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Theme.of(context).colorScheme.outline,
+                              ),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(settings.quietHoursEnd),
+                                const Icon(Icons.access_time),
+                              ],
+                            ),
                           ),
                         ),
                       ),

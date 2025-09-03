@@ -20,10 +20,16 @@ class ListItemCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 8),
       child: ListTile(
-        leading: Checkbox(
-          value: item.isPurchased,
-          onChanged:
-              onTogglePurchased != null ? (_) => onTogglePurchased!() : null,
+        leading: Semantics(
+          label: item.isPurchased
+              ? 'Mark ${item.name} as not purchased'
+              : 'Mark ${item.name} as purchased',
+          toggled: item.isPurchased,
+          child: Checkbox(
+            value: item.isPurchased,
+            onChanged:
+                onTogglePurchased != null ? (_) => onTogglePurchased!() : null,
+          ),
         ),
         title: Text(
           item.name,
@@ -75,6 +81,7 @@ class ListItemCard extends StatelessWidget {
           ],
         ),
         trailing: PopupMenuButton<String>(
+          tooltip: 'Item actions',
           onSelected: (value) {
             switch (value) {
               case 'edit':
@@ -86,24 +93,32 @@ class ListItemCard extends StatelessWidget {
             }
           },
           itemBuilder: (context) => [
-            const PopupMenuItem(
+            PopupMenuItem(
               value: 'edit',
-              child: Row(
-                children: [
-                  Icon(Icons.edit, size: 20),
-                  SizedBox(width: 8),
-                  Text('Edit'),
-                ],
+              child: Semantics(
+                button: true,
+                label: 'Edit item ${item.name}',
+                child: const Row(
+                  children: [
+                    Icon(Icons.edit, size: 20),
+                    SizedBox(width: 8),
+                    Text('Edit'),
+                  ],
+                ),
               ),
             ),
-            const PopupMenuItem(
+            PopupMenuItem(
               value: 'delete',
-              child: Row(
-                children: [
-                  Icon(Icons.delete, size: 20, color: Colors.red),
-                  SizedBox(width: 8),
-                  Text('Delete', style: TextStyle(color: Colors.red)),
-                ],
+              child: Semantics(
+                button: true,
+                label: 'Delete item ${item.name}',
+                child: const Row(
+                  children: [
+                    Icon(Icons.delete, size: 20, color: Colors.red),
+                    SizedBox(width: 8),
+                    Text('Delete', style: TextStyle(color: Colors.red)),
+                  ],
+                ),
               ),
             ),
           ],

@@ -1,0 +1,3 @@
+json_key_file("../fastlane.json") # or use FASTLANE_JSON_KEY env var
+package_name("com.example.house_organizer")
+

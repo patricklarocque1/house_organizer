@@ -146,13 +146,24 @@ class _AddItemDialogState extends State<AddItemDialog> {
         ),
       ),
       actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: const Text('Cancel'),
+        Semantics(
+          button: true,
+          label: 'Cancel and close dialog',
+          child: TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: const Text('Cancel'),
+          ),
         ),
-        ElevatedButton(
-          onPressed: _saveItem,
-          child: Text(_isEditMode ? 'Update' : 'Add'),
+        Semantics(
+          button: true,
+          label: _isEditMode ? 'Update item' : 'Add item',
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(minHeight: 48, minWidth: 88),
+            child: ElevatedButton(
+              onPressed: _saveItem,
+              child: Text(_isEditMode ? 'Update' : 'Add'),
+            ),
+          ),
         ),
       ],
     );

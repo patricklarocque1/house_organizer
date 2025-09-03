@@ -70,6 +70,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  integration_test:
+    sdk: flutter
 
   # Codegen toolchain (pair build_runner 2.6 with json_serializable 6.11)
   build_runner: ^2.6.1         # 👈 stays on build 3.x, compatible with json_serializable 6.11
