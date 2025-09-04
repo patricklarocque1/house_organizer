@@ -236,7 +236,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
 
                   // Category dropdown
                   DropdownButtonFormField<TaskCategory>(
-                    initialValue: _selectedCategory,
+                    value: _selectedCategory,
                     decoration: const InputDecoration(
                       labelText: 'Category',
                       border: OutlineInputBorder(),
@@ -259,7 +259,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
 
                   // Priority dropdown
                   DropdownButtonFormField<int>(
-                    initialValue: _selectedPriority,
+                    value: _selectedPriority,
                     decoration: const InputDecoration(
                       labelText: 'Priority',
                       border: OutlineInputBorder(),
@@ -300,7 +300,7 @@ class _CreateTaskScreenState extends ConsumerState<CreateTaskScreen> {
 
                   // Repeat interval dropdown
                   DropdownButtonFormField<RepeatInterval>(
-                    initialValue: _selectedRepeat,
+                    value: _selectedRepeat,
                     decoration: const InputDecoration(
                       labelText: 'Repeat',
                       border: OutlineInputBorder(),
