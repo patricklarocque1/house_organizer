@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.grouphome.organizer.house_organizer.app-mergeDebugResources-60:/values-ldltr-v21/values-ldltr-v21.xml",
+            "map": [
+                {
+                    "source": "/home/user/.gradle/caches/8.12/transforms/a313276e2b40f9eb0f436723838578cc/transformed/appcompat-1.1.0/res/values-ldltr-v21/values-ldltr-v21.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "112",
+                        "endOffsets": "163"
+                    }
+                }
+            ]
+        }
+    ]
+}
