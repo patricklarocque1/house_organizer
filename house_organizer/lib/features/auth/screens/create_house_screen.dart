@@ -1,6 +1,9 @@
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_organizer/data/models/user.dart';
+import 'package:house_organizer/core/services/firebase_service.dart';
+import 'package:house_organizer/core/constants/app_constants.dart';
 
 class CreateHouseScreen extends ConsumerStatefulWidget {
   final String email;
@@ -47,13 +50,50 @@ class _CreateHouseScreenState extends ConsumerState<CreateHouseScreen> {
     });
 
     try {
-      // For now, we'll create the account as a supervisor
-      // In a real implementation, you would create the house first
-      // and then create the user account with the house ID
-      await widget.onAccountCreated(
-        UserRole.supervisor,
-        'temp_house_id', // This would be the actual house ID from the created house
+      final docRef = FirebaseService.instance.firestore
+          .collection(AppConstants.housesCollection)
+          .doc();
+
+      String generateJoinCode() {
+        const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        final rng = Random.secure();
+        final b = StringBuffer();
+        for (int i = 0; i < 6; i++) {
+          b.write(chars[rng.nextInt(chars.length)]);
+        }
+        return b.toString();
+      }
+
+      final now = DateTime.now();
+      final data = <String, dynamic>{
+        'id': docRef.id,
+        'name': _houseNameController.text.trim(),
+        'address': _addressController.text.trim(),
+        'joinCode': generateJoinCode(),
+        'createdBy': '',
+        'createdAt': now.toIso8601String(),
+        'updatedAt': now.toIso8601String(),
+        'residentIds': <String>[],
+        'supervisorIds': <String>[],
+        'isActive': true,
+        'description': _descriptionController.text.trim().isEmpty
+            ? null
+            : _descriptionController.text.trim(),
+        'phoneNumber': _phoneController.text.trim().isEmpty
+            ? null
+            : _phoneController.text.trim(),
+        'email': _emailController.text.trim().isEmpty
+            ? null
+            : _emailController.text.trim(),
+      };
+
+      await FirebaseService.instance.setDocument(
+        AppConstants.housesCollection,
+        docRef.id,
+        data,
       );
+
+      await widget.onAccountCreated(UserRole.supervisor, docRef.id);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

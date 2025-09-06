@@ -84,3 +84,248 @@ I0903 20:06:47.528798   19416 dev.go:102] Listening on address (HTTP + gRPC): 12
 [debug] [2025-09-04T00:06:48.302Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
 [debug] [2025-09-04T00:06:48.783Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
 [debug] [2025-09-04T00:06:48.784Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] [Firebase Plugin] Stopping Data Connect toolkit
+[warn] !  Data Connect Emulator has exited upon receiving signal: SIGKILL 
+[debug] [2025-09-04T00:09:53.165Z] [Firebase Plugin] Activating Firebase extension.
+[debug] [2025-09-04T00:10:01.689Z] [Firebase Plugin] requireAuthWrapper
+[debug] [2025-09-04T00:10:01.690Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-04T00:10:01.690Z] > authorizing via signed-in user (patrick.adrian1214@gmail.com)
+[debug] [2025-09-04T00:10:01.692Z] Checked if tokens are valid: true, expires at: 1756948007277
+[debug] [2025-09-04T00:10:01.692Z] Checked if tokens are valid: true, expires at: 1756948007277
+[debug] [2025-09-04T00:10:01.692Z] [Firebase Plugin] User found:  patrick.adrian1214@gmail.com
+[info] [Firebase Plugin] (Core:Project) New user detected, fetching projects
+[debug] [2025-09-04T00:10:01.693Z] Checked if tokens are valid: true, expires at: 1756948007277
+[debug] [2025-09-04T00:10:01.694Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2025-09-04T00:10:01.709Z] [Firebase Plugin] VSCode notification server listening on port 40001
+[debug] [2025-09-04T00:10:02.019Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[info] [Firebase Plugin] Starting Data Connect toolkit (version 2.11.2) on port 50001
+[debug] [2025-09-04T00:10:02.419Z] I0903 20:10:02.168293    3732 control.go:94] [/emulator/app 4909] UpdateResources(): done
+Schema: sources: schema\schema.gql [966B] 
+Connector "example": sources: example\queries.gql [1887B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0903 20:10:02.168293    3732 control.go:94] [/emulator/app 4909] UpdateResources(): done\nSchema: sources: schema\\schema.gql [966B] \nConnector \"example\": sources: example\\queries.gql [1887B] \n"}}
+[debug] [2025-09-04T00:10:02.420Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"dataconnect"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2025-09-04T00:10:02.420Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"dataconnect"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2025-09-04T00:10:02.420Z] Starting Data Connect Emulator with command {"binary":"C:\\Users\\boypa\\.cache\\firebase\\emulators\\dataconnect-emulator-2.11.2.exe","args":["--logtostderr","-v=2","dev","--listen=localhost:50001","--config_dir=c:\\Users\\boypa\\Documents\\projects\\house_organizer\\house_organizer\\dataconnect","--enable_output_schema_extensions=true","--enable_output_generated_sdk=true"],"optionalArgs":["listen","config_dir","enable_output_schema_extensions","enable_output_generated_sdk"],"joinArgs":true,"shell":false,"port":9399} {"metadata":{"emulator":{"name":"dataconnect"},"message":"Starting Data Connect Emulator with command {\"binary\":\"C:\\\\Users\\\\boypa\\\\.cache\\\\firebase\\\\emulators\\\\dataconnect-emulator-2.11.2.exe\",\"args\":[\"--logtostderr\",\"-v=2\",\"dev\",\"--listen=localhost:50001\",\"--config_dir=c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\house_organizer\\\\dataconnect\",\"--enable_output_schema_extensions=true\",\"--enable_output_generated_sdk=true\"],\"optionalArgs\":[\"listen\",\"config_dir\",\"enable_output_schema_extensions\",\"enable_output_generated_sdk\"],\"joinArgs\":true,\"shell\":false,\"port\":9399}"}}
+[info] i  dataconnect: Data Connect Emulator logging to dataconnect-debug.log {"metadata":{"emulator":{"name":"dataconnect"},"message":"Data Connect Emulator logging to \u001b[1mdataconnect-debug.log\u001b[22m"}}
+[debug] [2025-09-04T00:10:02.636Z] I0903 20:10:02.466811    3240 load.go:31] Reloading schema and connectors...
+I0903 20:10:02.488533    3240 control.go:94] [/emulator/app 846c] UpdateResources(): done
+Schema: sources: schema\schema.gql [966B] 
+Connector "example": sources: example\queries.gql [1887B] 
+I0903 20:10:02.513192    3240 codegen.go:82] [connector "example" dartSdk] Generating sources into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\house_organizer\\lib\\dataconnect_generated"
+I0903 20:10:02.513192    3240 dartgen.go:682] Started Dart code generation for connector example
+I0903 20:10:02.576529    3240 collector.go:107] schema extensions wrote into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\house_organizer\\dataconnect\\.dataconnect\\schema"
+Generated sources: main\implicit.gql [4136B] prelude.gql [73251B] main\input.gql [57595B] main\relation.gql [30869B] main\query.gql [6362B] main\mutation.gql [17175B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0903 20:10:02.466811    3240 load.go:31] Reloading schema and connectors...\nI0903 20:10:02.488533    3240 control.go:94] [/emulator/app 846c] UpdateResources(): done\nSchema: sources: schema\\schema.gql [966B] \nConnector \"example\": sources: example\\queries.gql [1887B] \nI0903 20:10:02.513192    3240 codegen.go:82] [connector \"example\" dartSdk] Generating sources into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\house_organizer\\\\lib\\\\dataconnect_generated\"\nI0903 20:10:02.513192    3240 dartgen.go:682] Started Dart code generation for connector example\nI0903 20:10:02.576529    3240 collector.go:107] schema extensions wrote into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\house_organizer\\\\dataconnect\\\\.dataconnect\\\\schema\"\nGenerated sources: main\\implicit.gql [4136B] prelude.gql [73251B] main\\input.gql [57595B] main\\relation.gql [30869B] main\\query.gql [6362B] main\\mutation.gql [17175B] \n"}}
+[debug] [2025-09-04T00:10:02.857Z] I0903 20:10:02.658214    3240 collector.go:107] connector "example" dartSdk wrote into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\house_organizer\\lib\\dataconnect_generated"
+Generated sources: upsert_user.dart [3254B] update_user_group_home.dart [2411B] get_tasks.dart [2073B] update_task.dart [3486B] delete_task.dart [1946B] example.dart [2429B] create_task.dart [3299B] upsert_group_home.dart [3794B] README.md [11721B] 
+I0903 20:10:02.658214    3240 load.go:109] Finished reloading
+I0903 20:10:02.671334    3240 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0903 20:10:02.658214    3240 collector.go:107] connector \"example\" dartSdk wrote into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\house_organizer\\\\lib\\\\dataconnect_generated\"\nGenerated sources: upsert_user.dart [3254B] update_user_group_home.dart [2411B] get_tasks.dart [2073B] update_task.dart [3486B] delete_task.dart [1946B] example.dart [2429B] create_task.dart [3299B] upsert_group_home.dart [3794B] README.md [11721B] \nI0903 20:10:02.658214    3240 load.go:109] Finished reloading\nI0903 20:10:02.671334    3240 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001\n"}}
+[debug] [2025-09-04T00:10:03.254Z] I0903 20:10:03.230908    3240 engine.go:171] [/emulator/app 846c] ExecuteGraphqlRead IntrospectionQuery: succeeded. 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0903 20:10:03.230908    3240 engine.go:171] [/emulator/app 846c] ExecuteGraphqlRead IntrospectionQuery: succeeded. \n"}}
+[debug] [2025-09-04T00:10:03.336Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-09-04T00:10:03.336Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] [Firebase Plugin] Stopping Data Connect toolkit
+[warn] !  Data Connect Emulator has exited upon receiving signal: SIGKILL 
+[debug] [2025-09-06T01:07:37.642Z] [Firebase Plugin] Activating Firebase extension.
+[info] [Firebase Plugin] Checked firebase-tools, is up to date!
+[debug] [2025-09-06T01:07:42.925Z] [Firebase Plugin] requireAuthWrapper
+[debug] [2025-09-06T01:07:42.929Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T01:07:42.930Z] > authorizing via signed-in user (patrick.adrian1214@gmail.com)
+[debug] [2025-09-06T01:07:42.936Z] Checked if tokens are valid: false, expires at: 1756948007277
+[debug] [2025-09-06T01:07:42.936Z] Checked if tokens are valid: false, expires at: 1756948007277
+[debug] [2025-09-06T01:07:42.936Z] > refreshing access token with scopes: []
+[debug] [2025-09-06T01:07:42.938Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-09-06T01:07:42.939Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-09-06T01:07:42.970Z] [Firebase Plugin] VSCode notification server listening on port 40001
+[debug] [2025-09-06T01:07:43.310Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[info] [Firebase Plugin] Starting Data Connect toolkit (version 2.11.2) on port 50001
+[debug] [2025-09-06T01:07:43.775Z] I0905 21:07:43.468915   35432 control.go:94] [/emulator/app ed93] UpdateResources(): done
+Schema: sources: ..\house_organizer\dataconnect\schema\schema.gql [966B] 
+Connector "example": sources: ..\house_organizer\dataconnect\example\queries.gql [1887B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0905 21:07:43.468915   35432 control.go:94] [/emulator/app ed93] UpdateResources(): done\nSchema: sources: ..\\house_organizer\\dataconnect\\schema\\schema.gql [966B] \nConnector \"example\": sources: ..\\house_organizer\\dataconnect\\example\\queries.gql [1887B] \n"}}
+[debug] [2025-09-06T01:07:43.777Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"dataconnect"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2025-09-06T01:07:43.777Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"dataconnect"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2025-09-06T01:07:43.777Z] Starting Data Connect Emulator with command {"binary":"C:\\Users\\boypa\\.cache\\firebase\\emulators\\dataconnect-emulator-2.11.2.exe","args":["--logtostderr","-v=2","dev","--listen=localhost:50001","--config_dir=c:\\Users\\boypa\\Documents\\projects\\house_organizer\\dataconnect","--enable_output_schema_extensions=true","--enable_output_generated_sdk=true"],"optionalArgs":["listen","config_dir","enable_output_schema_extensions","enable_output_generated_sdk"],"joinArgs":true,"shell":false,"port":9399} {"metadata":{"emulator":{"name":"dataconnect"},"message":"Starting Data Connect Emulator with command {\"binary\":\"C:\\\\Users\\\\boypa\\\\.cache\\\\firebase\\\\emulators\\\\dataconnect-emulator-2.11.2.exe\",\"args\":[\"--logtostderr\",\"-v=2\",\"dev\",\"--listen=localhost:50001\",\"--config_dir=c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\dataconnect\",\"--enable_output_schema_extensions=true\",\"--enable_output_generated_sdk=true\"],\"optionalArgs\":[\"listen\",\"config_dir\",\"enable_output_schema_extensions\",\"enable_output_generated_sdk\"],\"joinArgs\":true,\"shell\":false,\"port\":9399}"}}
+[info] i  dataconnect: Data Connect Emulator logging to dataconnect-debug.log {"metadata":{"emulator":{"name":"dataconnect"},"message":"Data Connect Emulator logging to \u001b[1mdataconnect-debug.log\u001b[22m"}}
+[debug] [2025-09-06T01:07:43.861Z] I0905 21:07:43.850244   63376 load.go:31] Reloading schema and connectors...
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0905 21:07:43.850244   63376 load.go:31] Reloading schema and connectors...\n"}}
+[debug] [2025-09-06T01:07:43.894Z] I0905 21:07:43.872669   63376 control.go:94] [/emulator/app a42c] UpdateResources(): done
+Schema: sources: ..\house_organizer\dataconnect\schema\schema.gql [966B] 
+Connector "example": sources: ..\house_organizer\dataconnect\example\queries.gql [1887B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0905 21:07:43.872669   63376 control.go:94] [/emulator/app a42c] UpdateResources(): done\nSchema: sources: ..\\house_organizer\\dataconnect\\schema\\schema.gql [966B] \nConnector \"example\": sources: ..\\house_organizer\\dataconnect\\example\\queries.gql [1887B] \n"}}
+[debug] [2025-09-06T01:07:43.895Z] I0905 21:07:43.893693   63376 codegen.go:82] [connector "example" dartSdk] Generating sources into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\house_organizer\\lib\\dataconnect_generated"
+I0905 21:07:43.893693   63376 dartgen.go:682] Started Dart code generation for connector example
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0905 21:07:43.893693   63376 codegen.go:82] [connector \"example\" dartSdk] Generating sources into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\house_organizer\\\\lib\\\\dataconnect_generated\"\nI0905 21:07:43.893693   63376 dartgen.go:682] Started Dart code generation for connector example\n"}}
+[debug] [2025-09-06T01:07:43.966Z] I0905 21:07:43.926850   63376 collector.go:107] schema extensions wrote into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\dataconnect\\.dataconnect\\schema"
+Generated sources: main\implicit.gql [4136B] main\input.gql [57595B] main\relation.gql [30869B] main\query.gql [6362B] main\mutation.gql [17175B] prelude.gql [73251B] 
+I0905 21:07:43.950788   63376 collector.go:107] connector "example" dartSdk wrote into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\house_organizer\\lib\\dataconnect_generated"
+Generated sources: example.dart [2429B] upsert_group_home.dart [3794B] get_tasks.dart [2073B] update_task.dart [3486B] delete_task.dart [1946B] README.md [11721B] create_task.dart [3299B] upsert_user.dart [3254B] update_user_group_home.dart [2411B] 
+I0905 21:07:43.950788   63376 load.go:109] Finished reloading
+I0905 21:07:43.965320   63376 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0905 21:07:43.926850   63376 collector.go:107] schema extensions wrote into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\dataconnect\\\\.dataconnect\\\\schema\"\nGenerated sources: main\\implicit.gql [4136B] main\\input.gql [57595B] main\\relation.gql [30869B] main\\query.gql [6362B] main\\mutation.gql [17175B] prelude.gql [73251B] \nI0905 21:07:43.950788   63376 collector.go:107] connector \"example\" dartSdk wrote into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\house_organizer\\\\lib\\\\dataconnect_generated\"\nGenerated sources: example.dart [2429B] upsert_group_home.dart [3794B] get_tasks.dart [2073B] update_task.dart [3486B] delete_task.dart [1946B] README.md [11721B] create_task.dart [3299B] upsert_user.dart [3254B] update_user_group_home.dart [2411B] \nI0905 21:07:43.950788   63376 load.go:109] Finished reloading\nI0905 21:07:43.965320   63376 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001\n"}}
+[debug] [2025-09-06T01:07:43.980Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-09-06T01:07:43.980Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-09-06T01:07:44.004Z] [Firebase Plugin] User found:  patrick.adrian1214@gmail.com
+[info] [Firebase Plugin] (Core:Project) New user detected, fetching projects
+[debug] [2025-09-06T01:07:44.006Z] Checked if tokens are valid: true, expires at: 1757124462980
+[debug] [2025-09-06T01:07:44.006Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2025-09-06T01:07:44.182Z] I0905 21:07:44.182858   63376 engine.go:171] [/emulator/app a42c] ExecuteGraphqlRead IntrospectionQuery: succeeded. 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0905 21:07:44.182858   63376 engine.go:171] [/emulator/app a42c] ExecuteGraphqlRead IntrospectionQuery: succeeded. \n"}}
+[debug] [2025-09-06T01:07:44.408Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-09-06T01:07:44.409Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] [Firebase Plugin] Stopping Data Connect toolkit
+[warn] !  Data Connect Emulator has exited upon receiving signal: SIGKILL 
+[debug] [2025-09-06T14:24:19.264Z] [Firebase Plugin] Activating Firebase extension.
+[info] [Firebase Plugin] Checked firebase-tools, is up to date!
+[debug] [2025-09-06T14:24:23.977Z] [Firebase Plugin] requireAuthWrapper
+[debug] [2025-09-06T14:24:23.980Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T14:24:23.981Z] > authorizing via signed-in user (patrick.adrian1214@gmail.com)
+[debug] [2025-09-06T14:24:23.985Z] Checked if tokens are valid: false, expires at: 1757124462980
+[debug] [2025-09-06T14:24:23.985Z] Checked if tokens are valid: false, expires at: 1757124462980
+[debug] [2025-09-06T14:24:23.986Z] > refreshing access token with scopes: []
+[debug] [2025-09-06T14:24:23.988Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-09-06T14:24:23.988Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-09-06T14:24:24.034Z] [Firebase Plugin] VSCode notification server listening on port 40001
+[debug] [2025-09-06T14:24:24.558Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[info] [Firebase Plugin] Starting Data Connect toolkit (version 2.11.2) on port 50001
+[debug] [2025-09-06T14:24:25.441Z] I0906 10:24:24.939501   70712 control.go:94] [/emulator/app 748c] UpdateResources(): done
+Schema: sources: ..\house_organizer\dataconnect\schema\schema.gql [966B] 
+Connector "example": sources: ..\house_organizer\dataconnect\example\queries.gql [1887B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 10:24:24.939501   70712 control.go:94] [/emulator/app 748c] UpdateResources(): done\nSchema: sources: ..\\house_organizer\\dataconnect\\schema\\schema.gql [966B] \nConnector \"example\": sources: ..\\house_organizer\\dataconnect\\example\\queries.gql [1887B] \n"}}
+[debug] [2025-09-06T14:24:25.442Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"dataconnect"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2025-09-06T14:24:25.442Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"dataconnect"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2025-09-06T14:24:25.443Z] Starting Data Connect Emulator with command {"binary":"C:\\Users\\boypa\\.cache\\firebase\\emulators\\dataconnect-emulator-2.11.2.exe","args":["--logtostderr","-v=2","dev","--listen=localhost:50001","--config_dir=c:\\Users\\boypa\\Documents\\projects\\house_organizer\\dataconnect","--enable_output_schema_extensions=true","--enable_output_generated_sdk=true"],"optionalArgs":["listen","config_dir","enable_output_schema_extensions","enable_output_generated_sdk"],"joinArgs":true,"shell":false,"port":9399} {"metadata":{"emulator":{"name":"dataconnect"},"message":"Starting Data Connect Emulator with command {\"binary\":\"C:\\\\Users\\\\boypa\\\\.cache\\\\firebase\\\\emulators\\\\dataconnect-emulator-2.11.2.exe\",\"args\":[\"--logtostderr\",\"-v=2\",\"dev\",\"--listen=localhost:50001\",\"--config_dir=c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\dataconnect\",\"--enable_output_schema_extensions=true\",\"--enable_output_generated_sdk=true\"],\"optionalArgs\":[\"listen\",\"config_dir\",\"enable_output_schema_extensions\",\"enable_output_generated_sdk\"],\"joinArgs\":true,\"shell\":false,\"port\":9399}"}}
+[info] i  dataconnect: Data Connect Emulator logging to dataconnect-debug.log {"metadata":{"emulator":{"name":"dataconnect"},"message":"Data Connect Emulator logging to \u001b[1mdataconnect-debug.log\u001b[22m"}}
+[debug] [2025-09-06T14:24:25.593Z] I0906 10:24:25.580433    5908 load.go:31] Reloading schema and connectors...
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 10:24:25.580433    5908 load.go:31] Reloading schema and connectors...\n"}}
+[debug] [2025-09-06T14:24:25.629Z] I0906 10:24:25.611567    5908 control.go:94] [/emulator/app 6f31] UpdateResources(): done
+Schema: sources: ..\house_organizer\dataconnect\schema\schema.gql [966B] 
+Connector "example": sources: ..\house_organizer\dataconnect\example\queries.gql [1887B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 10:24:25.611567    5908 control.go:94] [/emulator/app 6f31] UpdateResources(): done\nSchema: sources: ..\\house_organizer\\dataconnect\\schema\\schema.gql [966B] \nConnector \"example\": sources: ..\\house_organizer\\dataconnect\\example\\queries.gql [1887B] \n"}}
+[debug] [2025-09-06T14:24:25.770Z] I0906 10:24:25.652176    5908 codegen.go:82] [connector "example" dartSdk] Generating sources into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\house_organizer\\lib\\dataconnect_generated"
+I0906 10:24:25.652176    5908 dartgen.go:682] Started Dart code generation for connector example
+I0906 10:24:25.696778    5908 collector.go:107] schema extensions wrote into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\dataconnect\\.dataconnect\\schema"
+Generated sources: main\input.gql [57595B] main\relation.gql [30869B] main\query.gql [6362B] main\mutation.gql [17175B] prelude.gql [73251B] main\implicit.gql [4136B] 
+I0906 10:24:25.730370    5908 collector.go:107] connector "example" dartSdk wrote into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\house_organizer\\lib\\dataconnect_generated"
+Generated sources: example.dart [2429B] upsert_user.dart [3254B] update_user_group_home.dart [2411B] get_tasks.dart [2073B] update_task.dart [3486B] delete_task.dart [1946B] README.md [11721B] create_task.dart [3299B] upsert_group_home.dart [3794B] 
+I0906 10:24:25.730879    5908 load.go:109] Finished reloading
+I0906 10:24:25.747616    5908 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 10:24:25.652176    5908 codegen.go:82] [connector \"example\" dartSdk] Generating sources into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\house_organizer\\\\lib\\\\dataconnect_generated\"\nI0906 10:24:25.652176    5908 dartgen.go:682] Started Dart code generation for connector example\nI0906 10:24:25.696778    5908 collector.go:107] schema extensions wrote into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\dataconnect\\\\.dataconnect\\\\schema\"\nGenerated sources: main\\input.gql [57595B] main\\relation.gql [30869B] main\\query.gql [6362B] main\\mutation.gql [17175B] prelude.gql [73251B] main\\implicit.gql [4136B] \nI0906 10:24:25.730370    5908 collector.go:107] connector \"example\" dartSdk wrote into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\house_organizer\\\\lib\\\\dataconnect_generated\"\nGenerated sources: example.dart [2429B] upsert_user.dart [3254B] update_user_group_home.dart [2411B] get_tasks.dart [2073B] update_task.dart [3486B] delete_task.dart [1946B] README.md [11721B] create_task.dart [3299B] upsert_group_home.dart [3794B] \nI0906 10:24:25.730879    5908 load.go:109] Finished reloading\nI0906 10:24:25.747616    5908 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001\n"}}
+[debug] [2025-09-06T14:24:29.696Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-09-06T14:24:29.696Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-09-06T14:24:29.719Z] [Firebase Plugin] User found:  patrick.adrian1214@gmail.com
+[info] [Firebase Plugin] (Core:Project) New user detected, fetching projects
+[debug] [2025-09-06T14:24:29.720Z] Checked if tokens are valid: true, expires at: 1757172268696
+[debug] [2025-09-06T14:24:29.721Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2025-09-06T14:24:29.849Z] I0906 10:24:29.848971    5908 engine.go:171] [/emulator/app 6f31] ExecuteGraphqlRead IntrospectionQuery: succeeded. 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 10:24:29.848971    5908 engine.go:171] [/emulator/app 6f31] ExecuteGraphqlRead IntrospectionQuery: succeeded. \n"}}
+[debug] [2025-09-06T14:24:30.382Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-09-06T14:24:30.382Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] [Firebase Plugin] Stopping Data Connect toolkit
+[warn] !  Data Connect Emulator has exited upon receiving signal: SIGKILL 
+[debug] [2025-09-06T14:31:04.019Z] [Firebase Plugin] Activating Firebase extension.
+[info] [Firebase Plugin] Checked firebase-tools, is up to date!
+[debug] [2025-09-06T14:31:13.699Z] [Firebase Plugin] requireAuthWrapper
+[debug] [2025-09-06T14:31:13.701Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T14:31:13.701Z] > authorizing via signed-in user (patrick.adrian1214@gmail.com)
+[debug] [2025-09-06T14:31:13.703Z] Checked if tokens are valid: true, expires at: 1757172268696
+[debug] [2025-09-06T14:31:13.703Z] Checked if tokens are valid: true, expires at: 1757172268696
+[debug] [2025-09-06T14:31:13.703Z] [Firebase Plugin] User found:  patrick.adrian1214@gmail.com
+[info] [Firebase Plugin] (Core:Project) New user detected, fetching projects
+[debug] [2025-09-06T14:31:13.704Z] Checked if tokens are valid: true, expires at: 1757172268696
+[debug] [2025-09-06T14:31:13.705Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2025-09-06T14:31:13.721Z] [Firebase Plugin] VSCode notification server listening on port 40001
+[debug] [2025-09-06T14:31:14.361Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[debug] [2025-09-06T14:31:14.990Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-09-06T14:31:14.990Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[debug] [2025-09-06T15:26:10.820Z] [Firebase Plugin] Activating Firebase extension.
+[info] [Firebase Plugin] Checked firebase-tools, is up to date!
+[debug] [2025-09-06T15:26:40.748Z] [Firebase Plugin] requireAuthWrapper
+[debug] [2025-09-06T15:26:40.750Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T15:26:40.750Z] > authorizing via signed-in user (patrick.adrian1214@gmail.com)
+[debug] [2025-09-06T15:26:40.753Z] Checked if tokens are valid: false, expires at: 1757172268696
+[debug] [2025-09-06T15:26:40.753Z] Checked if tokens are valid: false, expires at: 1757172268696
+[debug] [2025-09-06T15:26:40.753Z] > refreshing access token with scopes: []
+[debug] [2025-09-06T15:26:40.754Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2025-09-06T15:26:40.754Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-09-06T15:26:40.778Z] [Firebase Plugin] VSCode notification server listening on port 40001
+[debug] [2025-09-06T15:26:41.468Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[info] [Firebase Plugin] Starting Data Connect toolkit (version 2.11.2) on port 50001
+[debug] [2025-09-06T15:26:41.729Z] I0906 11:26:41.710387   17624 control.go:94] [/emulator/app 3b63] UpdateResources(): done
+Schema: sources: ..\house_organizer\dataconnect\schema\schema.gql [966B] 
+Connector "example": sources: ..\house_organizer\dataconnect\example\queries.gql [1887B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 11:26:41.710387   17624 control.go:94] [/emulator/app 3b63] UpdateResources(): done\nSchema: sources: ..\\house_organizer\\dataconnect\\schema\\schema.gql [966B] \nConnector \"example\": sources: ..\\house_organizer\\dataconnect\\example\\queries.gql [1887B] \n"}}
+[debug] [2025-09-06T15:26:41.729Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"dataconnect"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2025-09-06T15:26:41.730Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"dataconnect"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2025-09-06T15:26:41.730Z] Starting Data Connect Emulator with command {"binary":"C:\\Users\\boypa\\.cache\\firebase\\emulators\\dataconnect-emulator-2.11.2.exe","args":["--logtostderr","-v=2","dev","--listen=localhost:50001","--config_dir=c:\\Users\\boypa\\Documents\\projects\\house_organizer\\dataconnect","--enable_output_schema_extensions=true","--enable_output_generated_sdk=true"],"optionalArgs":["listen","config_dir","enable_output_schema_extensions","enable_output_generated_sdk"],"joinArgs":true,"shell":false,"port":9399} {"metadata":{"emulator":{"name":"dataconnect"},"message":"Starting Data Connect Emulator with command {\"binary\":\"C:\\\\Users\\\\boypa\\\\.cache\\\\firebase\\\\emulators\\\\dataconnect-emulator-2.11.2.exe\",\"args\":[\"--logtostderr\",\"-v=2\",\"dev\",\"--listen=localhost:50001\",\"--config_dir=c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\dataconnect\",\"--enable_output_schema_extensions=true\",\"--enable_output_generated_sdk=true\"],\"optionalArgs\":[\"listen\",\"config_dir\",\"enable_output_schema_extensions\",\"enable_output_generated_sdk\"],\"joinArgs\":true,\"shell\":false,\"port\":9399}"}}
+[info] i  dataconnect: Data Connect Emulator logging to dataconnect-debug.log {"metadata":{"emulator":{"name":"dataconnect"},"message":"Data Connect Emulator logging to \u001b[1mdataconnect-debug.log\u001b[22m"}}
+[debug] [2025-09-06T15:26:41.937Z] I0906 11:26:41.793787   25728 load.go:31] Reloading schema and connectors...
+I0906 11:26:41.828965   25728 control.go:94] [/emulator/app 8338] UpdateResources(): done
+Schema: sources: ..\house_organizer\dataconnect\schema\schema.gql [966B] 
+Connector "example": sources: ..\house_organizer\dataconnect\example\queries.gql [1887B] 
+I0906 11:26:41.864614   25728 codegen.go:82] [connector "example" dartSdk] Generating sources into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\house_organizer\\lib\\dataconnect_generated"
+I0906 11:26:41.864614   25728 dartgen.go:682] Started Dart code generation for connector example
+I0906 11:26:41.920263   25728 collector.go:107] schema extensions wrote into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\dataconnect\\.dataconnect\\schema"
+Generated sources: prelude.gql [73251B] main\mutation.gql [17175B] main\implicit.gql [4136B] main\input.gql [57595B] main\relation.gql [30869B] main\query.gql [6362B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 11:26:41.793787   25728 load.go:31] Reloading schema and connectors...\nI0906 11:26:41.828965   25728 control.go:94] [/emulator/app 8338] UpdateResources(): done\nSchema: sources: ..\\house_organizer\\dataconnect\\schema\\schema.gql [966B] \nConnector \"example\": sources: ..\\house_organizer\\dataconnect\\example\\queries.gql [1887B] \nI0906 11:26:41.864614   25728 codegen.go:82] [connector \"example\" dartSdk] Generating sources into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\house_organizer\\\\lib\\\\dataconnect_generated\"\nI0906 11:26:41.864614   25728 dartgen.go:682] Started Dart code generation for connector example\nI0906 11:26:41.920263   25728 collector.go:107] schema extensions wrote into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\dataconnect\\\\.dataconnect\\\\schema\"\nGenerated sources: prelude.gql [73251B] main\\mutation.gql [17175B] main\\implicit.gql [4136B] main\\input.gql [57595B] main\\relation.gql [30869B] main\\query.gql [6362B] \n"}}
+[debug] [2025-09-06T15:26:41.982Z] I0906 11:26:41.965383   25728 collector.go:107] connector "example" dartSdk wrote into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\house_organizer\\lib\\dataconnect_generated"
+Generated sources: upsert_user.dart [3254B] upsert_group_home.dart [3794B] update_user_group_home.dart [2411B] update_task.dart [3486B] delete_task.dart [1946B] README.md [11721B] create_task.dart [3299B] get_tasks.dart [2073B] example.dart [2429B] 
+I0906 11:26:41.965383   25728 load.go:109] Finished reloading
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 11:26:41.965383   25728 collector.go:107] connector \"example\" dartSdk wrote into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\house_organizer\\\\lib\\\\dataconnect_generated\"\nGenerated sources: upsert_user.dart [3254B] upsert_group_home.dart [3794B] update_user_group_home.dart [2411B] update_task.dart [3486B] delete_task.dart [1946B] README.md [11721B] create_task.dart [3299B] get_tasks.dart [2073B] example.dart [2429B] \nI0906 11:26:41.965383   25728 load.go:109] Finished reloading\n"}}
+[debug] [2025-09-06T15:26:41.991Z] I0906 11:26:41.983579   25728 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 11:26:41.983579   25728 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001\n"}}
+[debug] [2025-09-06T15:26:42.166Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2025-09-06T15:26:42.166Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2025-09-06T15:26:42.188Z] [Firebase Plugin] User found:  patrick.adrian1214@gmail.com
+[info] [Firebase Plugin] (Core:Project) New user detected, fetching projects
+[debug] [2025-09-06T15:26:42.189Z] Checked if tokens are valid: true, expires at: 1757176001167
+[debug] [2025-09-06T15:26:42.190Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2025-09-06T15:26:42.320Z] I0906 11:26:42.304719   25728 engine.go:171] [/emulator/app 8338] ExecuteGraphqlRead IntrospectionQuery: succeeded. 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 11:26:42.304719   25728 engine.go:171] [/emulator/app 8338] ExecuteGraphqlRead IntrospectionQuery: succeeded. \n"}}
+[debug] [2025-09-06T15:26:42.939Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-09-06T15:26:42.939Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]
+[info] [Firebase Plugin] Stopping Data Connect toolkit
+[warn] !  Data Connect Emulator has exited upon receiving signal: SIGKILL 
+[debug] [2025-09-06T15:45:06.951Z] [Firebase Plugin] Activating Firebase extension.
+[info] [Firebase Plugin] Checked firebase-tools, is up to date!
+[debug] [2025-09-06T15:45:11.533Z] [Firebase Plugin] requireAuthWrapper
+[debug] [2025-09-06T15:45:11.534Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2025-09-06T15:45:11.535Z] > authorizing via signed-in user (patrick.adrian1214@gmail.com)
+[debug] [2025-09-06T15:45:11.536Z] Checked if tokens are valid: true, expires at: 1757176001167
+[debug] [2025-09-06T15:45:11.537Z] Checked if tokens are valid: true, expires at: 1757176001167
+[debug] [2025-09-06T15:45:11.537Z] [Firebase Plugin] User found:  patrick.adrian1214@gmail.com
+[info] [Firebase Plugin] (Core:Project) New user detected, fetching projects
+[debug] [2025-09-06T15:45:11.538Z] Checked if tokens are valid: true, expires at: 1757176001167
+[debug] [2025-09-06T15:45:11.539Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects pageSize=1000
+[debug] [2025-09-06T15:45:11.553Z] [Firebase Plugin] VSCode notification server listening on port 40001
+[debug] [2025-09-06T15:45:18.365Z] Object "" in "firebase.json" has unknown property: {"additionalProperty":"flutter"}
+[info] [Firebase Plugin] Starting Data Connect toolkit (version 2.12.0) on port 50001
+[debug] [2025-09-06T15:45:18.831Z] I0906 11:45:18.492991   31344 control.go:94] [/emulator/app 0428] UpdateResources(): done
+Schema: sources: ..\house_organizer\dataconnect\schema\schema.gql [966B] 
+Connector "example": sources: ..\house_organizer\dataconnect\example\queries.gql [1887B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 11:45:18.492991   31344 control.go:94] [/emulator/app 0428] UpdateResources(): done\nSchema: sources: ..\\house_organizer\\dataconnect\\schema\\schema.gql [966B] \nConnector \"example\": sources: ..\\house_organizer\\dataconnect\\example\\queries.gql [1887B] \n"}}
+[debug] [2025-09-06T15:45:18.832Z] Ignoring unsupported arg: auto_download {"metadata":{"emulator":{"name":"dataconnect"},"message":"Ignoring unsupported arg: auto_download"}}
+[debug] [2025-09-06T15:45:18.832Z] Ignoring unsupported arg: port {"metadata":{"emulator":{"name":"dataconnect"},"message":"Ignoring unsupported arg: port"}}
+[debug] [2025-09-06T15:45:18.832Z] Starting Data Connect Emulator with command {"binary":"C:\\Users\\boypa\\.cache\\firebase\\emulators\\dataconnect-emulator-2.12.0.exe","args":["--logtostderr","-v=2","dev","--listen=localhost:50001","--config_dir=c:\\Users\\boypa\\Documents\\projects\\house_organizer\\dataconnect","--enable_output_schema_extensions=true","--enable_output_generated_sdk=true"],"optionalArgs":["listen","config_dir","enable_output_schema_extensions","enable_output_generated_sdk"],"joinArgs":true,"shell":false,"port":9399} {"metadata":{"emulator":{"name":"dataconnect"},"message":"Starting Data Connect Emulator with command {\"binary\":\"C:\\\\Users\\\\boypa\\\\.cache\\\\firebase\\\\emulators\\\\dataconnect-emulator-2.12.0.exe\",\"args\":[\"--logtostderr\",\"-v=2\",\"dev\",\"--listen=localhost:50001\",\"--config_dir=c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\dataconnect\",\"--enable_output_schema_extensions=true\",\"--enable_output_generated_sdk=true\"],\"optionalArgs\":[\"listen\",\"config_dir\",\"enable_output_schema_extensions\",\"enable_output_generated_sdk\"],\"joinArgs\":true,\"shell\":false,\"port\":9399}"}}
+[info] i  dataconnect: Data Connect Emulator logging to dataconnect-debug.log {"metadata":{"emulator":{"name":"dataconnect"},"message":"Data Connect Emulator logging to \u001b[1mdataconnect-debug.log\u001b[22m"}}
+[debug] [2025-09-06T15:45:18.979Z] I0906 11:45:18.878149   36168 load.go:31] Reloading schema and connectors...
+I0906 11:45:18.908981   36168 control.go:94] [/emulator/app bfb8] UpdateResources(): done
+Schema: sources: ..\house_organizer\dataconnect\schema\schema.gql [966B] 
+Connector "example": sources: ..\house_organizer\dataconnect\example\queries.gql [1887B] 
+I0906 11:45:18.959982   36168 codegen.go:82] [connector "example" dartSdk] Generating sources into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\house_organizer\\lib\\dataconnect_generated"
+I0906 11:45:18.961331   36168 dartgen.go:682] Started Dart code generation for connector example
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 11:45:18.878149   36168 load.go:31] Reloading schema and connectors...\nI0906 11:45:18.908981   36168 control.go:94] [/emulator/app bfb8] UpdateResources(): done\nSchema: sources: ..\\house_organizer\\dataconnect\\schema\\schema.gql [966B] \nConnector \"example\": sources: ..\\house_organizer\\dataconnect\\example\\queries.gql [1887B] \nI0906 11:45:18.959982   36168 codegen.go:82] [connector \"example\" dartSdk] Generating sources into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\house_organizer\\\\lib\\\\dataconnect_generated\"\nI0906 11:45:18.961331   36168 dartgen.go:682] Started Dart code generation for connector example\n"}}
+[debug] [2025-09-06T15:45:19.029Z] I0906 11:45:19.010486   36168 collector.go:107] schema extensions wrote into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\dataconnect\\.dataconnect\\schema"
+Generated sources: main\relation.gql [30869B] main\query.gql [6362B] main\mutation.gql [17175B] prelude.gql [73251B] main\implicit.gql [4136B] main\input.gql [57595B] 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 11:45:19.010486   36168 collector.go:107] schema extensions wrote into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\dataconnect\\\\.dataconnect\\\\schema\"\nGenerated sources: main\\relation.gql [30869B] main\\query.gql [6362B] main\\mutation.gql [17175B] prelude.gql [73251B] main\\implicit.gql [4136B] main\\input.gql [57595B] \n"}}
+[debug] [2025-09-06T15:45:19.058Z] I0906 11:45:19.055265   36168 collector.go:107] connector "example" dartSdk wrote into "c:\\Users\\boypa\\Documents\\projects\\house_organizer\\house_organizer\\lib\\dataconnect_generated"
+Generated sources: create_task.dart [3299B] update_user_group_home.dart [2411B] get_tasks.dart [2073B] update_task.dart [3486B] delete_task.dart [1946B] upsert_user.dart [3254B] upsert_group_home.dart [3794B] example.dart [2429B] README.md [11721B] 
+I0906 11:45:19.055265   36168 load.go:109] Finished reloading
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 11:45:19.055265   36168 collector.go:107] connector \"example\" dartSdk wrote into \"c:\\\\Users\\\\boypa\\\\Documents\\\\projects\\\\house_organizer\\\\house_organizer\\\\lib\\\\dataconnect_generated\"\nGenerated sources: create_task.dart [3299B] update_user_group_home.dart [2411B] get_tasks.dart [2073B] update_task.dart [3486B] delete_task.dart [1946B] upsert_user.dart [3254B] upsert_group_home.dart [3794B] example.dart [2429B] README.md [11721B] \nI0906 11:45:19.055265   36168 load.go:109] Finished reloading\n"}}
+[debug] [2025-09-06T15:45:19.073Z] I0906 11:45:19.072919   36168 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 11:45:19.072919   36168 dev.go:102] Listening on address (HTTP + gRPC): 127.0.0.1:50001\n"}}
+[debug] [2025-09-06T15:45:19.730Z] I0906 11:45:19.469833   36168 engine.go:171] [/emulator/app bfb8] ExecuteGraphqlRead IntrospectionQuery: succeeded. 
+ {"metadata":{"emulator":{"name":"dataconnect"},"message":"I0906 11:45:19.469833   36168 engine.go:171] [/emulator/app bfb8] ExecuteGraphqlRead IntrospectionQuery: succeeded. \n"}}
+[debug] [2025-09-06T15:45:19.807Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects 200
+[debug] [2025-09-06T15:45:19.807Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects [omitted]

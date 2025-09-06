@@ -58,8 +58,7 @@ class SupervisorDashboardScreen extends ConsumerWidget {
                         return _InfoCard(
                           icon: Icons.home_outlined,
                           title: 'No houses assigned',
-                          message:
-                              'Ask an admin to add you as a supervisor.',
+                          message: 'Ask an admin to add you as a supervisor.',
                         );
                       }
                       return Column(
@@ -205,7 +204,7 @@ class _SummaryCard extends StatelessWidget {
             child: Row(
               children: [
                 CircleAvatar(
-                  backgroundColor: color.withValues(alpha: 0.12),
+                  backgroundColor: color.withOpacity(0.12),
                   foregroundColor: color,
                   radius: 24,
                   child: Icon(icon, size: 24),
@@ -218,14 +217,11 @@ class _SummaryCard extends StatelessWidget {
                     children: [
                       Text(
                         label,
-                        style: Theme.of(context)
-                            .textTheme
-                            .labelLarge
-                            ?.copyWith(
+                        style: Theme.of(context).textTheme.labelLarge?.copyWith(
                               color: Theme.of(context)
                                   .colorScheme
                                   .onSurface
-                                  .withValues(alpha: 0.7),
+                                  .withOpacity(0.7),
                             ),
                       ),
                       const SizedBox(height: 4),
@@ -249,7 +245,8 @@ class _SummaryCard extends StatelessWidget {
 }
 
 class _InfoCard extends StatelessWidget {
-  const _InfoCard({required this.icon, required this.title, required this.message});
+  const _InfoCard(
+      {required this.icon, required this.title, required this.message});
   final IconData icon;
   final String title;
   final String message;

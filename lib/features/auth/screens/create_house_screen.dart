@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_organizer/data/models/user.dart';
+import 'package:house_organizer/features/houses/services/house_membership_service.dart';
 
 class CreateHouseScreen extends ConsumerStatefulWidget {
   final String email;
@@ -47,13 +48,16 @@ class _CreateHouseScreenState extends ConsumerState<CreateHouseScreen> {
     });
 
     try {
-      // For now, we'll create the account as a supervisor
-      // In a real implementation, you would create the house first
-      // and then create the user account with the house ID
-      await widget.onAccountCreated(
-        UserRole.supervisor,
-        'temp_house_id', // This would be the actual house ID from the created house
+      final service = HouseMembershipService();
+      final houseId = await service.createHouseAndReturnId(
+        name: _houseNameController.text,
+        address: _addressController.text,
+        description: _descriptionController.text,
+        phoneNumber: _phoneController.text,
+        email: _emailController.text,
       );
+
+      await widget.onAccountCreated(UserRole.supervisor, houseId);
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(

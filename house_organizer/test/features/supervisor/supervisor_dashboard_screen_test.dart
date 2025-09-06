@@ -9,7 +9,8 @@ import 'package:house_organizer/features/supervisor/screens/supervisor_dashboard
 import 'package:house_organizer/data/models/house.dart';
 
 void main() {
-  testWidgets('Supervisor dashboard shows overview stats and houses', (tester) async {
+  testWidgets('Supervisor dashboard shows overview stats and houses',
+      (tester) async {
     final user = app_user.User(
       id: 'sup1',
       email: 'sup@example.com',
@@ -64,7 +65,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Supervisor Dashboard'), findsOneWidget);
-    expect(find.text('Houses'), findsOneWidget);
+    expect(find.text('Houses you supervise'), findsOneWidget);
     expect(find.text('2'), findsWidgets);
     expect(find.text('Elm House'), findsOneWidget);
     expect(find.text('Oak House'), findsOneWidget);

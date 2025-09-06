@@ -36,7 +36,7 @@ class ListItemCard extends StatelessWidget {
           style: TextStyle(
             decoration: item.isPurchased ? TextDecoration.lineThrough : null,
             color: item.isPurchased
-                ? Theme.of(context).colorScheme.onSurface.withValues(alpha: 0.6)
+                ? Theme.of(context).colorScheme.onSurface.withOpacity(0.6)
                 : null,
           ),
         ),
@@ -49,7 +49,7 @@ class ListItemCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(
                         context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.6),
+                      ).colorScheme.onSurface.withOpacity(0.6),
                     ),
               ),
             if (item.category != null)
@@ -58,7 +58,7 @@ class ListItemCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(
                         context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.6),
+                      ).colorScheme.onSurface.withOpacity(0.6),
                     ),
               ),
             if (item.notes != null && item.notes!.isNotEmpty)
@@ -67,7 +67,7 @@ class ListItemCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodySmall?.copyWith(
                       color: Theme.of(
                         context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.6),
+                      ).colorScheme.onSurface.withOpacity(0.6),
                     ),
               ),
             if (item.estimatedPrice != null)
