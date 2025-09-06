@@ -71,8 +71,6 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  integration_test:
-    sdk: flutter
     
   # State management for testing
   riverpod: ^2.5.1
