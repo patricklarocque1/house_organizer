@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:house_organizer/core/logging.dart';
-import 'package:house_organizer/core/services/notification_service.dart';
+import './notification_service.dart';
 import 'package:house_organizer/data/models/list_model.dart';
 import 'package:house_organizer/data/models/task.dart';
 
