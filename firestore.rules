@@ -1,10 +1,83 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // TEMPORARY: Allow all reads and writes for development
-    // TODO: Implement proper security rules before production
-    match /{document=**} {
-      allow read, write: if true;
+    // Helper functions
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    function isOwner(userId) {
+      return request.auth.uid == userId;
+    }
+    
+    function isHouseMember(houseId) {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/houses/$(houseId)) &&
+        (get(/databases/$(database)/documents/houses/$(houseId)).data.supervisorIds.hasAny([request.auth.uid]) ||
+         get(/databases/$(database)/documents/houses/$(houseId)).data.residentIds.hasAny([request.auth.uid]));
+    }
+    
+    function isSupervisor(houseId) {
+      return isAuthenticated() && 
+        exists(/databases/$(database)/documents/houses/$(houseId)) &&
+        get(/databases/$(database)/documents/houses/$(houseId)).data.supervisorIds.hasAny([request.auth.uid]);
+    }
+    
+    function isValidUserData() {
+      return request.resource.data.keys().hasAll(['email', 'displayName', 'houseId', 'role', 'createdAt', 'updatedAt']) &&
+        request.resource.data.email is string &&
+        request.resource.data.displayName is string &&
+        request.resource.data.houseId is string &&
+        request.resource.data.role in ['resident', 'supervisor', 'admin'];
+    }
+    
+    function isValidTaskData() {
+      return request.resource.data.keys().hasAll(['title', 'description', 'status', 'category', 'houseId', 'createdBy', 'createdAt', 'updatedAt']) &&
+        request.resource.data.title is string &&
+        request.resource.data.description is string &&
+        request.resource.data.status in ['pending', 'inProgress', 'completed', 'cancelled'] &&
+        request.resource.data.category is string &&
+        request.resource.data.houseId is string;
+    }
+
+    // Users collection
+    match /users/{userId} {
+      allow read: if isAuthenticated() && (isOwner(userId) || isHouseMember(resource.data.houseId));
+      allow create: if isAuthenticated() && isOwner(userId) && isValidUserData();
+      allow update: if isAuthenticated() && isOwner(userId) && isValidUserData();
+      allow delete: if isAuthenticated() && isOwner(userId);
+    }
+
+    // Houses collection
+    match /houses/{houseId} {
+      allow read: if isAuthenticated() && isHouseMember(houseId);
+      allow create: if isAuthenticated() && request.auth.uid == request.resource.data.createdBy;
+      allow update: if isAuthenticated() && isSupervisor(houseId);
+      allow delete: if isAuthenticated() && isSupervisor(houseId);
+    }
+
+    // Tasks collection
+    match /tasks/{taskId} {
+      allow read: if isAuthenticated() && isHouseMember(resource.data.houseId);
+      allow create: if isAuthenticated() && isValidTaskData() && isHouseMember(request.resource.data.houseId);
+      allow update: if isAuthenticated() && isHouseMember(resource.data.houseId) && 
+        (isOwner(resource.data.assignedTo) || isSupervisor(resource.data.houseId));
+      allow delete: if isAuthenticated() && isSupervisor(resource.data.houseId);
+    }
+
+    // Lists collection
+    match /lists/{listId} {
+      allow read: if isAuthenticated() && isHouseMember(resource.data.houseId);
+      allow create: if isAuthenticated() && isHouseMember(request.resource.data.houseId);
+      allow update: if isAuthenticated() && isHouseMember(resource.data.houseId);
+      allow delete: if isAuthenticated() && isSupervisor(resource.data.houseId);
+    }
+
+    // Audit logs collection (read-only for users, write-only for system)
+    match /audit_logs/{logId} {
+      allow read: if isAuthenticated() && isHouseMember(resource.data.houseId);
+      allow create: if isAuthenticated() && isHouseMember(request.resource.data.houseId);
+      allow update, delete: if false; // Audit logs should be immutable
     }
   }
 }

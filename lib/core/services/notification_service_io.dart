@@ -31,6 +31,20 @@ class NotificationServiceImpl implements NotificationService {
   static const String _listChannelId = 'list_notifications';
   static const String _dailySummaryChannelId = 'daily_summary';
   static const String _reminderChannelId = 'reminders';
+  static const String _medicalChannelId = 'medical_notifications';
+  static const String _urgentChannelId = 'urgent_notifications';
+
+  // Notification categories for better organization
+  static const Map<String, String> notificationCategories = {
+    'task_assigned': 'Task Assignment',
+    'task_due': 'Task Due',
+    'task_completed': 'Task Completed',
+    'task_overdue': 'Task Overdue',
+    'list_assigned': 'List Assignment',
+    'house_update': 'House Update',
+    'medical_reminder': 'Medical Reminder',
+    'daily_summary': 'Daily Summary',
+  };
 
   // Background message handler
   static Future<void> firebaseMessagingBackgroundHandler(
@@ -117,25 +131,38 @@ class NotificationServiceImpl implements NotificationService {
       importance: Importance.high,
     );
 
-    await _localNotifications
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(taskChannel);
+    const AndroidNotificationChannel medicalChannel =
+        AndroidNotificationChannel(
+      _medicalChannelId,
+      'Medical Notifications',
+      description: 'Medical task and appointment reminders',
+      importance: Importance.max,
+      enableVibration: true,
+      enableLights: true,
+    );
 
-    await _localNotifications
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(listChannel);
+    const AndroidNotificationChannel urgentChannel =
+        AndroidNotificationChannel(
+      _urgentChannelId,
+      'Urgent Notifications',
+      description: 'Urgent and high-priority task notifications',
+      importance: Importance.max,
+      enableVibration: true,
+      enableLights: true,
+    );
 
-    await _localNotifications
+    final androidPlugin = _localNotifications
         .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(dailySummaryChannel);
+            AndroidFlutterLocalNotificationsPlugin>();
 
-    await _localNotifications
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.createNotificationChannel(reminderChannel);
+    if (androidPlugin != null) {
+      await androidPlugin.createNotificationChannel(taskChannel);
+      await androidPlugin.createNotificationChannel(listChannel);
+      await androidPlugin.createNotificationChannel(dailySummaryChannel);
+      await androidPlugin.createNotificationChannel(reminderChannel);
+      await androidPlugin.createNotificationChannel(medicalChannel);
+      await androidPlugin.createNotificationChannel(urgentChannel);
+    }
   }
 
   Future<void> _initializeFirebaseMessaging() async {
@@ -244,38 +271,193 @@ class NotificationServiceImpl implements NotificationService {
     );
   }
 
-  // Task-related notifications
+  // Enhanced task-related notifications with smart scheduling
   @override
   Future<void> scheduleTaskReminder(Task task) async {
     if (task.dueDate == null) return;
 
     final now = DateTime.now();
     final dueDate = task.dueDate!;
+    final timeUntilDue = dueDate.difference(now);
 
-    // Schedule reminder 1 day before due date
-    final reminderTime = dueDate.subtract(const Duration(days: 1));
+    // Smart reminder scheduling based on time until due date
+    if (timeUntilDue.inDays >= 3) {
+      // Schedule reminder 3 days before for long-term tasks
+      final reminderTime = dueDate.subtract(const Duration(days: 3));
+      if (reminderTime.isAfter(now)) {
+        await _scheduleNotification(
+          id: task.hashCode,
+          title: 'Task Reminder',
+          body: '${task.title} is due in 3 days',
+          scheduledDate: reminderTime,
+          channelId: _reminderChannelId,
+          payload: 'task:${task.id}',
+        );
+      }
+    }
 
-    if (reminderTime.isAfter(now)) {
-      await _scheduleNotification(
-        id: task.hashCode,
-        title: 'Task Due Soon',
-        body: '${task.title} is due tomorrow',
-        scheduledDate: reminderTime,
-        channelId: _reminderChannelId,
-        payload: 'task:${task.id}',
-      );
+    if (timeUntilDue.inDays >= 1) {
+      // Schedule reminder 1 day before due date
+      final reminderTime = dueDate.subtract(const Duration(days: 1));
+      if (reminderTime.isAfter(now)) {
+        await _scheduleNotification(
+          id: task.hashCode + 1,
+          title: 'Task Due Soon',
+          body: '${task.title} is due tomorrow',
+          scheduledDate: reminderTime,
+          channelId: _reminderChannelId,
+          payload: 'task:${task.id}',
+        );
+      }
+    }
+
+    if (timeUntilDue.inHours >= 2) {
+      // Schedule reminder 2 hours before for urgent tasks
+      final reminderTime = dueDate.subtract(const Duration(hours: 2));
+      if (reminderTime.isAfter(now)) {
+        await _scheduleNotification(
+          id: task.hashCode + 2,
+          title: 'Task Due Soon',
+          body: '${task.title} is due in 2 hours',
+          scheduledDate: reminderTime,
+          channelId: _reminderChannelId,
+          payload: 'task:${task.id}',
+        );
+      }
+    }
+
+    if (timeUntilDue.inMinutes >= 30) {
+      // Schedule final reminder 30 minutes before
+      final reminderTime = dueDate.subtract(const Duration(minutes: 30));
+      if (reminderTime.isAfter(now)) {
+        await _scheduleNotification(
+          id: task.hashCode + 3,
+          title: 'Task Due Now',
+          body: '${task.title} is due in 30 minutes',
+          scheduledDate: reminderTime,
+          channelId: _reminderChannelId,
+          payload: 'task:${task.id}',
+        );
+      }
     }
 
     // Schedule reminder on due date
     if (dueDate.isAfter(now)) {
       await _scheduleNotification(
-        id: task.hashCode + 1,
+        id: task.hashCode + 4,
         title: 'Task Due Today',
         body: '${task.title} is due today',
         scheduledDate: dueDate,
         channelId: _reminderChannelId,
         payload: 'task:${task.id}',
       );
+    }
+  }
+
+  // Smart reminder scheduling based on task priority and category
+  Future<void> scheduleSmartReminder(Task task) async {
+    if (task.dueDate == null) return;
+
+    final now = DateTime.now();
+    final dueDate = task.dueDate!;
+    final timeUntilDue = dueDate.difference(now);
+
+    // Determine reminder strategy based on task priority
+    final isHighPriority = task.priority != null && task.priority! >= 8;
+    final isMedicalTask = task.category == TaskCategory.medical;
+    final isCleaningTask = task.category == TaskCategory.cleaning;
+
+    if (isMedicalTask || isHighPriority) {
+      // Medical and high-priority tasks get more frequent reminders
+      await _scheduleMedicalOrHighPriorityReminders(task, timeUntilDue, now, dueDate);
+    } else if (isCleaningTask) {
+      // Cleaning tasks get reminders optimized for daily routines
+      await _scheduleCleaningTaskReminders(task, timeUntilDue, now, dueDate);
+    } else {
+      // Default smart scheduling
+      await scheduleTaskReminder(task);
+    }
+  }
+
+  Future<void> _scheduleMedicalOrHighPriorityReminders(
+    Task task,
+    Duration timeUntilDue,
+    DateTime now,
+    DateTime dueDate,
+  ) async {
+    // More frequent reminders for medical/high-priority tasks
+    final reminderTimes = <Duration>[
+      const Duration(days: 7),
+      const Duration(days: 3),
+      const Duration(days: 1),
+      const Duration(hours: 4),
+      const Duration(hours: 1),
+      const Duration(minutes: 15),
+    ];
+
+    for (int i = 0; i < reminderTimes.length; i++) {
+      final reminderTime = dueDate.subtract(reminderTimes[i]);
+      if (reminderTime.isAfter(now) && timeUntilDue > reminderTimes[i]) {
+        String title;
+        String body;
+        
+        if (reminderTimes[i].inDays > 0) {
+          title = 'Important Task Reminder';
+          body = '${task.title} is due in ${reminderTimes[i].inDays} days';
+        } else if (reminderTimes[i].inHours > 0) {
+          title = 'Urgent Task Reminder';
+          body = '${task.title} is due in ${reminderTimes[i].inHours} hours';
+        } else {
+          title = 'Task Due Now';
+          body = '${task.title} is due in ${reminderTimes[i].inMinutes} minutes';
+        }
+
+        await _scheduleNotification(
+          id: task.hashCode + i,
+          title: title,
+          body: body,
+          scheduledDate: reminderTime,
+          channelId: _reminderChannelId,
+          payload: 'task:${task.id}',
+        );
+      }
+    }
+  }
+
+  Future<void> _scheduleCleaningTaskReminders(
+    Task task,
+    Duration timeUntilDue,
+    DateTime now,
+    DateTime dueDate,
+  ) async {
+    // Optimized for daily cleaning routines
+    if (timeUntilDue.inDays >= 1) {
+      final reminderTime = dueDate.subtract(const Duration(hours: 2));
+      if (reminderTime.isAfter(now)) {
+        await _scheduleNotification(
+          id: task.hashCode,
+          title: 'Cleaning Reminder',
+          body: 'Time to clean: ${task.title}',
+          scheduledDate: reminderTime,
+          channelId: _reminderChannelId,
+          payload: 'task:${task.id}',
+        );
+      }
+    }
+
+    // Morning reminder for same-day cleaning tasks
+    if (timeUntilDue.inHours < 24 && timeUntilDue.inHours > 0) {
+      final morningReminder = DateTime(dueDate.year, dueDate.month, dueDate.day, 8, 0);
+      if (morningReminder.isAfter(now)) {
+        await _scheduleNotification(
+          id: task.hashCode + 1,
+          title: 'Daily Cleaning',
+          body: 'Don\'t forget: ${task.title}',
+          scheduledDate: morningReminder,
+          channelId: _reminderChannelId,
+          payload: 'task:${task.id}',
+        );
+      }
     }
   }
 

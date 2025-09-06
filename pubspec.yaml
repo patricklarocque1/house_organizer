@@ -55,6 +55,7 @@ dependencies:
   permission_handler: ^12.0.1
   timezone: ^0.10.1
   logger: ^2.4.0
+  connectivity_plus: ^6.0.5
 
 dev_dependencies:
   flutter_test:

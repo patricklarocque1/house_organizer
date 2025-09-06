@@ -13,18 +13,19 @@ abstract class Task with _$Task {
     @HiveField(2) required String description,
     @HiveField(3) required TaskStatus status,
     @HiveField(4) required TaskCategory category,
-    @HiveField(5) required String houseId,
+    @HiveField(5) required String groupHomeId, // Aligned with Data Connect
     @HiveField(6) required String createdBy,
     @HiveField(7) required DateTime createdAt,
     @HiveField(8) required DateTime updatedAt,
-    @HiveField(9) String? assignedTo,
+    @HiveField(9) String? assignedToUserId, // Consistent naming
     @HiveField(10) DateTime? dueDate,
     @HiveField(11) RepeatInterval? repeatInterval,
     @HiveField(12) DateTime? completedAt,
-    @HiveField(13) String? completedBy,
+    @HiveField(13) String? completedByUserId, // Consistent naming
     @HiveField(14) int? priority,
     @HiveField(15) List<String>? tags,
     @HiveField(16) String? notes,
+    @HiveField(17) String? type, // Added to match Data Connect
   }) = _Task;
 
   factory Task.fromJson(Map<String, dynamic> json) => _$TaskFromJson(json);
@@ -97,5 +98,48 @@ extension RepeatIntervalExtension on RepeatInterval {
       case RepeatInterval.yearly:
         return 'Yearly';
     }
+  }
+}
+
+// Extension for backward compatibility
+extension TaskCompatibility on Task {
+  // For backward compatibility with existing code
+  String get houseId => groupHomeId;
+  String? get assignedTo => assignedToUserId;
+  String? get completedBy => completedByUserId;
+  
+  // Create a Task with backward-compatible field names
+  factory Task.fromLegacyJson(Map<String, dynamic> json) {
+    return Task(
+      id: json['id'] as String,
+      title: json['title'] as String,
+      description: json['description'] as String,
+      status: TaskStatus.values.firstWhere(
+        (e) => e.name == json['status'],
+        orElse: () => TaskStatus.pending,
+      ),
+      category: TaskCategory.values.firstWhere(
+        (e) => e.name == json['category'],
+        orElse: () => TaskCategory.other,
+      ),
+      groupHomeId: json['houseId'] as String? ?? json['groupHomeId'] as String,
+      createdBy: json['createdBy'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      updatedAt: DateTime.parse(json['updatedAt'] as String),
+      assignedToUserId: json['assignedTo'] as String? ?? json['assignedToUserId'] as String?,
+      dueDate: json['dueDate'] != null ? DateTime.parse(json['dueDate'] as String) : null,
+      repeatInterval: json['repeatInterval'] != null 
+          ? RepeatInterval.values.firstWhere(
+              (e) => e.name == json['repeatInterval'],
+              orElse: () => RepeatInterval.none,
+            )
+          : RepeatInterval.none,
+      completedAt: json['completedAt'] != null ? DateTime.parse(json['completedAt'] as String) : null,
+      completedByUserId: json['completedBy'] as String? ?? json['completedByUserId'] as String?,
+      priority: json['priority'] as int?,
+      tags: (json['tags'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      notes: json['notes'] as String?,
+      type: json['type'] as String? ?? json['category'] as String?,
+    );
   }
 }

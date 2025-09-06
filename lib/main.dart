@@ -3,6 +3,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_organizer/core/services/hive_service.dart';
 import 'package:house_organizer/core/services/firebase_service.dart';
 import 'package:house_organizer/core/services/notification_service.dart';
+import 'package:house_organizer/core/services/offline_sync_service.dart';
+import 'package:house_organizer/core/services/analytics_service.dart';
+import 'package:house_organizer/core/services/performance_service.dart';
 import 'package:house_organizer/core/constants/app_constants.dart';
 import 'package:house_organizer/features/auth/providers/auth_providers.dart';
 import 'package:house_organizer/features/auth/screens/login_screen.dart';
@@ -18,13 +21,45 @@ void main() async {
   // Create a container so we can read dev settings before runApp
   final container = ProviderContainer();
 
-  // Initialize services
-  await HiveService.instance.init();
-  final dev = container.read(devSettingsProvider);
-  await FirebaseService.instance.initialize(
-    emulator: dev.toEmulatorConfig(),
-  );
-  await NotificationService().initialize();
+  // Initialize services with performance monitoring
+  await PerformanceService.monitorAppStartup(() async {
+    try {
+      _log.d('🚀 Initializing Hive local storage');
+      await HiveService.instance.init();
+      _log.d('🚀 Hive initialized successfully');
+
+      final dev = container.read(devSettingsProvider);
+      _log.d('🚀 Initializing Firebase');
+      await FirebaseService.instance.initialize(
+        emulator: dev.toEmulatorConfig(),
+      );
+      _log.d('🚀 Firebase initialized successfully');
+
+      _log.d('🚀 Initializing notification service');
+      await NotificationService().initialize();
+      _log.d('🚀 Notification service initialized successfully');
+
+      _log.d('🚀 Initializing offline sync service');
+      OfflineSyncService.instance.initialize();
+      _log.d('🚀 Offline sync service initialized successfully');
+
+      _log.d('🚀 Enabling performance monitoring');
+      await PerformanceService.enablePerformanceMonitoring();
+      _log.d('🚀 Performance monitoring enabled');
+
+      _log.d('🚀 Setting up analytics');
+      await AnalyticsService.setUserId('anonymous');
+      await AnalyticsService.setUserProperty('app_version', AppConstants.appVersion);
+      _log.d('🚀 Analytics setup completed');
+
+      _log.d('🚀 Logging app startup');
+      await AnalyticsService.logUserEngagement('app_startup', 'main');
+    } catch (e) {
+      _log.d('🚀 Service initialization failed: $e');
+      await AnalyticsService.logError('service_initialization', e.toString());
+      // Continue with app startup even if some services fail
+    }
+  });
 
   // We used a temporary container to read settings; dispose it.
   container.dispose();
