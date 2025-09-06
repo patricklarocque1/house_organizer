@@ -35,11 +35,11 @@ dependencies:
   firebase_messaging: ^16.0.1
   firebase_storage: ^13.0.1
   firebase_analytics: ^12.0.1
-  firebase_data_connect: ^0.2.0+2
+  # firebase_data_connect: ^0.1.2  # Temporarily disabled due to SDK version conflicts
 
   # Local storage — switch to CE to avoid generator conflicts
-  hive_ce: ^2.11.3
-  hive_ce_flutter: ^2.3.2
+  hive_ce: ^2.6.0
+  hive_ce_flutter: ^2.1.0
 
   shared_preferences: ^2.3.2
 
@@ -50,14 +50,14 @@ dependencies:
 
   # Notifications / BG
   flutter_local_notifications: ^19.4.1
-  workmanager: ^0.9.0+3
+  workmanager: ^0.5.2
 
   # Utils
   json_annotation: ^4.9.0
-  intl: ^0.20.2
+  intl: ^0.19.0
   uuid: ^4.5.1
   equatable: ^2.0.5
-  freezed_annotation: ^3.1.0   # latest line
+  freezed_annotation: ^2.4.4
 
   # HTTP
   http: ^1.2.2
@@ -75,13 +75,13 @@ dev_dependencies:
     sdk: flutter
 
   # Codegen toolchain (pair build_runner 2.6 with json_serializable 6.11)
-  build_runner: ^2.6.1         # 👈 stays on build 3.x, compatible with json_serializable 6.11
-  json_serializable: ^6.11.0   # requires source_gen 3.x, analyzer 7.x
-  freezed: ^3.2.0
-  hive_ce_generator: ^1.9.3    # CE generator compatible with analyzer 7 and Freezed
-  mockito: ^5.5.0              # modern Mockito, works with source_gen 3.x
+  build_runner: ^2.4.13        # compatible with Dart SDK 3.5.4
+  json_serializable: ^6.8.0    # compatible with Dart SDK 3.5.4
+  freezed: ^2.5.7              # compatible with Dart SDK 3.5.4  
+  hive_ce_generator: ^1.6.0    # compatible with Dart SDK 3.5.4
+  mockito: ^5.4.4              # compatible with Dart SDK 3.5.4
 
-  flutter_lints: ^6.0.0
+  flutter_lints: ^4.0.0
 
 
 
