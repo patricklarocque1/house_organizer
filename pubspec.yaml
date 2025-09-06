@@ -4,10 +4,10 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  # Dart 3.8 ships with Flutter 3.32. Update the constraints so that
+  # Dart 3.5 ships with Flutter 3.24. Update the constraints so that
   # dev‑dependencies (freezed, build_runner, etc.) resolve correctly.
-  sdk: ">=3.8.0 <4.0.0"
-  flutter: ">=3.32.0"
+  sdk: ">=3.5.0 <4.0.0"
+  flutter: ">=3.24.0"
 
 dependencies:
   flutter:
@@ -62,12 +62,12 @@ dev_dependencies:
   # State management for testing
   riverpod: ^2.5.1
 
-  # Code generation toolchain – these versions require Dart ≥3.7/3.8
-  build_runner: ^2.6.1         # Uses build 3.x; min SDK 3.7
-  json_serializable: ^6.11.0   # Dart ≥3.8 required
-  freezed: ^3.2.0              # Dart ≥3.8
-  hive_ce_generator: ^1.9.3    # Compatible with analyzer 7
-  mockito: ^5.5.0              # Dart ≥3.7
+  # Code generation toolchain – these versions work with Dart ≥3.5
+  build_runner: ^2.4.7         # Compatible with Dart 3.5
+  json_serializable: ^6.8.0    # Compatible with Dart 3.5  
+  freezed: ^2.4.7              # Compatible with Dart 3.5
+  hive_ce_generator: ^1.9.3    # Compatible with Dart 3.5
+  mockito: ^5.4.4              # Compatible with Dart 3.5
 
   # Static analysis
   flutter_lints: ^6.0.0

@@ -19,8 +19,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.8.0 <4.0.0"
-  flutter: ">=3.32.0"
+  sdk: ">=3.5.0 <4.0.0"
+  flutter: ">=3.24.0"
 
 dependencies:
   flutter:
@@ -76,12 +76,12 @@ dev_dependencies:
   # State management for testing
   riverpod: ^2.5.1
 
-  # Codegen toolchain (pair build_runner 2.6 with json_serializable 6.11)
-  build_runner: ^2.6.1         # 👈 stays on build 3.x, compatible with json_serializable 6.11
-  json_serializable: ^6.11.0   # requires source_gen 3.x, analyzer 7.x
-  freezed: ^3.2.0
-  hive_ce_generator: ^1.9.3    # CE generator compatible with analyzer 7 and Freezed
-  mockito: ^5.5.0              # modern Mockito, works with source_gen 3.x
+  # Codegen toolchain - versions compatible with Dart 3.5
+  build_runner: ^2.4.7         # Compatible with Dart 3.5
+  json_serializable: ^6.8.0    # Compatible with Dart 3.5
+  freezed: ^2.4.7              # Compatible with Dart 3.5
+  hive_ce_generator: ^1.9.3    # Compatible with Dart 3.5
+  mockito: ^5.4.4              # Compatible with Dart 3.5
 
   flutter_lints: ^6.0.0
 
