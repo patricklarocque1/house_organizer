@@ -8,7 +8,6 @@ import 'package:house_organizer/data/models/house.dart';
 import 'package:house_organizer/data/models/list_item.dart';
 import 'package:house_organizer/data/models/list_model.dart';
 import 'package:house_organizer/data/models/task.dart';
-import 'package:house_organizer/data/models/user.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
