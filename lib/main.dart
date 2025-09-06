@@ -76,34 +76,47 @@ class SplashScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Listen to auth state changes
-    ref.listen<AsyncValue<User?>>(authNotifierProvider, (previous, next) {
-      next.whenOrNull(
-        data: (user) {
-          if (context.mounted) {
-            if (user != null) {
-              // User is authenticated, navigate to main app
+    final authState = ref.watch(authNotifierProvider);
+
+    print('🚀 SplashScreen: Auth state = $authState');
+
+    // Handle auth state changes
+    authState.whenOrNull(
+      data: (user) {
+        print(
+            '🚀 SplashScreen: User data = ${user?.displayName ?? 'null'} (${user?.role ?? 'null'})');
+        if (context.mounted) {
+          if (user != null) {
+            // User is authenticated, navigate to main app
+            print('🚀 SplashScreen: Navigating to HomeScreen');
+            WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => const HomeScreen()),
               );
-            } else {
-              // User is not authenticated, navigate to login
+            });
+          } else {
+            // User is not authenticated, navigate to login
+            print('🚀 SplashScreen: Navigating to LoginScreen');
+            WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => const LoginScreen()),
               );
-            }
+            });
           }
-        },
-        error: (error, stackTrace) {
-          // Handle error, navigate to login
-          if (context.mounted) {
+        }
+      },
+      error: (error, stackTrace) {
+        // Handle error, navigate to login
+        print('🚀 SplashScreen: Auth error = $error');
+        if (context.mounted) {
+          WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(builder: (context) => const LoginScreen()),
             );
-          }
-        },
-      );
-    });
+          });
+        }
+      },
+    );
 
     return _SplashScreenContent();
   }

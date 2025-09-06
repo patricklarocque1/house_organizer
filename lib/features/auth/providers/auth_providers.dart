@@ -28,19 +28,28 @@ class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
   StreamSubscription<firebase_auth.User?>? _authSubscription;
 
   AuthNotifier(this._authRepository) : super(const AsyncValue.loading()) {
+    print('🔐 AuthNotifier: Initializing');
     _init();
   }
 
   void _init() {
+    print('🔐 AuthNotifier: Setting up auth state listener');
     _authSubscription = _authRepository.authStateChanges.listen((user) async {
+      print(
+          '🔐 AuthNotifier: Auth state changed - User: ${user?.uid ?? 'null'}');
       if (user != null) {
         try {
+          print('🔐 AuthNotifier: Loading user data for ${user.uid}');
           final userData = await _authRepository.getCurrentUserData();
+          print(
+              '🔐 AuthNotifier: User data loaded - ${userData?.displayName ?? 'null'}');
           state = AsyncValue.data(userData);
         } catch (e) {
+          print('🔐 AuthNotifier: Error loading user data: $e');
           state = AsyncValue.error(e, StackTrace.current);
         }
       } else {
+        print('🔐 AuthNotifier: User is null, setting state to null');
         state = const AsyncValue.data(null);
       }
     });
@@ -56,14 +65,18 @@ class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
     required String email,
     required String password,
   }) async {
+    print('🔐 AuthNotifier: Starting sign in with email: $email');
     state = const AsyncValue.loading();
     try {
+      print('🔐 AuthNotifier: Calling repository signInWithEmailAndPassword');
       final user = await _authRepository.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      print('🔐 AuthNotifier: Sign in successful, user: ${user.displayName}');
       state = AsyncValue.data(user);
     } catch (e) {
+      print('🔐 AuthNotifier: Sign in failed: $e');
       state = AsyncValue.error(e, StackTrace.current);
     }
   }

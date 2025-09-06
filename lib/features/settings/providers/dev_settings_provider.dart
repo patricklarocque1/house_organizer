@@ -29,14 +29,14 @@ class DevSettings {
   });
 
   factory DevSettings.defaults() => DevSettings(
-        useFirebaseEmulators: kDebugMode,
+        useFirebaseEmulators: false, // Changed from kDebugMode to false
         hostDesktop: 'localhost',
         hostAndroidEmulator: '10.0.2.2',
         hostIOSSimulator: 'localhost',
         firestorePort: 8080,
         authPort: 9099,
         storagePort: 9199,
-        useDataConnectEmulator: kDebugMode,
+        useDataConnectEmulator: false, // Changed from kDebugMode to false
         dataConnectHost: 'localhost',
         dataConnectPort: 9399,
       );

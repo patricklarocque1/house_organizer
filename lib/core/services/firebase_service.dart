@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -18,8 +17,18 @@ class FirebaseService {
   bool _isInitialized = false;
 
   // Firebase instances
-  FirebaseAuth get auth => FirebaseAuth.instance;
-  FirebaseFirestore get firestore => FirebaseFirestore.instance;
+  FirebaseAuth get auth {
+    print(
+        '🔥 FirebaseService: Getting auth instance, initialized: $_isInitialized');
+    return FirebaseAuth.instance;
+  }
+
+  FirebaseFirestore get firestore {
+    print(
+        '🔥 FirebaseService: Getting firestore instance, initialized: $_isInitialized');
+    return FirebaseFirestore.instance;
+  }
+
   FirebaseMessaging get messaging => FirebaseMessaging.instance;
   FirebaseStorage get storage => FirebaseStorage.instance;
 
@@ -36,15 +45,21 @@ class FirebaseService {
       firestore.collection(AppConstants.auditLogsCollection);
 
   Future<void> initialize({EmulatorConfig? emulator}) async {
-    if (_isInitialized) return;
+    print('🔥 FirebaseService: Initializing Firebase');
+    if (_isInitialized) {
+      print('🔥 FirebaseService: Already initialized');
+      return;
+    }
 
     // Use generated options to ensure correct config across platforms (incl. web)
+    print('🔥 FirebaseService: Initializing Firebase app');
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+    print('🔥 FirebaseService: Firebase app initialized');
 
-    // Use emulators when enabled (default in debug)
-    final enableEmulators = emulator?.useFirebaseEmulators ?? kDebugMode;
+    // Use emulators when explicitly enabled
+    final enableEmulators = emulator?.useFirebaseEmulators ?? false;
     if (enableEmulators) {
       // Choose host based on platform
       String host = emulator?.hostDesktop ?? 'localhost';
@@ -73,6 +88,7 @@ class FirebaseService {
     // Additional storage/firestore configuration can go here
 
     _isInitialized = true;
+    print('🔥 FirebaseService: Initialization complete');
   }
 
   // Auth methods

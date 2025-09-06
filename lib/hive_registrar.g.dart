@@ -9,6 +9,7 @@ import 'package:house_organizer/data/models/list_item.dart';
 import 'package:house_organizer/data/models/list_model.dart';
 import 'package:house_organizer/data/models/task.dart';
 import 'package:house_organizer/data/models/user.dart';
+import 'package:house_organizer/data/models/user.g.dart';
 
 extension HiveRegistrar on HiveInterface {
   void registerAdapters() {
@@ -18,6 +19,7 @@ extension HiveRegistrar on HiveInterface {
     registerAdapter(ListModelAdapter());
     registerAdapter(TaskAdapter());
     registerAdapter(UserAdapter());
+    registerAdapter(UserRoleAdapter());
   }
 }
 
@@ -29,5 +31,6 @@ extension IsolatedHiveRegistrar on IsolatedHiveInterface {
     registerAdapter(ListModelAdapter());
     registerAdapter(TaskAdapter());
     registerAdapter(UserAdapter());
+    registerAdapter(UserRoleAdapter());
   }
 }

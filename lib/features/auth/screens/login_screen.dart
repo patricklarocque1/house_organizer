@@ -29,16 +29,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Future<void> _signIn() async {
     if (!_formKey.currentState!.validate()) return;
 
+    print('🔑 LoginScreen: Starting sign in process');
     setState(() {
       _isLoading = true;
     });
 
     try {
+      print('🔑 LoginScreen: Calling signInWithEmailAndPassword');
       await ref.read(authNotifierProvider.notifier).signInWithEmailAndPassword(
             email: _emailController.text.trim(),
             password: _passwordController.text,
           );
+      print('🔑 LoginScreen: Sign in completed successfully');
     } catch (e) {
+      print('🔑 LoginScreen: Sign in failed: $e');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

@@ -23,7 +23,15 @@ abstract class User with _$User {
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
 }
 
-enum UserRole { resident, supervisor, admin }
+@HiveType(typeId: 2, adapterName: 'UserRoleAdapter')
+enum UserRole {
+  @HiveField(0)
+  resident,
+  @HiveField(1)
+  supervisor,
+  @HiveField(2)
+  admin
+}
 
 extension UserRoleExtension on UserRole {
   String get displayName {
