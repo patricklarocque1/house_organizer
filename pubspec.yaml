@@ -1,46 +1,33 @@
 name: house_organizer
-description: "Group-Home Task Organizer - A comprehensive task and chore management app for group homes"
-# The following line prevents the package from being accidentally published to
-# pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-
-# The following defines the version and build number for your application.
-# A version number is three numbers separated by dots, like 1.2.43
-# followed by an optional build number separated by a +.
-# Both the version and the builder number may be overridden in flutter
-# build by specifying --build-name and --build-number, respectively.
-# In Android, build-name is used as versionName while build-number used as versionCode.
-# Read more about Android versioning at https://developer.android.com/studio/publish/versioning
-# In iOS, build-name is used as CFBundleShortVersionString while build-number is used as CFBundleVersion.
-# Read more about iOS versioning at
-# https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-# In Windows, build-name is used as the major, minor, and patch parts
-# of the product and file versions while build-number is used as the build suffix.
+description: "Group-Home Task Organizer – a comprehensive task and chore management app for group homes"
+publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.5.0 <4.0.0"
+  # Dart 3.8 ships with Flutter 3.32. Update the constraints so that
+  # dev‑dependencies (freezed, build_runner, etc.) resolve correctly.
+  sdk: ">=3.8.0 <4.0.0"
+  flutter: ">=3.32.0"
 
 dependencies:
   flutter:
     sdk: flutter
 
-  # State
+  # State management
   flutter_riverpod: ^2.5.1
 
-  # Firebase - Compatible versions
+  # Firebase – versions that require Dart ≥3.2 and Flutter ≥3.3
   firebase_core: ^4.1.0
   cloud_firestore: ^6.0.1
   firebase_auth: ^6.0.2
   firebase_messaging: ^16.0.1
   firebase_storage: ^13.0.1
   firebase_analytics: ^12.0.1
-  # firebase_data_connect: ^0.1.2  # Temporarily disabled due to SDK version conflicts
+  firebase_data_connect: ^0.2.0+2
 
-  # Local storage — switch to CE to avoid generator conflicts
-  hive_ce: ^2.6.0
-  hive_ce_flutter: ^2.1.0
-
+  # Local storage
+  hive_ce: ^2.11.3
+  hive_ce_flutter: ^2.3.2
   shared_preferences: ^2.3.2
 
   # UI & routing
@@ -48,22 +35,22 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
-  # Notifications / BG
+  # Notifications & background work (requires Flutter ≥3.22)
   flutter_local_notifications: ^19.4.1
-  workmanager: ^0.5.2
+  workmanager: ^0.9.0+3
 
-  # Utils
+  # Utilities
   json_annotation: ^4.9.0
-  intl: ^0.19.0
+  intl: ^0.20.2
   uuid: ^4.5.1
   equatable: ^2.0.5
-  freezed_annotation: ^2.4.4
+  freezed_annotation: ^3.1.0
 
-  # HTTP
+  # HTTP clients
   http: ^1.2.2
   dio: ^5.7.0
 
-  # Permissions & time
+  # Permissions, timezone & logging
   permission_handler: ^12.0.1
   timezone: ^0.10.1
   logger: ^2.4.0
@@ -74,14 +61,15 @@ dev_dependencies:
   integration_test:
     sdk: flutter
 
-  # Codegen toolchain (pair build_runner 2.6 with json_serializable 6.11)
-  build_runner: ^2.4.13        # compatible with Dart SDK 3.5.4
-  json_serializable: ^6.8.0    # compatible with Dart SDK 3.5.4
-  freezed: ^2.5.7              # compatible with Dart SDK 3.5.4  
-  hive_ce_generator: ^1.6.0    # compatible with Dart SDK 3.5.4
-  mockito: ^5.4.4              # compatible with Dart SDK 3.5.4
+  # Code generation toolchain – these versions require Dart ≥3.7/3.8
+  build_runner: ^2.6.1         # Uses build 3.x; min SDK 3.7
+  json_serializable: ^6.11.0   # Dart ≥3.8 required
+  freezed: ^3.2.0              # Dart ≥3.8
+  hive_ce_generator: ^1.9.3    # Compatible with analyzer 7
+  mockito: ^5.5.0              # Dart ≥3.7
 
-  flutter_lints: ^4.0.0
+  # Static analysis
+  flutter_lints: ^6.0.0
 
 
 
