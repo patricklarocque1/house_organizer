@@ -64,7 +64,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('Supervisor Dashboard'), findsOneWidget);
-    expect(find.text('Houses'), findsOneWidget);
+    expect(find.text('Houses you supervise'), findsOneWidget);
     expect(find.text('2'), findsWidgets);
     expect(find.text('Elm House'), findsOneWidget);
     expect(find.text('Oak House'), findsOneWidget);
