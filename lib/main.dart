@@ -9,6 +9,7 @@ import 'package:house_organizer/features/auth/screens/login_screen.dart';
 import 'package:house_organizer/features/dashboard/screens/home_screen.dart';
 import 'package:house_organizer/features/notifications/widgets/notification_banner.dart';
 import 'package:house_organizer/features/settings/providers/dev_settings_provider.dart';
+import 'package:house_organizer/data/models/user.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
