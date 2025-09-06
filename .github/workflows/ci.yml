@@ -9,15 +9,12 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: house_organizer
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
-          channel: 'stable'
+          channel: 'beta'
+          cache: true
       - name: Flutter Pub Get
         run: flutter pub get
       - name: Analyze
@@ -29,15 +26,12 @@ jobs:
     runs-on: ubuntu-latest
     needs: test
     if: github.event_name == 'push'
-    defaults:
-      run:
-        working-directory: house_organizer
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
-          channel: 'stable'
+          channel: 'beta'
+          cache: true
       - name: Flutter Pub Get
         run: flutter pub get
       - name: Build Android AppBundle
@@ -47,15 +41,12 @@ jobs:
     runs-on: macos-latest
     needs: test
     if: github.event_name == 'push'
-    defaults:
-      run:
-        working-directory: house_organizer
     steps:
       - uses: actions/checkout@v4
       - uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
-          channel: 'stable'
+          channel: 'beta'
+          cache: true
       - name: Flutter Pub Get
         run: flutter pub get
       - name: Build iOS

@@ -23,38 +23,33 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'stable'
+          channel: 'beta'
           cache: true
 
       - name: Flutter pub get
-        working-directory: house_organizer
         run: flutter pub get
 
       - name: Analyze
-        working-directory: house_organizer
         run: flutter analyze
 
       - name: Run tests
-        working-directory: house_organizer
         run: flutter test --no-pub
 
       - name: Build Android debug APK
-        working-directory: house_organizer
         run: flutter build apk --debug --no-pub
 
       - name: Build Android release AAB
-        working-directory: house_organizer
         run: flutter build appbundle --no-pub
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-debug-apk
-          path: house_organizer/build/app/outputs/flutter-apk/app-debug.apk
+          path: build/app/outputs/flutter-apk/app-debug.apk
 
       - name: Upload AAB artifact
         uses: actions/upload-artifact@v4
         with:
           name: app-release-aab
-          path: house_organizer/build/app/outputs/bundle/release/app-release.aab
+          path: build/app/outputs/bundle/release/app-release.aab
 
