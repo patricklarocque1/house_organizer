@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_organizer/data/models/user.dart';
+import 'package:house_organizer/features/houses/services/house_membership_service.dart';
 
 class JoinHouseScreen extends ConsumerStatefulWidget {
   final String email;
@@ -39,12 +40,14 @@ class _JoinHouseScreenState extends ConsumerState<JoinHouseScreen> {
     });
 
     try {
-      // For now, we'll create the account as a resident
-      // In a real implementation, you would validate the join code
-      // and get the house ID from the server
+      final service = HouseMembershipService();
+      final houseId = await service.resolveHouseIdByJoinCode(
+        _joinCodeController.text,
+      );
+
       await widget.onAccountCreated(
         UserRole.resident,
-        'temp_house_id', // This would be the actual house ID from the join code
+        houseId,
       );
     } catch (e) {
       if (mounted) {

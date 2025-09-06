@@ -1,3 +1,4 @@
+import 'dart:math';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 import 'package:house_organizer/core/services/firebase_service.dart';
@@ -249,15 +250,11 @@ class AuthRepository {
         isActive: true,
       );
 
-      final docRef = await _firebaseService.addDocument(
-        AppConstants.housesCollection,
-        house.toJson(),
-      );
-
+      final docRef = _firebaseService.firestore
+          .collection(AppConstants.housesCollection)
+          .doc();
       final createdHouse = house.copyWith(id: docRef.id);
-
-      // Update the document with the correct ID
-      await _firebaseService.updateDocument(
+      await _firebaseService.setDocument(
         AppConstants.housesCollection,
         docRef.id,
         createdHouse.toJson(),
@@ -275,13 +272,13 @@ class AuthRepository {
   // Generate unique join code
   String _generateJoinCode() {
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    final random = DateTime.now().millisecondsSinceEpoch;
-    final code = StringBuffer();
+    final secureRandom = Random.secure();
+    final buffer = StringBuffer();
 
     for (int i = 0; i < 6; i++) {
-      code.write(chars[random % chars.length]);
+      buffer.write(chars[secureRandom.nextInt(chars.length)]);
     }
 
-    return code.toString();
+    return buffer.toString();
   }
 }

@@ -57,7 +57,7 @@ class TaskCard extends StatelessWidget {
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: Theme.of(
                           context,
-                        ).colorScheme.onSurface.withValues(alpha: 0.7),
+                        ).colorScheme.onSurface.withOpacity(0.7),
                       ),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
@@ -93,7 +93,7 @@ class TaskCard extends StatelessWidget {
                           ? Colors.red
                           : Theme.of(
                               context,
-                            ).colorScheme.onSurface.withValues(alpha: 0.6),
+                            ).colorScheme.onSurface.withOpacity(0.6),
                     ),
                     const SizedBox(width: 4),
                     Text(
@@ -106,7 +106,7 @@ class TaskCard extends StatelessWidget {
                                   )
                                     .colorScheme
                                     .onSurface
-                                    .withValues(alpha: 0.6),
+                                    .withOpacity(0.6),
                             fontWeight: isOverdue ? FontWeight.bold : null,
                           ),
                     ),
@@ -118,7 +118,7 @@ class TaskCard extends StatelessWidget {
                       size: 16,
                       color: Theme.of(
                         context,
-                      ).colorScheme.onSurface.withValues(alpha: 0.6),
+                      ).colorScheme.onSurface.withOpacity(0.6),
                     ),
                     const SizedBox(width: 4),
                     Expanded(
@@ -127,7 +127,7 @@ class TaskCard extends StatelessWidget {
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
                               color: Theme.of(
                                 context,
-                              ).colorScheme.onSurface.withValues(alpha: 0.6),
+                              ).colorScheme.onSurface.withOpacity(0.6),
                             ),
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -202,22 +202,22 @@ class TaskCard extends StatelessWidget {
 
     switch (task.status) {
       case TaskStatus.pending:
-        backgroundColor = Colors.orange.withValues(alpha: 0.1);
+        backgroundColor = Colors.orange.withOpacity(0.1);
         textColor = Colors.orange;
         icon = Icons.pending;
         break;
       case TaskStatus.inProgress:
-        backgroundColor = Colors.blue.withValues(alpha: 0.1);
+        backgroundColor = Colors.blue.withOpacity(0.1);
         textColor = Colors.blue;
         icon = Icons.play_arrow;
         break;
       case TaskStatus.completed:
-        backgroundColor = Colors.green.withValues(alpha: 0.1);
+        backgroundColor = Colors.green.withOpacity(0.1);
         textColor = Colors.green;
         icon = Icons.check_circle;
         break;
       case TaskStatus.cancelled:
-        backgroundColor = Colors.red.withValues(alpha: 0.1);
+        backgroundColor = Colors.red.withOpacity(0.1);
         textColor = Colors.red;
         icon = Icons.cancel;
         break;
@@ -290,7 +290,7 @@ class TaskCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.1),
+        color: color.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -315,7 +315,7 @@ class TaskCard extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       decoration: BoxDecoration(
-        color: Colors.red.withValues(alpha: 0.1),
+        color: Colors.red.withOpacity(0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:house_organizer/features/auth/repositories/auth_repository.dart';
@@ -24,13 +25,14 @@ final currentUserProvider = FutureProvider<User?>((ref) async {
 // Auth state notifier
 class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
   final AuthRepository _authRepository;
+  StreamSubscription<firebase_auth.User?>? _authSubscription;
 
   AuthNotifier(this._authRepository) : super(const AsyncValue.loading()) {
     _init();
   }
 
   void _init() {
-    _authRepository.authStateChanges.listen((user) async {
+    _authSubscription = _authRepository.authStateChanges.listen((user) async {
       if (user != null) {
         try {
           final userData = await _authRepository.getCurrentUserData();
@@ -42,6 +44,12 @@ class AuthNotifier extends StateNotifier<AsyncValue<User?>> {
         state = const AsyncValue.data(null);
       }
     });
+  }
+
+  @override
+  void dispose() {
+    _authSubscription?.cancel();
+    super.dispose();
   }
 
   Future<void> signInWithEmailAndPassword({

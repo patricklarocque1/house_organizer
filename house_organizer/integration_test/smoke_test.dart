@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:riverpod/riverpod.dart' as riverpod show AsyncValue;
 import 'package:integration_test/integration_test.dart';
 import 'package:house_organizer/features/dashboard/screens/dashboard_screen.dart';
 import 'package:house_organizer/features/auth/providers/auth_providers.dart';
@@ -20,8 +21,12 @@ void main() {
       updatedAt: DateTime(2024, 1, 1),
     );
 
+    class _TestAuthNotifier extends StateNotifier<riverpod.AsyncValue<app_user.User?>> {
+      _TestAuthNotifier(app_user.User u) : super(riverpod.AsyncValue.data(u));
+    }
+
     await tester.pumpWidget(ProviderScope(overrides: [
-      currentUserProvider.overrideWith((ref) async => user),
+      authNotifierProvider.overrideWith((ref) => _TestAuthNotifier(user)),
     ], child: const MaterialApp(home: DashboardScreen())));
 
     await tester.pumpAndSettle();
