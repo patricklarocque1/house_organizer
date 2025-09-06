@@ -1,4 +1,3 @@
-import 'dart:typed_data';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -43,8 +42,8 @@ class FirebaseService {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    // Use emulators when enabled (default in debug)
-    final enableEmulators = emulator?.useFirebaseEmulators ?? kDebugMode;
+    // Use emulators when explicitly enabled
+    final enableEmulators = emulator?.useFirebaseEmulators ?? false;
     if (enableEmulators) {
       // Choose host based on platform
       String host = emulator?.hostDesktop ?? 'localhost';
