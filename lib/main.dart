@@ -8,7 +8,6 @@ import 'package:house_organizer/features/auth/providers/auth_providers.dart';
 import 'package:house_organizer/features/auth/screens/login_screen.dart';
 import 'package:house_organizer/features/dashboard/screens/home_screen.dart';
 import 'package:house_organizer/features/notifications/widgets/notification_banner.dart';
-import 'package:house_organizer/data/models/user.dart';
 import 'package:house_organizer/features/settings/providers/dev_settings_provider.dart';
 
 void main() async {
@@ -167,7 +166,7 @@ class _SplashScreenContentState extends State<_SplashScreenContent> {
                     color: Theme.of(context)
                         .colorScheme
                         .onPrimary
-                        .withOpacity(0.8),
+                        .withValues(alpha: 0.8),
                   ),
             ),
             const SizedBox(height: 48),
