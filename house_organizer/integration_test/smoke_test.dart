@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-// Use AsyncValue from flutter_riverpod directly
-import 'package:flutter_riverpod/flutter_riverpod.dart' show AsyncValue;
 import 'package:integration_test/integration_test.dart';
 import 'package:house_organizer/features/dashboard/screens/dashboard_screen.dart';
 import 'package:house_organizer/features/auth/providers/auth_providers.dart';

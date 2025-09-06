@@ -167,7 +167,7 @@ class _SplashScreenContentState extends State<_SplashScreenContent> {
                     color: Theme.of(context)
                         .colorScheme
                         .onPrimary
-                        .withOpacity(0.8),
+                        .withValues(alpha: 0.8),
                   ),
             ),
             const SizedBox(height: 48),
