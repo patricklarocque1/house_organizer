@@ -73,6 +73,9 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
+    
+  # State management for testing
+  riverpod: ^2.5.1
 
   # Codegen toolchain (pair build_runner 2.6 with json_serializable 6.11)
   build_runner: ^2.6.1         # 👈 stays on build 3.x, compatible with json_serializable 6.11
