@@ -8,7 +8,6 @@ import 'package:house_organizer/features/auth/providers/auth_providers.dart';
 import 'package:house_organizer/features/auth/screens/login_screen.dart';
 import 'package:house_organizer/features/dashboard/screens/home_screen.dart';
 import 'package:house_organizer/features/notifications/widgets/notification_banner.dart';
-import 'package:house_organizer/data/models/user.dart';
 import 'package:house_organizer/features/settings/providers/dev_settings_provider.dart';
 
 void main() async {
@@ -20,9 +19,7 @@ void main() async {
   // Initialize services
   await HiveService.instance.init();
   final dev = container.read(devSettingsProvider);
-  await FirebaseService.instance.initialize(
-    emulator: dev.toEmulatorConfig(),
-  );
+  await FirebaseService.instance.initialize(emulator: dev.toEmulatorConfig());
   await NotificationService().initialize();
 
   // We used a temporary container to read settings; dispose it.
@@ -84,7 +81,8 @@ class SplashScreen extends ConsumerWidget {
     authState.whenOrNull(
       data: (user) {
         print(
-            '🚀 SplashScreen: User data = ${user?.displayName ?? 'null'} (${user?.role ?? 'null'})');
+          '🚀 SplashScreen: User data = ${user?.displayName ?? 'null'} (${user?.role ?? 'null'})',
+        );
         if (context.mounted) {
           if (user != null) {
             // User is authenticated, navigate to main app
@@ -156,19 +154,16 @@ class _SplashScreenContentState extends State<_SplashScreenContent> {
             Text(
               AppConstants.appName,
               style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                color: Theme.of(context).colorScheme.onPrimary,
+                fontWeight: FontWeight.bold,
+              ),
             ),
             const SizedBox(height: 16),
             Text(
               'Group-Home Task Organizer',
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: Theme.of(context)
-                        .colorScheme
-                        .onPrimary
-                        .withOpacity(0.8),
-                  ),
+                color: Theme.of(context).colorScheme.onPrimary.withOpacity(0.8),
+              ),
             ),
             const SizedBox(height: 48),
             CircularProgressIndicator(
