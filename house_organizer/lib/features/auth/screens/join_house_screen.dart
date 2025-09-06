@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:house_organizer/data/models/user.dart';
+import 'package:house_organizer/core/services/firebase_service.dart';
+import 'package:house_organizer/core/constants/app_constants.dart';
 
 class JoinHouseScreen extends ConsumerStatefulWidget {
   final String email;
@@ -39,12 +41,22 @@ class _JoinHouseScreenState extends ConsumerState<JoinHouseScreen> {
     });
 
     try {
-      // For now, we'll create the account as a resident
-      // In a real implementation, you would validate the join code
-      // and get the house ID from the server
+      final joinCode = _joinCodeController.text.trim().toUpperCase();
+      final query = await FirebaseService.instance.getCollection(
+        AppConstants.housesCollection,
+        queryBuilder: (q) => q.where('joinCode', isEqualTo: joinCode),
+        limit: 1,
+      );
+
+      if (query.docs.isEmpty) {
+        throw Exception('Invalid join code');
+      }
+
+      final houseId = query.docs.first.id;
+
       await widget.onAccountCreated(
         UserRole.resident,
-        'temp_house_id', // This would be the actual house ID from the join code
+        houseId,
       );
     } catch (e) {
       if (mounted) {

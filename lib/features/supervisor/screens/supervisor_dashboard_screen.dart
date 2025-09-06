@@ -205,7 +205,7 @@ class _SummaryCard extends StatelessWidget {
             child: Row(
               children: [
                 CircleAvatar(
-                  backgroundColor: color.withValues(alpha: 0.12),
+                  backgroundColor: color.withOpacity(0.12),
                   foregroundColor: color,
                   radius: 24,
                   child: Icon(icon, size: 24),
@@ -225,7 +225,7 @@ class _SummaryCard extends StatelessWidget {
                               color: Theme.of(context)
                                   .colorScheme
                                   .onSurface
-                                  .withValues(alpha: 0.7),
+                                  .withOpacity(0.7),
                             ),
                       ),
                       const SizedBox(height: 4),
