@@ -15,7 +15,7 @@ class DcTasksList extends ConsumerWidget {
         }
         return ListView.separated(
           itemCount: items.length,
-          separatorBuilder: (_, _) => const Divider(height: 1),
+          separatorBuilder: (context, index) => const Divider(height: 1),
           itemBuilder: (context, index) {
             final t = items[index];
             return ListTile(
