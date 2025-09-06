@@ -8,11 +8,12 @@ import 'package:house_organizer/features/auth/providers/auth_providers.dart';
 import 'package:house_organizer/features/auth/screens/login_screen.dart';
 import 'package:house_organizer/features/dashboard/screens/home_screen.dart';
 import 'package:house_organizer/features/notifications/widgets/notification_banner.dart';
-import 'package:house_organizer/data/models/user.dart';
 import 'package:house_organizer/features/settings/providers/dev_settings_provider.dart';
+import 'package:house_organizer/core/logging.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  final _log = buildLogger();
 
   // Create a container so we can read dev settings before runApp
   final container = ProviderContainer();
@@ -78,17 +79,17 @@ class SplashScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authNotifierProvider);
 
-    print('🚀 SplashScreen: Auth state = $authState');
+    _log.d('🚀 SplashScreen: Auth state = $authState');
 
     // Handle auth state changes
     authState.whenOrNull(
       data: (user) {
-        print(
+        _log.d(
             '🚀 SplashScreen: User data = ${user?.displayName ?? 'null'} (${user?.role ?? 'null'})');
         if (context.mounted) {
           if (user != null) {
             // User is authenticated, navigate to main app
-            print('🚀 SplashScreen: Navigating to HomeScreen');
+            _log.d('🚀 SplashScreen: Navigating to HomeScreen');
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -96,7 +97,7 @@ class SplashScreen extends ConsumerWidget {
             });
           } else {
             // User is not authenticated, navigate to login
-            print('🚀 SplashScreen: Navigating to LoginScreen');
+            _log.d('🚀 SplashScreen: Navigating to LoginScreen');
             WidgetsBinding.instance.addPostFrameCallback((_) {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(builder: (context) => const LoginScreen()),
@@ -107,7 +108,7 @@ class SplashScreen extends ConsumerWidget {
       },
       error: (error, stackTrace) {
         // Handle error, navigate to login
-        print('🚀 SplashScreen: Auth error = $error');
+        _log.d('🚀 SplashScreen: Auth error = $error');
         if (context.mounted) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
             Navigator.of(context).pushReplacement(
@@ -167,7 +168,7 @@ class _SplashScreenContentState extends State<_SplashScreenContent> {
                     color: Theme.of(context)
                         .colorScheme
                         .onPrimary
-                        .withOpacity(0.8),
+                        .withValues(alpha:0.8),
                   ),
             ),
             const SizedBox(height: 48),

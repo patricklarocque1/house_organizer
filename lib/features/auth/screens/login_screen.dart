@@ -4,6 +4,7 @@ import 'package:house_organizer/features/auth/providers/auth_providers.dart';
 import 'package:house_organizer/features/auth/screens/signup_screen.dart';
 import 'package:house_organizer/features/auth/screens/forgot_password_screen.dart';
 import 'package:house_organizer/core/constants/app_constants.dart';
+import 'package:house_organizer/core/logging.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
@@ -18,6 +19,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   final _passwordController = TextEditingController();
   bool _obscurePassword = true;
   bool _isLoading = false;
+  final _log = buildLogger();
 
   @override
   void dispose() {
@@ -29,20 +31,20 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   Future<void> _signIn() async {
     if (!_formKey.currentState!.validate()) return;
 
-    print('🔑 LoginScreen: Starting sign in process');
+    _log.d('🔑 LoginScreen: Starting sign in process');
     setState(() {
       _isLoading = true;
     });
 
     try {
-      print('🔑 LoginScreen: Calling signInWithEmailAndPassword');
+      _log.d('🔑 LoginScreen: Calling signInWithEmailAndPassword');
       await ref.read(authNotifierProvider.notifier).signInWithEmailAndPassword(
             email: _emailController.text.trim(),
             password: _passwordController.text,
           );
-      print('🔑 LoginScreen: Sign in completed successfully');
+      _log.d('🔑 LoginScreen: Sign in completed successfully');
     } catch (e) {
-      print('🔑 LoginScreen: Sign in failed: $e');
+      _log.d('🔑 LoginScreen: Sign in failed: $e');
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

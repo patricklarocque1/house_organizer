@@ -6,17 +6,19 @@ import 'package:house_organizer/core/services/hive_service.dart';
 import 'package:house_organizer/data/models/user.dart';
 import 'package:house_organizer/data/models/house.dart';
 import 'package:house_organizer/core/constants/app_constants.dart';
+import 'package:house_organizer/core/logging.dart';
 
 class AuthRepository {
   final FirebaseService _firebaseService = FirebaseService.instance;
   final HiveService _hiveService = HiveService.instance;
+  final _log = buildLogger();
 
   // Auth state stream
   Stream<firebase_auth.User?> get authStateChanges {
-    print('🔐 AuthRepository: Getting auth state changes stream');
+    _log.d('🔐 AuthRepository: Getting auth state changes stream');
     final stream = _firebaseService.auth.authStateChanges();
     return stream.map((user) {
-      print(
+      _log.d(
           '🔐 AuthRepository: Auth state stream emitted - User: ${user?.uid ?? 'null'}');
       return user;
     });
@@ -31,45 +33,45 @@ class AuthRepository {
     required String password,
   }) async {
     try {
-      print('🔐 AuthRepository: Starting sign in with email: $email');
+      _log.d('🔐 AuthRepository: Starting sign in with email: $email');
       final credential = await _firebaseService.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
 
       if (credential.user == null) {
-        print('🔐 AuthRepository: Sign in failed - no user returned');
+        _log.d('🔐 AuthRepository: Sign in failed - no user returned');
         throw Exception('Sign in failed');
       }
 
-      print(
+      _log.d(
           '🔐 AuthRepository: Firebase sign in successful, user ID: ${credential.user!.uid}');
 
       // Get user data from Firestore
-      print('🔐 AuthRepository: Fetching user data from Firestore');
+      _log.d('🔐 AuthRepository: Fetching user data from Firestore');
       final userDoc = await _firebaseService.getDocument(
         AppConstants.usersCollection,
         credential.user!.uid,
       );
 
       if (!userDoc.exists) {
-        print('🔐 AuthRepository: User data not found in Firestore');
+        _log.d('🔐 AuthRepository: User data not found in Firestore');
         throw Exception('User data not found');
       }
 
       final userData = userDoc.data() as Map<String, dynamic>;
       final userModel = User.fromJson(userData);
-      print(
+      _log.d(
           '🔐 AuthRepository: User data loaded: ${userModel.displayName} (${userModel.role})');
 
       // Cache user data locally
-      print('🔐 AuthRepository: Caching user data locally');
+      _log.d('🔐 AuthRepository: Caching user data locally');
       await _hiveService.usersBox.put(userModel.id, userModel);
-      print('🔐 AuthRepository: User data cached successfully');
+      _log.d('🔐 AuthRepository: User data cached successfully');
 
       return userModel;
     } catch (e) {
-      print('🔐 AuthRepository: Sign in failed: $e');
+      _log.d('🔐 AuthRepository: Sign in failed: $e');
       throw Exception('Sign in failed: ${e.toString()}');
     }
   }
@@ -141,45 +143,45 @@ class AuthRepository {
   // Get current user data
   Future<User?> getCurrentUserData() async {
     try {
-      print('🔐 AuthRepository: Getting current user data');
+      _log.d('🔐 AuthRepository: Getting current user data');
       final user = currentUser;
-      print('🔐 AuthRepository: Current Firebase user: ${user?.uid ?? 'null'}');
+      _log.d('🔐 AuthRepository: Current Firebase user: ${user?.uid ?? 'null'}');
       if (user == null) return null;
 
       // Try to get from local cache first
-      print('🔐 AuthRepository: Checking local cache for user ${user.uid}');
+      _log.d('🔐 AuthRepository: Checking local cache for user ${user.uid}');
       final cachedUser = _hiveService.usersBox.get(user.uid);
       if (cachedUser != null) {
-        print(
+        _log.d(
             '🔐 AuthRepository: Found cached user: ${cachedUser.displayName}');
         return cachedUser;
       }
 
       // Get from Firestore
-      print('🔐 AuthRepository: Fetching user from Firestore');
+      _log.d('🔐 AuthRepository: Fetching user from Firestore');
       final userDoc = await _firebaseService.getDocument(
         AppConstants.usersCollection,
         user.uid,
       );
 
       if (!userDoc.exists) {
-        print('🔐 AuthRepository: User document does not exist in Firestore');
+        _log.d('🔐 AuthRepository: User document does not exist in Firestore');
         return null;
       }
 
       final userData = userDoc.data() as Map<String, dynamic>;
       final userModel = User.fromJson(userData);
-      print(
+      _log.d(
           '🔐 AuthRepository: Loaded user from Firestore: ${userModel.displayName} (${userModel.role})');
 
       // Cache locally
-      print('🔐 AuthRepository: Caching user data locally');
+      _log.d('🔐 AuthRepository: Caching user data locally');
       await _hiveService.usersBox.put(userModel.id, userModel);
-      print('🔐 AuthRepository: User data cached successfully');
+      _log.d('🔐 AuthRepository: User data cached successfully');
 
       return userModel;
     } catch (e) {
-      print('🔐 AuthRepository: Error getting current user data: $e');
+      _log.d('🔐 AuthRepository: Error getting current user data: $e');
       return null;
     }
   }

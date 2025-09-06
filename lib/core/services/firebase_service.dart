@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:house_organizer/core/constants/app_constants.dart';
 import 'package:house_organizer/firebase_options.dart';
 import 'package:house_organizer/core/config/emulator_config.dart';
+import 'package:house_organizer/core/logging.dart';
 
 class FirebaseService {
   static FirebaseService? _instance;
@@ -15,17 +16,16 @@ class FirebaseService {
   FirebaseService._();
 
   bool _isInitialized = false;
+  final _log = buildLogger();
 
   // Firebase instances
   FirebaseAuth get auth {
-    print(
-        '🔥 FirebaseService: Getting auth instance, initialized: $_isInitialized');
+    _log.d('🔥 FirebaseService: Getting auth instance, initialized: $_isInitialized');
     return FirebaseAuth.instance;
   }
 
   FirebaseFirestore get firestore {
-    print(
-        '🔥 FirebaseService: Getting firestore instance, initialized: $_isInitialized');
+    _log.d('🔥 FirebaseService: Getting firestore instance, initialized: $_isInitialized');
     return FirebaseFirestore.instance;
   }
 
@@ -45,18 +45,18 @@ class FirebaseService {
       firestore.collection(AppConstants.auditLogsCollection);
 
   Future<void> initialize({EmulatorConfig? emulator}) async {
-    print('🔥 FirebaseService: Initializing Firebase');
+    _log.d('🔥 FirebaseService: Initializing Firebase');
     if (_isInitialized) {
-      print('🔥 FirebaseService: Already initialized');
+      _log.d('🔥 FirebaseService: Already initialized');
       return;
     }
 
     // Use generated options to ensure correct config across platforms (incl. web)
-    print('🔥 FirebaseService: Initializing Firebase app');
+    _log.d('🔥 FirebaseService: Initializing Firebase app');
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    print('🔥 FirebaseService: Firebase app initialized');
+    _log.d('🔥 FirebaseService: Firebase app initialized');
 
     // Use emulators when explicitly enabled
     final enableEmulators = emulator?.useFirebaseEmulators ?? false;
@@ -88,7 +88,7 @@ class FirebaseService {
     // Additional storage/firestore configuration can go here
 
     _isInitialized = true;
-    print('🔥 FirebaseService: Initialization complete');
+    _log.d('🔥 FirebaseService: Initialization complete');
   }
 
   // Auth methods

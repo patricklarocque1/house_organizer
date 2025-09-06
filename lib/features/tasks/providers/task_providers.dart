@@ -28,7 +28,7 @@ final tasksForCurrentUserProvider = StreamProvider<List<Task>>((ref) {
       return taskRepository.getTasksForUser(user.id, user.houseId);
     },
     loading: () => Stream.value([]),
-    error: (_, __) => Stream.value([]),
+    error: (_, _) => Stream.value([]),
   );
 });
 
@@ -56,7 +56,7 @@ final tasksByStatusProvider =
       }
     },
     loading: () => Stream.value([]),
-    error: (_, __) => Stream.value([]),
+    error: (_, _) => Stream.value([]),
   );
 });
 
@@ -71,7 +71,7 @@ final overdueTasksProvider = StreamProvider<List<Task>>((ref) {
       return taskRepository.getOverdueTasks(user.houseId);
     },
     loading: () => Stream.value([]),
-    error: (_, __) => Stream.value([]),
+    error: (_, _) => Stream.value([]),
   );
 });
 
