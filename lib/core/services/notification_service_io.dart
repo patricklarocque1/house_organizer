@@ -9,7 +9,7 @@ import 'package:workmanager/workmanager.dart';
 import 'package:house_organizer/core/logging.dart';
 import 'package:house_organizer/data/models/list_model.dart';
 import 'package:house_organizer/data/models/task.dart';
-import 'package:house_organizer/core/services/notification_service.dart';
+import './notification_service.dart';
 
 final _log = buildLogger();
 
