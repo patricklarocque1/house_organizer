@@ -103,10 +103,7 @@ class TaskCard extends StatelessWidget {
                                 ? Colors.red
                                 : Theme.of(
                                     context,
-                                  )
-                                    .colorScheme
-                                    .onSurface
-                                    .withOpacity(0.6),
+                                  ).colorScheme.onSurface.withOpacity(0.6),
                             fontWeight: isOverdue ? FontWeight.bold : null,
                           ),
                     ),
