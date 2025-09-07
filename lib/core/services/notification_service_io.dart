@@ -73,6 +73,9 @@ class NotificationServiceImpl implements NotificationService {
         InitializationSettings(
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS,
+      windows: WindowsInitializationSettings(
+        appName: 'House Organizer',
+      ),
     );
 
     await _localNotifications.initialize(
@@ -162,6 +165,12 @@ class NotificationServiceImpl implements NotificationService {
   }
 
   Future<void> _initializeWorkmanager() async {
+    // Workmanager is not supported on Windows, skip initialization
+    if (Platform.isWindows) {
+      _log.i('Windows platform - workmanager not supported, skipping initialization');
+      return;
+    }
+
     await Workmanager().initialize(callbackDispatcher);
 
     // Register daily summary task
@@ -192,6 +201,9 @@ class NotificationServiceImpl implements NotificationService {
       if (settings.authorizationStatus != AuthorizationStatus.authorized) {
         _log.e('Notification permission denied');
       }
+    } else if (Platform.isWindows) {
+      // Windows doesn't require explicit permission for notifications
+      _log.i('Windows platform - notification permission not required');
     }
   }
 

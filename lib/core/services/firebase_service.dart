@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/foundation.dart';
+import 'dart:io';
 import 'package:house_organizer/core/constants/app_constants.dart';
 import 'package:house_organizer/firebase_options.dart';
 import 'package:house_organizer/core/config/emulator_config.dart';
@@ -51,12 +52,32 @@ class FirebaseService {
       return;
     }
 
-    // Use generated options to ensure correct config across platforms (incl. web)
-    print('🔥 FirebaseService: Initializing Firebase app');
-    await Firebase.initializeApp(
-      options: DefaultFirebaseOptions.currentPlatform,
-    );
-    print('🔥 FirebaseService: Firebase app initialized');
+    try {
+      // Use generated options to ensure correct config across platforms (incl. web)
+      print('🔥 FirebaseService: Initializing Firebase app');
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
+      print('🔥 FirebaseService: Firebase app initialized');
+    } catch (e) {
+      print('❌ FirebaseService: Error initializing Firebase: $e');
+      // For Windows, we might need to handle this differently
+      if (!kIsWeb && Platform.isWindows) {
+        print('🔥 FirebaseService: Windows platform detected, attempting fallback initialization');
+        // Try again with explicit options
+        try {
+          await Firebase.initializeApp(
+            options: DefaultFirebaseOptions.windows,
+          );
+          print('🔥 FirebaseService: Windows fallback initialization successful');
+        } catch (windowsError) {
+          print('❌ FirebaseService: Windows fallback also failed: $windowsError');
+          rethrow;
+        }
+      } else {
+        rethrow;
+      }
+    }
 
     // Use emulators when explicitly enabled
     final enableEmulators = emulator?.useFirebaseEmulators ?? false;
