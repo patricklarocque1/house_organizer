@@ -58,8 +58,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  integration_test:
-    sdk: flutter
+  
+  # State management for testing
+  riverpod: ^2.5.1
 
   # Code generation toolchain – these versions require Dart ≥3.7/3.8
   build_runner: ^2.6.1         # Uses build 3.x; min SDK 3.7

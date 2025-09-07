@@ -35,7 +35,7 @@ final listsByTypeProvider =
       }
     },
     loading: () => Stream.value([]),
-    error: (_, __) => Stream.value([]),
+    error: (error, stackTrace) => Stream.value([]),
   );
 });
 
